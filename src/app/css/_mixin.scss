@@ -1,0 +1,11 @@
+@mixin flex-property($flex,$gap:10px){
+    display: $flex;
+    column-gap: $gap;
+}
+
+@mixin main_container() {
+    max-width: 1410px;
+    padding: 0px 20px;
+    width: 100%;
+}
+
