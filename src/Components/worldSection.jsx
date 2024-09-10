@@ -17,6 +17,8 @@ function WorldSection({ continent }) {
           <div className="continents-headers">
             <h2 className='same_heading'>Explore Continents</h2>
             <h2 className='same_heading'>random text to cehck this on live</h2>
+            <h2 className='same_heading'>random text to cehck this on live</h2>
+            <h2 className='same_heading'>random text to cehck this on live</h2>
             <div className='link_heading'>
               <p>Unlimited Choices | Best Prices | Happy Memories | Hot Deals</p>
               <Link href="/continents"><span className="view-all">View All Continents</span></Link>
