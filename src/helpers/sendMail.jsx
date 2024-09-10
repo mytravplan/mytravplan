@@ -3,19 +3,23 @@ import nodemailer from 'nodemailer';
 export const SendEmail = async ({ name, email, phone_number, message, formType, date, origin, destination, traveler, children, phoneNumber, registerusername, packageDetails }) => {
     try {
         const transporter = nodemailer.createTransport({
-            service: 'gmail',
+            host: 'smtp.hostinger.com',  
+            port: process.env.NEXT_PUBLIC_SMPT_GMAI_PORT, 
+            secure: true,
             auth: {
-                user: process.env.GMAIL_AUTH_EMAIL_ID,
-                pass: process.env.GMAIL_AUTH_PASS
+                user: process.env.NEXT_PUBLIC_SMPT_GMAIL,
+                pass: process.env.NEXT_PUBLIC_SMPT_GMAIL_PASS
             }
         });
+
+
 
         let userMailOptions;
         let adminMailOptions;
 
         if (formType === 'booking') {
             userMailOptions = {
-                from: process.env.GMAIL_AUTH_EMAIL_ID,
+                from: process.env.NEXT_PUBLIC_SMPT_GMAIL,
                 to: email,
                 subject: 'Thank you for contacting us',
                 html: `<p>Dear ${name},</p>
@@ -26,8 +30,8 @@ export const SendEmail = async ({ name, email, phone_number, message, formType, 
             };
 
             adminMailOptions = {
-                from: process.env.GMAIL_AUTH_EMAIL_ID,
-                to: "raaj73906@gmail.com",
+                from: process.env.NEXT_PUBLIC_SMPT_GMAIL,
+                to: process.env.NEXT_PUBLIC_SMPT_GMAIL,
                 subject: 'New Booking Form Submission',
                 html: `<p>New Booking submission received:</p>
                        <p><strong>Name:</strong> ${name}</p>
@@ -36,9 +40,9 @@ export const SendEmail = async ({ name, email, phone_number, message, formType, 
                        <p><strong>Message:</strong> ${message}</p>
                        ${packageDetails ? `<p><strong>Package:</strong> ${packageDetails.title} (Slug: ${packageDetails.slug})</p>` : ''}`
             };
-        }else if (formType === 'contact') {
+        } else if (formType === 'contact') {
             userMailOptions = {
-                from: process.env.GMAIL_AUTH_EMAIL_ID,
+                from: process.env.NEXT_PUBLIC_SMPT_GMAIL,
                 to: email,
                 subject: 'Thank you for contacting us',
                 html: `<p>Dear ${name},</p>
@@ -49,8 +53,8 @@ export const SendEmail = async ({ name, email, phone_number, message, formType, 
             };
 
             adminMailOptions = {
-                from: process.env.GMAIL_AUTH_EMAIL_ID,
-                to: "raaj73906@gmail.com",
+                from: process.env.NEXT_PUBLIC_SMPT_GMAIL,
+                to: process.env.NEXT_PUBLIC_SMPT_GMAIL,
                 subject: 'New contact Form Submission',
                 html: `<p>New contact submission received:</p>
                        <p><strong>Name:</strong> ${name}</p>
@@ -60,9 +64,9 @@ export const SendEmail = async ({ name, email, phone_number, message, formType, 
                        ${packageDetails ? `<p><strong>Package:</strong> ${packageDetails.title} (Slug: ${packageDetails.slug})</p>` : ''}`
             };
         }
-         else if (formType === 'flights') {
+        else if (formType === 'flights') {
             userMailOptions = {
-                from: process.env.GMAIL_AUTH_EMAIL_ID,
+                from: process.env.NEXT_PUBLIC_SMPT_GMAIL,
                 to: email,
                 subject: 'Thank you for your flight inquiry',
                 html: `<p>Dear ${name},</p>
@@ -77,8 +81,8 @@ export const SendEmail = async ({ name, email, phone_number, message, formType, 
             };
 
             adminMailOptions = {
-                from: process.env.GMAIL_AUTH_EMAIL_ID,
-                to: "raaj73906@gmail.com",
+                from: process.env.NEXT_PUBLIC_SMPT_GMAIL,
+                to: process.env.NEXT_PUBLIC_SMPT_GMAIL,
                 subject: 'New Flight Inquiry Submission',
                 html: `<p>New flight inquiry submission received:</p>
                        <p><strong>Name:</strong> ${name}</p>
@@ -93,8 +97,8 @@ export const SendEmail = async ({ name, email, phone_number, message, formType, 
             };
         } else if (formType === 'userlogin') {
             userMailOptions = {
-                from: process.env.GMAIL_AUTH_EMAIL_ID,
-                to: phoneNumber,  
+                from: process.env.NEXT_PUBLIC_SMPT_GMAIL,
+                to: phoneNumber,
                 subject: 'Registration Confirmation',
                 html: `<p>Dear ${registerusername},</p>
                        <p>Thank you for registering with us. Your registration details are:</p>
@@ -103,8 +107,8 @@ export const SendEmail = async ({ name, email, phone_number, message, formType, 
             };
 
             adminMailOptions = {
-                from: process.env.GMAIL_AUTH_EMAIL_ID,
-                to: "raaj73906@gmail.com",
+                from: process.env.NEXT_PUBLIC_SMPT_GMAIL,
+                to: process.env.NEXT_PUBLIC_SMPT_GMAIL,
                 subject: 'New User Registration',
                 html: `<p>New user registration received:</p>
                        <p><strong>Name:</strong> ${registerusername}</p>
