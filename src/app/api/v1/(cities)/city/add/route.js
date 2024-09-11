@@ -10,7 +10,7 @@ DbConnect();
 export async function POST(req) {
 
     return handelAsyncErrors(async()=>{
-        const host = req.headers.get('host'); 
+        const host = req.headers.get('host');
         // Extract data from form data
         const payload = await req.formData();
         const file = payload.get('file');
@@ -38,6 +38,8 @@ export async function POST(req) {
             name: uploadedFile.name,
             path: uploadedFile.path,
             contentType: uploadedFile.contentType,
+            img_url: uploadedFile.img_url
+            
             
         };
 

@@ -11,6 +11,7 @@ export async function PUT(req, { params }) {
         const { id } = params;
 
         // Extract data from formData
+        const host = req.headers.get('host');
         const payload = await req.formData();
         const image = payload.get('image');
         const name = payload.get('name');
@@ -28,11 +29,12 @@ export async function PUT(req, { params }) {
 
         // Check if image is provided and handle it
         if (image && image.size > 0) {
-            const uploadedFile = await HandleFileUpload(image);
+            const uploadedFile = await HandleFileUpload(image,host);
             const imageObject = {
                 name: uploadedFile.name,
                 path: uploadedFile.path,
                 contentType: uploadedFile.contentType,
+                img_url: uploadedFile.img_url,
             };
             existingCategory.image = imageObject;
         }

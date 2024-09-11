@@ -45,6 +45,7 @@ export async function POST(req) {
         name: uploadedFile.name,
         path: uploadedFile.path,
         contentType: uploadedFile.contentType,
+        img_url: uploadedFile.img_url,
     };
 
     const uploadedIcon = await HandleFileUpload(icon, host);
@@ -52,6 +53,7 @@ export async function POST(req) {
         name: uploadedIcon.name,
         path: uploadedIcon.path,
         contentType: uploadedIcon.contentType,
+        img_url: uploadedIcon.img_url,
     };
 
     // Handle multiple gallery images
@@ -63,6 +65,7 @@ export async function POST(req) {
             name: uploadedGalleryFile.name,
             path: uploadedGalleryFile.path,
             contentType: uploadedGalleryFile.contentType,
+            img_url: uploadedGalleryFile.img_url,
         });
     }
 

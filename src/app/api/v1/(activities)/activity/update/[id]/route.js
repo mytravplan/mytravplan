@@ -65,6 +65,7 @@ export async function PUT(req, { params }) {
                 name: uploadedFile.name,
                 path: uploadedFile.path,
                 contentType: uploadedFile.contentType,
+                img_url: uploadedFile.img_url,
             };
             existingActivity.images = [imageObject];
         }
@@ -76,6 +77,7 @@ export async function PUT(req, { params }) {
                 name: uploadedIcon.name,
                 path: uploadedIcon.path,
                 contentType: uploadedIcon.contentType,
+                img_url: uploadedIcon.img_url,
             };
             existingActivity.icon = [iconObject];
         }
@@ -91,6 +93,7 @@ export async function PUT(req, { params }) {
                     name: uploadedGalleryFile.name,
                     path: uploadedGalleryFile.path,
                     contentType: uploadedGalleryFile.contentType,
+                    img_url: uploadedGalleryFile.img_url,
                 });
             }
             existingActivity.activity_galleries = galleryImages;

@@ -8,6 +8,7 @@ DbConnect()
 
 export async function POST(req) {
     try {
+        const host = req.headers.get('host');
         let payload = await req.formData();
         let image = payload.get('image')
         let name = payload.get('name')
@@ -23,12 +24,13 @@ export async function POST(req) {
             return NextResponse.json({ status: 409, success: false, message: 'Slug already exists' });
         }
 
-        const uploadedFile = await HandleFileUpload(image);
+        const uploadedFile = await HandleFileUpload(image,host);
 
         const imageObject = {
             name: uploadedFile.name,
             path: uploadedFile.path,
             contentType: uploadedFile.contentType,
+            img_url: uploadedFile.img_url,
         };
 
         let result = new PackageCategoryModel({

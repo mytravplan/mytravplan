@@ -10,7 +10,7 @@ export async function PUT(req, { params }) {
     return handelAsyncErrors(async () => {
 
         let { id } = params;
-
+        let host=req.headers.get('host')
         // Extract data from formdata
         const payload = await req.formData();
         const file = payload.get('file');
@@ -37,11 +37,12 @@ export async function PUT(req, { params }) {
 
         // Upload new image if provided
         if (file) {
-            const uploadedFile = await HandleFileUpload(file);
+            const uploadedFile = await HandleFileUpload(file,host);
             const imageObject = {
                 name: uploadedFile.name,
                 path: uploadedFile.path,
                 contentType: uploadedFile.contentType,
+                img_url: uploadedFile.img_url,
 
             };
             existingCountry.images = [imageObject];

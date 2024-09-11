@@ -14,7 +14,13 @@ let imageSchema = new mongoose.Schema({
     contentType: {
         type: String,
         required: true
+    },
+    img_url: {  
+        type: String,
+        required: true
     }
+    
+
 });
 const blogsItemSchema = new mongoose.Schema({
     content: { type: String, required: true }

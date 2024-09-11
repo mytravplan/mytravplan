@@ -14,8 +14,11 @@ let imageSchema = new mongoose.Schema({
     contentType: {
         type: String,
         required: true
-    }
-});
+    },
+    img_url: {  
+        type: String,
+        required: true
+    }});
 const PackageCategorySchema = new mongoose.Schema({
 
     image:[imageSchema],
