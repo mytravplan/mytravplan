@@ -41,6 +41,7 @@ export async function PUT(req, { params }) {
                 name: uploadedFile.name,
                 path: uploadedFile.path,
                 contentType: uploadedFile.contentType,
+                img_url: uploadedFile.img_url
 
             };
             existingContinent.images = [imageObject];
