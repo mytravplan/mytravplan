@@ -12,6 +12,7 @@ export async function PUT(req, { params }) {
         let { id } = params;
 
         // Extract data from formdata
+        const host = req.headers.get('host');
         const payload = await req.formData();
         const file = payload.get('file');
         const title = payload.get('title');
@@ -36,7 +37,7 @@ export async function PUT(req, { params }) {
 
         // Upload new image if provided
         if (file) {
-            const uploadedFile = await HandleFileUpload(file);
+            const uploadedFile = await HandleFileUpload(file,host);
             const imageObject = {
                 name: uploadedFile.name,
                 path: uploadedFile.path,
