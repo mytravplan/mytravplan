@@ -2,7 +2,7 @@
 
 import FormLoader from '@/app/_common/loader/loader';
 import { useSession } from 'next-auth/react';
-
+import PhoneInput from 'react-phone-number-input';
 import { EXPORT_ALL_APIS } from '@/utils/apis/api';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
@@ -37,6 +37,11 @@ const BookingForm = ({ setIsopenForm,packageId }) => {
             [name]: '',
         });
     };
+
+    const changeHandler=(value)=>{
+        setUser({ ...user, phone_number: value });
+
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -118,15 +123,14 @@ const BookingForm = ({ setIsopenForm,packageId }) => {
                             </div>
 
                             <div className="form-group">
-                                <input
-                                    id="phone"
-                                    name="phone_number"
-                                    type="number"
-                                    placeholder="Phone Number"
-                                    value={user.phone_number}
-                                    onChange={handleChange}
-                                    className="input"
-                                />
+                                    <PhoneInput
+                                        id="phone_number"
+                                        defaultCountry="IN"
+                                        value={user.phone_number}
+                                        onChange={(value) => changeHandler(value)}
+                                     placeholder="Phone Number"
+                                        className="input"
+                                    />
                                 <span className='error_field'>{error.phone_number}</span>
                             </div>
                             <div className="form-group">

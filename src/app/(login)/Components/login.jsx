@@ -55,6 +55,7 @@ const Login = () => {
                     phoneNumber: user.phoneNumber,
                     registerusername: user.registerusername
                 });
+                localStorage.setItem('userInfos',JSON.stringify(result))
                 setVerifyOtp(true);
             } else {
                 alert(result.error || 'Error sending OTP');

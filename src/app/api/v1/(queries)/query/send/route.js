@@ -1,5 +1,6 @@
 import { DbConnect } from "@/database/database";
 import { SendEmail } from "@/helpers/sendMail";
+import { sendWhatsAppMessage } from "@/helpers/sendWhatsapp";
 import { ErrorReporter } from "@/helpers/vinevalidations/errorreporter";
 import { contactSchema, QUERY_FORM_UNTI_TAG } from "@/helpers/vinevalidations/validators";
 import ContactModel from "@/model/userModel";
@@ -41,6 +42,17 @@ export async function POST(req) {
 
         // Send email
         await SendEmail({ ...output, formType: 'contact' });
+
+        await sendWhatsAppMessage({
+            phone_number: output.phone_number,
+            name: output.name,
+            templateId: 'contact_us',
+            bodyValues: {
+                 "name":name,
+                 "phone_number":phone_number
+            }
+        });
+        
 
         return NextResponse.json({ success: true, message: `Dear ${output.name}, your query was sent successfully!` });
     } catch (error) {
