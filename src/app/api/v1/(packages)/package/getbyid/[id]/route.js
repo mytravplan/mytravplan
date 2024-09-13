@@ -78,7 +78,10 @@ export async function GET(req, { params }) {
                     _id: category._id.toString(),
                     name: category.name,
                     slug: category.slug
-                })) || null
+                })) || null,
+                sco_title:result.sco_title,
+                sco_description:result.sco_description,
+                sco_host_url:result.sco_host_url,
             };
 
             return NextResponse.json({ status: 200, success: true, result: [formattedResult] });

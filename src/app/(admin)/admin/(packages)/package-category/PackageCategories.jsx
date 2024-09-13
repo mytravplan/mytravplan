@@ -8,8 +8,8 @@ import { handelAsyncErrors } from '@/helpers/asyncErrors';
 
 function PackageCategories() {
   const [categories, setCategories] = useState([]);
-  const [newCategory, setNewCategory] = useState({ name: '', slug: '', image: null });
-  const [editCategory, setEditCategory] = useState({ id: '', name: '', slug: '', image: null });
+  const [newCategory, setNewCategory] = useState({ name: '', slug: '', image: null, sco_title: '', sco_description: '' });
+  const [editCategory, setEditCategory] = useState({ id: '', name: '', slug: '', image: null, sco_title: '', sco_description: '' });
   const [showAddCategory, setShowAddCategory] = useState(false);
   const [showEditCategory, setShowEditCategory] = useState(false);
   const [message, setMessage] = useState('');
@@ -28,6 +28,9 @@ function PackageCategories() {
       setLoading(false);
     });
   };
+
+  console.log(`editCategory`)
+  console.log(editCategory)
 
   useEffect(() => {
     fetchCategories();
@@ -58,6 +61,8 @@ function PackageCategories() {
     const formData = new FormData();
     formData.append('name', newCategory.name);
     formData.append('slug', newCategory.slug);
+    formData.append('sco_title', newCategory.sco_title);
+    formData.append('sco_description', newCategory.sco_description);
     if (newCategory.image) formData.append('image', newCategory.image);
 
     return handelAsyncErrors(async () => {
@@ -88,6 +93,8 @@ function PackageCategories() {
     formData.append('name', editCategory.name);
     formData.append('slug', editCategory.slug);
     if (editCategory.image) formData.append('image', editCategory.image);
+    formData.append('sco_title', editCategory.sco_title);
+    formData.append('sco_description', editCategory.sco_description);
 
     return handelAsyncErrors(async () => {
       const response = await fetch(`/api/v1/package-category/update/${editCategory.id}`, {
@@ -151,10 +158,19 @@ function PackageCategories() {
                   <span>{category.name} ({category.slug})</span>
                 </div>
                 <div className="category-actions">
-                  <FaEdit onClick={() => {
-                    setEditCategory({ id: category._id, name: category.name, slug: category.slug, image: null });
-                    setShowEditCategory(true);
-                  }} />
+                  <FaEdit
+                    onClick={() => {
+                      setEditCategory({
+                        id: category._id,
+                        name: category.name,
+                        slug: category.slug,
+                        image: null,
+                        sco_title: category.sco_title,
+                        sco_description: category.sco_description,
+                      });
+                      setShowEditCategory(true);
+                    }}
+                  />
                   <FaTrash onClick={() => handleDeleteCategory(category._id)} />
                 </div>
               </li>
@@ -192,6 +208,31 @@ function PackageCategories() {
             <label htmlFor="image">Image:</label>
             <input type="file" id="image" name="image" onChange={handleNewCategoryChange} />
           </div>
+          <div className="sco_panel">
+            <h3>Add Package Category Sco meta keywords</h3>
+            <div className="form-group">
+              <label htmlFor="packages_galleries">Seo title</label>
+              <input
+                type="text"
+                id="sco_title"
+                name="sco_title"
+                value={newCategory.sco_title}
+                onChange={handleNewCategoryChange}
+                placeholder="Enter seo meta title"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="packages_galleries">Seo description</label>
+              <input
+                type="text"
+                id="sco_description"
+                name="sco_description"
+                value={newCategory.sco_description}
+                onChange={handleNewCategoryChange}
+                placeholder="Enter seo meta description"
+              />
+            </div>
+          </div>
           <div className="form-actions">
             <button type="submit" className="btn" disabled={loadingButton.add}>
               {loadingButton.add ? 'Adding...' : 'Add Category'}
@@ -218,6 +259,32 @@ function PackageCategories() {
             <label htmlFor="edit-image">Image:</label>
             <input type="file" id="edit-image" name="image" onChange={handleEditCategoryChange} />
           </div>
+          <div className="sco_panel">
+            <h3>Update Package Category Sco meta keywords</h3>
+            <div className="form-group">
+              <label htmlFor="sco_title">Seo title</label>
+              <input
+                type="text"
+                id="sco_title"
+                name="sco_title"
+                value={editCategory.sco_title}
+                onChange={handleEditCategoryChange}
+                placeholder="Enter seo meta title"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="sco_description">Seo description</label>
+              <input
+                type="text"
+                id="sco_description"
+                name="sco_description"
+                value={editCategory.sco_description}
+                onChange={handleEditCategoryChange}
+                placeholder="Enter seo meta description"
+              />
+            </div>
+          </div>
+
           <div className="form-actions">
             <button type="submit" className="btn" disabled={loadingButton.update}>
               {loadingButton.update ? 'Updating...' : 'Update Category'}

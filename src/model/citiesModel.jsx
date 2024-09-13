@@ -15,10 +15,7 @@ let imageSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    img_url: {  
-        type: String,
-        required: true
-    }
+     
     
 });
 
@@ -37,6 +34,9 @@ const CitiesSchema = new mongoose.Schema({
         type:String,
         required:true
     },
+    sco_title:{type: String, default: null},
+    sco_description:{type: String, default: null},
+    sco_host_url:{type: String, default: null},
     all_packages: [
         {
           type: mongoose.Schema.Types.ObjectId,

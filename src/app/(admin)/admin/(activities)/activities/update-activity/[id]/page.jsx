@@ -24,6 +24,8 @@ const UpdateActivity = ({ params }) => {
     city_id: '',
     activity_price: '',
     activity_discounted_price: '',
+    sco_title:'',
+    sco_description:''
   });
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -68,6 +70,8 @@ const UpdateActivity = ({ params }) => {
           city_id: result.city_id ? result.city_id._id : '',
           activity_price: result.activity_price || '',
           activity_discounted_price: result.activity_discounted_price || '',
+          sco_title: result.sco_title || '',
+          sco_description: result.sco_description || '',
         });
         setIsLoading(false);
       } else {
@@ -140,6 +144,8 @@ const UpdateActivity = ({ params }) => {
       city_id,
       activity_price,
       activity_discounted_price,
+      sco_title,
+      sco_description
     } = activity;
 
     if (
@@ -150,7 +156,9 @@ const UpdateActivity = ({ params }) => {
       !activity_top_summary ||
       !city_id ||
       !activity_price ||
-      !activity_discounted_price
+      !activity_discounted_price||
+      !sco_title||
+      !sco_description
     ) {
       toast.error('Please fill in all required fields.');
       setIsSubmitting(false);
@@ -169,6 +177,8 @@ const UpdateActivity = ({ params }) => {
     formData.append('city_id', city_id);
     formData.append('activity_price', activity_price);
     formData.append('activity_discounted_price', activity_discounted_price);
+    formData.append('sco_title', sco_title);
+    formData.append('sco_description', sco_description);
 
     return handelAsyncErrors(async () => {
       const res = await fetch(`/api/v1/activity/update/${id}`, {
@@ -363,6 +373,31 @@ const UpdateActivity = ({ params }) => {
             required
           />
         </label>
+        <div className="sco_panel">
+          <h3>Update Activity Seo meta keywords</h3>
+          <div className="form-group">
+            <label htmlFor="packages_galleries">Seo title</label>
+            <input
+              type="text"
+              id="sco_title"
+              name="sco_title"
+              value={activity.sco_title}
+              onChange={handleChange}
+              placeholder="Enter seo meta title"
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="packages_galleries">Seo description</label>
+            <input
+              type="text"
+              id="sco_description"
+              name="sco_description"
+              value={activity.sco_description}
+              onChange={handleChange}
+              placeholder="Enter seo meta description"
+            />
+          </div>
+        </div>
         <button type="submit" disabled={isSubmitting}>
           {isSubmitting ? 'Updating...' : 'Update Activity'}
         </button>

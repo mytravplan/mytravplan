@@ -25,6 +25,9 @@ export async function POST(req) {
     const activity_discounted_price = payload.get('activity_discounted_price');
     const activity_overview = payload.get('activity_overview');
     const activity_top_summary = payload.get('activity_top_summary');
+    const sco_title = payload.get('sco_title')
+    const sco_description = payload.get('sco_description')
+    const sco_host_url = host
     const city_id = payload.get('city_id');
 
     // Check if slug already exists
@@ -45,7 +48,7 @@ export async function POST(req) {
         name: uploadedFile.name,
         path: uploadedFile.path,
         contentType: uploadedFile.contentType,
-        img_url: uploadedFile.img_url,
+       
     };
 
     const uploadedIcon = await HandleFileUpload(icon, host);
@@ -53,7 +56,7 @@ export async function POST(req) {
         name: uploadedIcon.name,
         path: uploadedIcon.path,
         contentType: uploadedIcon.contentType,
-        img_url: uploadedIcon.img_url,
+       
     };
 
     // Handle multiple gallery images
@@ -65,7 +68,7 @@ export async function POST(req) {
             name: uploadedGalleryFile.name,
             path: uploadedGalleryFile.path,
             contentType: uploadedGalleryFile.contentType,
-            img_url: uploadedGalleryFile.img_url,
+           
         });
     }
 
@@ -81,6 +84,9 @@ export async function POST(req) {
         activity_overview,
         activity_top_summary,
         activity_galleries: galleryImages,  
+        sco_title,
+        sco_description,
+        sco_host_url,
         city_id,
     });
 

@@ -23,6 +23,9 @@ export async function PUT(req, { params }) {
         const activity_discounted_price = payload.get('activity_discounted_price');
         const activity_overview = payload.get('activity_overview');
         const activity_top_summary = payload.get('activity_top_summary');
+        const sco_title = payload.get('sco_title')
+        const sco_description = payload.get('sco_description')
+        const sco_host_url = host
         const city_id = payload.get('city_id');
 
         // Check if activity exists
@@ -55,6 +58,9 @@ export async function PUT(req, { params }) {
         if (activity_discounted_price) existingActivity.activity_discounted_price = activity_discounted_price;
         if (activity_overview) existingActivity.activity_overview = activity_overview;
         if (activity_top_summary) existingActivity.activity_top_summary = activity_top_summary;
+        if (sco_title) existingActivity.sco_title = sco_title;
+        if (sco_description) existingActivity.sco_description = sco_description;
+        if (sco_host_url) existingActivity.sco_host_url = sco_host_url;
         if (city_id) existingActivity.city_id = city_id;
 
         // Upload new image if provided

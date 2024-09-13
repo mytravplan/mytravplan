@@ -23,6 +23,9 @@ export async function GET(req) {
             title: e.title,
             description: e.description,
             slug: e.slug,
+            sco_title: e.sco_title,
+            sco_description: e.sco_description,
+            sco_host_url: e.sco_host_url,
             packages: e.all_packages.map(pkg => ({
                 _id: pkg._id,
                 title: pkg.title,

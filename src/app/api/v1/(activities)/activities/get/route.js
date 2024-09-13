@@ -28,6 +28,9 @@ export async function GET(req) {
                 activity_price: e.activity_price,
                 activity_discounted_price: e.activity_discounted_price,
                 discount: discount.toFixed(2),
+                sco_title: e.sco_title,
+                sco_description: e.sco_description,
+                sco_host_url: e.sco_host_url,
                 city_id: e.city_id
             };
         });

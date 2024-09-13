@@ -50,6 +50,9 @@ export async function GET(req) {
       title: continent.title,
       description: continent.description,
       slug: continent.slug,
+      sco_title: continent.sco_title,
+      sco_description: continent.sco_description,
+      sco_host_url: continent.sco_host_url,
       countries: continent.all_countries.map((country) => ({
         _id: country._id,
         images: country.images,

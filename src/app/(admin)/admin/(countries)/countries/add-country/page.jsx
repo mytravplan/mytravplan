@@ -16,6 +16,8 @@ const AddCountry = () => {
     description: '',
     slug: '',
     file: null,
+    sco_title:'',
+    sco_description:'',
     continent_id: '',
   });
   const [isLoading, setIsLoading] = useState(false);
@@ -51,7 +53,7 @@ const AddCountry = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    const { title, description, slug, file, continent_id } = formData;
+    const { title, description, slug, file, sco_title,sco_description,continent_id } = formData;
 
     if (!title || !description || !slug || !file || !continent_id) {
       toast.error('Please fill in all fields and upload an image.');
@@ -65,6 +67,8 @@ const AddCountry = () => {
       submissionData.append('description', description);
       submissionData.append('slug', slug);
       submissionData.append('file', file);
+      submissionData.append('sco_title', sco_title);
+      submissionData.append('sco_description', sco_description);
       submissionData.append('continent_id', continent_id);
 
       const res = await fetch('/api/v1/country/add', {
@@ -130,6 +134,31 @@ const AddCountry = () => {
             </div>
           )}
         </div>
+        <div className="sco_panel">
+              <h3>Add Country Seo meta keywords</h3>
+              <div className="form-group">
+              <label htmlFor="packages_galleries">Seo title</label>
+                 <input
+                type="text"
+                id="sco_title"
+                name="sco_title"
+                value={formData.sco_title}
+                onChange={handleChange}
+                placeholder="Enter seo meta title"
+              />
+              </div>
+              <div className="form-group">
+              <label htmlFor="packages_galleries">Seo description</label>
+                 <input
+                type="text"
+                id="sco_description"
+                name="sco_description"
+                value={formData.sco_description}
+                onChange={handleChange}
+                placeholder="Enter seo meta description"
+              />
+              </div>
+            </div>
         <button type="submit" className="button" disabled={isLoading}>
           {isLoading ? 'Loading...' : 'Add Country'}
         </button>

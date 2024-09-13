@@ -27,6 +27,8 @@ export async function GET(req, { params }) {
             return NextResponse.json({ status: 200, success: false, error: 'Continent not found' });
         }
 
+         
+
         // Get the total count of countries within the continent
         const totalResults = continent.all_countries.length;
 
@@ -34,6 +36,18 @@ export async function GET(req, { params }) {
         const countries = continent.all_countries.slice(skip, skip + limit);
 
         // Map countries to desired format
+
+        const continentResult={
+            _id:continent._id,
+            images:continent.images,
+            title:continent.title,
+            description:continent.description,
+            slug:continent.slug,
+            sco_title:continent.sco_title,
+            sco_description:continent.sco_description,
+            sco_host_url:continent.sco_host_url
+        }
+         
         const result = countries.map(country => ({
             _id: country._id,
             images: country.images,
@@ -45,13 +59,13 @@ export async function GET(req, { params }) {
                 city_name: city.title,
                 city_packages_count: city.all_packages.length,
             })),
-            total_cities: country.all_cities.length,
         }));
 
         return NextResponse.json({
             status: 200,
             success: true,
             totalResults,
+            continentResult,
             result,
             page,
             limit,

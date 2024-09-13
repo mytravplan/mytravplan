@@ -22,6 +22,20 @@ export async function GET(req, { params }) {
         // Paginate the packages
         const paginatedPackages = city.all_packages.slice(skip, skip + limit);
 
+        
+
+
+        let cityResult={
+            _id: city._id,
+            images: city.images,
+            title: city.title,
+            description: city.description,
+            slug: city.slug,
+            sco_title:city.sco_title,
+            sco_description:city.sco_description,
+            sco_host_url:city.sco_host_url,
+        }
+
          
              
             let result= paginatedPackages.map(pkg => ({
@@ -38,6 +52,6 @@ export async function GET(req, { params }) {
             }))
            
         
-        return NextResponse.json({status:200, success: true, totalResults,result,page,limit });
+        return NextResponse.json({status:200, success: true, totalResults,cityResult,result,page,limit });
     })
 }

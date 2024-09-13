@@ -32,7 +32,9 @@ const AddPackages = () => {
     package_discounted_price: '',
     package_days: '1',
     package_nights: '1',
-    package_categories_id: []
+    package_categories_id: [],
+    sco_title:'',
+    sco_description:'',
   });
   const [cities, setCities] = useState([]);
   const [cats, setCats] = useState([])
@@ -126,7 +128,9 @@ const AddPackages = () => {
       package_discounted_price,
       package_days,
       package_nights,
-      package_categories_id
+      package_categories_id,
+      sco_title,
+      sco_description,
     } = formData;
 
     if (!title || !description || !slug || !file || !city_id) {
@@ -151,6 +155,8 @@ const AddPackages = () => {
       submissionData.append('packages_exclude', JSON.stringify(packagesExclude));
       submissionData.append('file', file);
       submissionData.append('city_id', city_id);  // Include city_id
+      submissionData.append('sco_title', sco_title);  // Include city_id
+      submissionData.append('sco_description', sco_description);  // Include city_id
       submissionData.append('package_categories_id', JSON.stringify(package_categories_id)); // Include categories
       packages_galleries.forEach((file) => {
         submissionData.append('packages_galleries', file);
@@ -398,6 +404,33 @@ const AddPackages = () => {
                 </div>
               )}
             </div>
+
+            <div className="sco_panel">
+              <h3>Add Package Sco meta keywords</h3>
+              <div className="form-group">
+              <label htmlFor="packages_galleries">Seo title</label>
+                 <input
+                type="text"
+                id="sco_title"
+                name="sco_title"
+                value={formData.sco_title}
+                onChange={handleChange}
+                placeholder="Enter seo meta title"
+              />
+              </div>
+              <div className="form-group">
+              <label htmlFor="packages_galleries">Seo description</label>
+                 <input
+                type="text"
+                id="sco_description"
+                name="sco_description"
+                value={formData.sco_description}
+                onChange={handleChange}
+                placeholder="Enter seo meta description"
+              />
+              </div>
+            </div>
+
             <button type="submit" className="submit-button" disabled={isLoading}>
               {isLoading ? 'Loading...' : 'Add Package'}
             </button>

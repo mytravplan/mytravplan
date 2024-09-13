@@ -12,6 +12,8 @@ function UpdateContinent({ params }) {
     title: '',
     slug: '',
     description: '',
+    sco_title: '',
+    sco_description: '',
     images: [], // This will hold the current image list
     imageFile: null, // This will hold the new image file
     imagePreviewUrl: '', // This will hold the preview URL of the new image
@@ -77,6 +79,8 @@ function UpdateContinent({ params }) {
     formData.append('title', continent.title);
     formData.append('slug', continent.slug);
     formData.append('description', continent.description);
+    formData.append('sco_title', continent.sco_title);
+    formData.append('sco_description', continent.sco_description);
     if (continent.imageFile) {
       formData.append('file', continent.imageFile); // Upload new image
     }
@@ -168,6 +172,32 @@ function UpdateContinent({ params }) {
               )}
             </div>
           </label>
+
+          <div className="sco_panel">
+              <h3>Update Package Sco meta keywords</h3>
+              <div className="form-group">
+              <label htmlFor="packages_galleries">Sco title</label>
+                 <input
+                type="text"
+                id="sco_title"
+                name="sco_title"
+                value={continent.sco_title}
+                onChange={handleChange}
+                placeholder="Enter sco meta title"
+              />
+              </div>
+              <div className="form-group">
+              <label htmlFor="packages_galleries">Sco description</label>
+                 <input
+                type="text"
+                id="sco_description"
+                name="sco_description"
+                value={continent.sco_description}
+                onChange={handleChange}
+                placeholder="Enter sco meta description"
+              />
+              </div>
+            </div>
           <button type="submit" className="update-packages-button" disabled={isLoading}>
             {isLoading ? 'Updating...' : 'Update Continent'}
           </button>

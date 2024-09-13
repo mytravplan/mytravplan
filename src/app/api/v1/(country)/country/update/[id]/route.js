@@ -17,12 +17,13 @@ export async function PUT(req, { params }) {
         const title = payload.get('title');
         const description = payload.get('description');
         const slug = payload.get('slug');
+        const sco_title = payload.get('sco_title')
+        const sco_description = payload.get('sco_description')
+        const sco_host_url = host
         const continentId = payload.get('continent_id');
 
-        // Check if all fields are empty
-        if (!file && !title && !description && !slug && !continentId) {
-            return NextResponse.json({ success: false, message: 'At least one field is required to update' });
-        }
+        
+    
 
         // Check if country exists
         let existingCountry = await countryModel.findById(id);
@@ -34,6 +35,9 @@ export async function PUT(req, { params }) {
         if (title) existingCountry.title = title;
         if (description) existingCountry.description = description;
         if (slug) existingCountry.slug = slug;
+        if (sco_title) existingCountry.sco_title = sco_title;
+        if (sco_description) existingCountry.sco_description = sco_description;
+        if (sco_host_url) existingCountry.sco_host_url = sco_host_url;
 
         // Upload new image if provided
         if (file) {
@@ -42,8 +46,7 @@ export async function PUT(req, { params }) {
                 name: uploadedFile.name,
                 path: uploadedFile.path,
                 contentType: uploadedFile.contentType,
-                img_url: uploadedFile.img_url,
-
+               
             };
             existingCountry.images = [imageObject];
         }

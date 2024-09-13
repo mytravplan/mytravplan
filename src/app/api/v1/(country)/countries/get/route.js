@@ -20,6 +20,9 @@ export async function GET(req){
             title: e.title,
             description: e.description,
             slug: e.slug,
+            sco_title: e.sco_title,
+            sco_description: e.sco_description,
+            sco_host_url: e.sco_host_url,
             cities:e.all_cities.map((city)=>({
                 _id: city._id,      
                 title: city.title, 

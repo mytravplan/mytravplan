@@ -41,6 +41,9 @@ export async function GET(req, { params }) {
             activity_overview: result.activity_overview,
             activity_top_summary: result.activity_top_summary,
             activity_galleries: result.activity_galleries,
+            sco_title: result.sco_title,
+            sco_description: result.sco_description,
+            sco_host_url: result.sco_host_url,
             activity_under_continent: result.city_id && result.city_id.country_id && result.city_id.country_id.continent_id ? {
                 _id: result.city_id.country_id.continent_id._id,
                 title: result.city_id.country_id.continent_id.title,

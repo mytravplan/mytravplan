@@ -16,6 +16,9 @@ export async function PUT(req, { params }) {
         const image = payload.get('image');
         const name = payload.get('name');
         const slug = payload.get('slug');
+        const sco_title = payload.get('sco_title')
+        const sco_description = payload.get('sco_description')
+        const sco_host_url = host
 
         // Check if category exists
         const existingCategory = await PackageCategoryModel.findById(id);
@@ -26,6 +29,9 @@ export async function PUT(req, { params }) {
         // Update fields if they are provided
         if (name) existingCategory.name = name;
         if (slug) existingCategory.slug = slug;
+        if (sco_title) existingCategory.sco_title = sco_title;
+        if (sco_description) existingCategory.sco_description = sco_description;
+        if (sco_host_url) existingCategory.sco_host_url = sco_host_url;
 
         // Check if image is provided and handle it
         if (image && image.size > 0) {
@@ -34,7 +40,7 @@ export async function PUT(req, { params }) {
                 name: uploadedFile.name,
                 path: uploadedFile.path,
                 contentType: uploadedFile.contentType,
-                img_url: uploadedFile.img_url,
+                
             };
             existingCategory.image = imageObject;
         }

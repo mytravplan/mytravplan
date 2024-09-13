@@ -9,6 +9,7 @@ DbConnect();
 
 export async function POST(req) {
     return handelAsyncErrors(async () => {
+        let host=req.headers.get('host')
         const payload = await req.formData();
         const file = payload.get('file');
         const title = payload.get('title');
@@ -18,6 +19,9 @@ export async function POST(req) {
         const blog_overview = payload.get('blog_overview');
         const blog_description = JSON.parse(payload.get('blog_description')); 
         const galleryFiles = payload.getAll('gallery_files');
+        const sco_title = payload.get('sco_title')
+        const sco_description = payload.get('sco_description')
+        const sco_host_url = host
 
         // Check if the category exists
         const existCategory = await CategoryModel.findById(blog_category);
@@ -59,7 +63,11 @@ export async function POST(req) {
             blog_overview: blog_overview,
             blog_description: blog_description,
             blog_galleries: galleryImages,
-            blog_category: blog_category
+            blog_category: blog_category,
+            sco_title:sco_title,
+            sco_description:sco_description,
+            sco_host_url:sco_host_url,
+
         });
 
         // Save the new blog document

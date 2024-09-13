@@ -21,6 +21,8 @@ function UpdateBlog({ params }) {
     blog_galleries: [],
     gallery_files: null,
     galleryPreviewUrls: [],
+    sco_title: '',
+    sco_description: '',
   });
   const [loading, setLoading] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -147,6 +149,8 @@ function UpdateBlog({ params }) {
     formData.gallery_files.forEach((file, index) => {
       formDataToSend.append('blog_galleries', file);
     });
+    formDataToSend.append('sco_title', formData.sco_title);
+    formDataToSend.append('sco_description', formData.sco_description);
 
     try {
       const response = await fetch(`/api/v1/blog/update/${id}`, {
@@ -318,6 +322,31 @@ function UpdateBlog({ params }) {
             </div>
           </label>
         </div>
+        <div className="sco_panel">
+              <h3>Update Blog Sco meta keywords</h3>
+              <div className="form-group">
+              <label htmlFor="packages_galleries">Seo title</label>
+                 <input
+                type="text"
+                id="sco_title"
+                name="sco_title"
+                value={formData.sco_title}
+                onChange={handleChange}
+                placeholder="Enter seo meta title"
+              />
+              </div>
+              <div className="form-group">
+              <label htmlFor="packages_galleries">Seo description</label>
+                 <input
+                type="text"
+                id="sco_description"
+                name="sco_description"
+                value={formData.sco_description}
+                onChange={handleChange}
+                placeholder="Enter seo meta description"
+              />
+              </div>
+            </div>
         <button type="submit" className="update-packages-button" disabled={isLoading}>
           {isLoading ? 'Updating...' : 'Update blog'}
         </button>

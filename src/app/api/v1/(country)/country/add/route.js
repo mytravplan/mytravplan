@@ -16,6 +16,9 @@ export async function POST(req) {
         const title = payload.get('title');
         const description = payload.get('description');
         const slug = payload.get('slug');
+        const sco_title = payload.get('sco_title')
+        const sco_description = payload.get('sco_description')
+        const sco_host_url = host
         const continent_id = payload.get('continent_id');  
 
         // Check if slug is already exist
@@ -39,7 +42,7 @@ export async function POST(req) {
             name: uploadedFile.name,
             path: uploadedFile.path,
             contentType: uploadedFile.contentType,
-            img_url: uploadedFile.img_url,
+           
              
         };
 
@@ -50,6 +53,9 @@ export async function POST(req) {
             slug: slug,
             all_cities: [],
             all_packages: [],
+            sco_title:sco_title,
+            sco_description:sco_description,
+            sco_host_url:sco_host_url,
             continent_id: continent_id,
         });
 

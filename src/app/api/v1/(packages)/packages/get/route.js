@@ -38,6 +38,9 @@ export async function GET(req) {
             package_discounted_price: e.package_discounted_price,
             package_days: e.package_days,
             package_nights: e.package_nights,
+            sco_title: e.sco_title,
+            sco_description: e.sco_description,
+            sco_host_url: e.sco_host_url,
             package_under_continent: e.city_id?.country_id?.continent_id ? {
                 _id: e.city_id.country_id.continent_id._id.toString(),
                 title: e.city_id.country_id.continent_id.title,

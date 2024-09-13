@@ -11,6 +11,7 @@ export async function PUT(req, { params }) {
     let { id } = params;
 
         // Extract data from formdata
+        let host=req.headers.get('host')
         const payload = await req.formData();
         const file = payload.get('file');
         const title = payload.get('title');
@@ -18,12 +19,13 @@ export async function PUT(req, { params }) {
         const slug = payload.get('slug');
         const blog_overview = payload.get('blog_overview');
         const blog_description = payload.has('blog_description') ? JSON.parse(payload.get('blog_description')) : null;
+        const sco_title = payload.get('sco_title')
+        const sco_description = payload.get('sco_description')
+        const sco_host_url = host
         const categoryId = payload.get('blog_category');
 
         // Check if all fields are empty
-        if (!file && !title && !description && !slug && !categoryId && !blog_overview && !blog_description && !payload.getAll('blog_galleries').length) {
-            return NextResponse.json({ status: 200, success: false, message: 'At least one field is required' });
-        }
+       
 
         // Check if blog exists
         let existingBlog = await BlogModel.findById(id);
@@ -37,6 +39,10 @@ export async function PUT(req, { params }) {
         if (slug) existingBlog.slug = slug;
         if (blog_overview) existingBlog.blog_overview = blog_overview;
         if (blog_description) existingBlog.blog_description = blog_description;
+        if (sco_title) existingBlog.sco_title = sco_title;
+        if (sco_description) existingBlog.sco_description = sco_description;
+        if (sco_host_url) existingBlog.sco_host_url = sco_host_url;
+
         if (categoryId) existingBlog.blog_category = categoryId;
 
     // Upload new main image if provided

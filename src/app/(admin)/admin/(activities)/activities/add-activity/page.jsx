@@ -20,6 +20,8 @@ const AddActivity = () => {
     city_id: '',
     activity_price: '',
     activity_discounted_price: '',
+    sco_title: '',
+    sco_description: '',
   });
 
   const [cities, setCities] = useState([]);
@@ -77,6 +79,8 @@ const AddActivity = () => {
       city_id,
       activity_price,
       activity_discounted_price,
+      sco_title,
+      sco_description
     } = formData;
 
     if (
@@ -108,6 +112,8 @@ const AddActivity = () => {
       submissionData.append('icon', icon);
       submissionData.append('activity_price', activity_price);
       submissionData.append('activity_discounted_price', activity_discounted_price);
+      submissionData.append('sco_title', sco_title);
+      submissionData.append('sco_description', sco_description);
       submissionData.append('city_id', city_id);
 
       gallery_files.forEach((file) => {
@@ -210,6 +216,32 @@ const AddActivity = () => {
             value={formData.activity_discounted_price}
             onChange={handleChange}
           />
+        </div>
+
+        <div className="sco_panel">
+          <h3>Add Activity Seo meta keywords</h3>
+          <div className="form-group">
+            <label htmlFor="packages_galleries">Seo title</label>
+            <input
+              type="text"
+              id="sco_title"
+              name="sco_title"
+              value={formData.sco_title}
+              onChange={handleChange}
+              placeholder="Enter seo meta title"
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="packages_galleries">Seo description</label>
+            <input
+              type="text"
+              id="sco_description"
+              name="sco_description"
+              value={formData.sco_description}
+              onChange={handleChange}
+              placeholder="Enter seo meta description"
+            />
+          </div>
         </div>
         <button type="submit" disabled={isLoading}>
           {isLoading ? 'Adding...' : 'Add Activity'}

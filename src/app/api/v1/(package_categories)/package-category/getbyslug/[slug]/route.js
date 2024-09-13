@@ -52,7 +52,10 @@ export async function GET(req, { params }) {
                         id: category._id.toString(),
                         name: category.name,
                         slug: category.slug,
-                        image: category.image
+                        image: category.image,
+                        sco_title:category.sco_title,
+                        sco_description:category.sco_description,
+                        sco_host_url:category.sco_host_url,
                     },
                     packages: formattedPackages
                 }

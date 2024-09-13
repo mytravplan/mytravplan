@@ -15,6 +15,8 @@ const AddCity = () => {
     title: '',
     description: '',
     slug: '',
+    sco_title: '',
+    sco_description: '',
     file: null,
     country_id: '',
   });
@@ -50,7 +52,7 @@ const AddCity = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    const { title, description, slug, file, country_id } = formData;
+    const { title, description, slug, sco_title,sco_description,file, country_id } = formData;
 
     if (!title || !description || !slug || !file || !country_id) {
       toast.error('Please fill in all fields and upload an image.')
@@ -62,6 +64,8 @@ const AddCity = () => {
       submissionData.append('title', title);
       submissionData.append('description', description);
       submissionData.append('slug', slug);
+      submissionData.append('sco_title', sco_title);
+      submissionData.append('sco_description', sco_description);
       submissionData.append('file', file);
       submissionData.append('country_id', country_id);
 
@@ -130,6 +134,31 @@ const AddCity = () => {
             </div>
           )}
         </div>
+        <div className="sco_panel">
+              <h3>Add City Sco meta keywords</h3>
+              <div className="form-group">
+              <label htmlFor="packages_galleries">Seo title</label>
+                 <input
+                type="text"
+                id="sco_title"
+                name="sco_title"
+                value={formData.sco_title}
+                onChange={handleChange}
+                placeholder="Enter seo meta title"
+              />
+              </div>
+              <div className="form-group">
+              <label htmlFor="packages_galleries">Seo description</label>
+                 <input
+                type="text"
+                id="sco_description"
+                name="sco_description"
+                value={formData.sco_description}
+                onChange={handleChange}
+                placeholder="Enter seo meta description"
+              />
+              </div>
+            </div>
         <button type="submit" className="button" disabled={isLoading}>
           {isLoading ? 'Loading...' : 'Add City'}
         </button>

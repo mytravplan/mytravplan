@@ -19,7 +19,9 @@ const CreateBlog = () => {
     blog_overview: '',
     blog_description: [{ content: '' }],
     file: null,
-    gallery_files: []
+    gallery_files: [],
+    sco_title: '',
+    sco_description: '',
   });
   const [categories, setCategories] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -84,7 +86,9 @@ const CreateBlog = () => {
       blog_overview,
       blog_description,
       file,
-      gallery_files
+      gallery_files,
+      sco_title,
+      sco_description,
     } = formData;
 
     if (!title || !description || !slug || !file || !blog_category) {
@@ -102,6 +106,8 @@ const CreateBlog = () => {
       submissionData.append('blog_overview', blog_overview);
       submissionData.append('blog_description', JSON.stringify(blog_description));
       submissionData.append('file', file);
+      submissionData.append('sco_title', sco_title);
+      submissionData.append('sco_description', sco_description);
       gallery_files.forEach((file) => {
         submissionData.append('gallery_files', file);
       });
@@ -212,6 +218,31 @@ const CreateBlog = () => {
                   ))}
                 </div>
               )}
+            </div>
+            <div className="sco_panel">
+              <h3>Add Blog Sco meta keywords</h3>
+              <div className="form-group">
+              <label htmlFor="packages_galleries">Seo title</label>
+                 <input
+                type="text"
+                id="sco_title"
+                name="sco_title"
+                value={formData.sco_title}
+                onChange={handleChange}
+                placeholder="Enter seo meta title"
+              />
+              </div>
+              <div className="form-group">
+              <label htmlFor="packages_galleries">Seo description</label>
+                 <input
+                type="text"
+                id="sco_description"
+                name="sco_description"
+                value={formData.sco_description}
+                onChange={handleChange}
+                placeholder="Enter seo meta description"
+              />
+              </div>
             </div>
             <button type="submit" className="submit-button" disabled={isLoading}>
               {isLoading ? 'Loading...' : 'Create Blog'}

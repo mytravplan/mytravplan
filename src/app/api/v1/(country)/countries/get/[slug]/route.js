@@ -32,6 +32,18 @@ export async function GET(req, { params }) {
     
         // Get the paginated cities
         const paginatedCities = country.all_cities.slice(skip, skip + limit);
+
+        const countryResult={
+            _id: country._id,
+            images: country.images,
+            title: country.title,
+            description: country.description,
+            continent_id: country.continent_id,
+            slug: country.slug,
+            sco_title:country.sco_title,
+            sco_description:country.sco_description,
+            sco_host_url:country.sco_host_url,
+        }
     
         // Map the result to include details of cities and packages
         const result = paginatedCities.map(city => ({
@@ -44,7 +56,7 @@ export async function GET(req, { params }) {
         }));
     
         // Return the cities array directly in the response
-        return NextResponse.json({ status: 200, success: true, totalResults, page, limit, result });
+        return NextResponse.json({ status: 200, success: true, totalResults, page, limit, countryResult,result });
     })
     
 }

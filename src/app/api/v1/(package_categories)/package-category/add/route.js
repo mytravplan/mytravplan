@@ -1,10 +1,10 @@
- 
+
 import { DbConnect } from "@/database/database";
 import { HandleFileUpload } from "@/helpers/uploadFiles";
 import PackageCategoryModel from "@/model/packageCategories";
 import { NextResponse } from "next/server";
 
-DbConnect() 
+DbConnect()
 
 export async function POST(req) {
     try {
@@ -13,6 +13,9 @@ export async function POST(req) {
         let image = payload.get('image')
         let name = payload.get('name')
         let slug = payload.get('slug')
+        const sco_title = payload.get('sco_title')
+        const sco_description = payload.get('sco_description')
+        const sco_host_url = host
 
 
         if (!name || !slug) {
@@ -24,17 +27,22 @@ export async function POST(req) {
             return NextResponse.json({ status: 409, success: false, message: 'Slug already exists' });
         }
 
-        const uploadedFile = await HandleFileUpload(image,host);
+        const uploadedFile = await HandleFileUpload(image, host);
 
         const imageObject = {
             name: uploadedFile.name,
             path: uploadedFile.path,
             contentType: uploadedFile.contentType,
-            img_url: uploadedFile.img_url,
+
         };
 
         let result = new PackageCategoryModel({
-            image: [imageObject], name: name, slug: slug
+            image: [imageObject],
+            name: name,
+            slug: slug,
+            sco_title: sco_title,
+            sco_description: sco_description,
+            sco_host_url: sco_host_url,
         });
         await result.save();
 

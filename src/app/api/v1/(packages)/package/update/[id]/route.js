@@ -29,6 +29,9 @@ export async function PUT(req, { params }) {
         const packageItinerary = payload.has('package_itinerary') ? JSON.parse(payload.get('package_itinerary')) : null;
         const packagesInclude = payload.has('packages_include') ? JSON.parse(payload.get('packages_include')) : null;
         const packagesExclude = payload.has('packages_exclude') ? JSON.parse(payload.get('packages_exclude')) : null;
+        const sco_title = payload.get('sco_title')
+        const sco_description = payload.get('sco_description')
+        const sco_host_url = host
         const package_categories_id = payload.has('package_categories_id') ? JSON.parse(payload.get('package_categories_id')) : null;
 
         // Check if package exists
@@ -66,6 +69,9 @@ export async function PUT(req, { params }) {
         if (packageItinerary) existingPackage.package_itinerary = packageItinerary;
         if (packagesInclude) existingPackage.packages_include = packagesInclude;
         if (packagesExclude) existingPackage.packages_exclude = packagesExclude;
+        if (sco_title) existingPackage.sco_title = sco_title;
+        if (sco_description) existingPackage.sco_description = sco_description;
+        if (sco_host_url) existingPackage.sco_host_url = sco_host_url;
         if (city_id) existingPackage.city_id = city_id;
         if (package_categories_id) existingPackage.package_categories_id = package_categories_id;
 

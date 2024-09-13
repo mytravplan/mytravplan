@@ -11,6 +11,8 @@ function UpdateCountry({ params }) {
     title: '',
     slug: '',
     description: '',
+    sco_title: '',
+    sco_description: '',
     images: [], // This will hold the current image list
     imageFile: null, // This will hold the new image file
     imagePreviewUrl: '', // This will hold the preview URL of the new image
@@ -93,6 +95,8 @@ function UpdateCountry({ params }) {
     formData.append('title', country.title);
     formData.append('slug', country.slug);
     formData.append('description', country.description);
+    formData.append('sco_title', country.sco_title);
+    formData.append('sco_description', country.sco_description);
     formData.append('continent_id', country.continent_id);
     if (country.imageFile) {
       formData.append('file', country.imageFile); // Upload new image
@@ -199,6 +203,31 @@ function UpdateCountry({ params }) {
               )}
             </div>
           </label>
+          <div className="sco_panel">
+              <h3>Update Country Sco meta keywords</h3>
+              <div className="form-group">
+              <label htmlFor="packages_galleries">Seo title</label>
+                 <input
+                type="text"
+                id="sco_title"
+                name="sco_title"
+                value={country.sco_title}
+                onChange={handleChange}
+                placeholder="Enter seo meta title"
+              />
+              </div>
+              <div className="form-group">
+              <label htmlFor="packages_galleries">Seo description</label>
+                 <input
+                type="text"
+                id="sco_description"
+                name="sco_description"
+                value={country.sco_description}
+                onChange={handleChange}
+                placeholder="Enter seo meta description"
+              />
+              </div>
+            </div>
           <button type="submit" className="update-packages-button" disabled={isLoading}>
             {isLoading ? 'Updating...' : 'Update Country'}
           </button>

@@ -66,7 +66,7 @@ export async function POST(req) {
         try {
             await sendWhatsAppMessage({
                 phone_number: output.phone_number,
-                templateId: 'booking_template_sa',
+                templateId: 'booking_template_user',
                 bodyValues: {
                     "1": `Hi ${output.name}`,
                     "2": `Your query for the package '${packageDetails ? packageDetails.title : 'No package details'}' was sent successfully!`

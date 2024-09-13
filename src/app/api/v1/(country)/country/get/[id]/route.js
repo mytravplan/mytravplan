@@ -45,6 +45,9 @@ export async function GET(req, { params }) {
             description: country.description,
             continent_id: country.continent_id,
             slug: country.slug,
+            sco_title:country.sco_title,
+            sco_description:country.sco_description,
+            sco_host_url:country.sco_host_url,
             totalResults,
             cities: paginatedCities.map(city => ({
                 _id: city._id,

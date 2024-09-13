@@ -12,6 +12,8 @@ function UpdateCity({ params }) {
     title: '',
     slug: '',
     description: '',
+    sco_title: '',
+    sco_description: '',
     images: [], // This will hold the current image list
     imageFile: null, // This will hold the new image file
     imagePreviewUrl: '', // This will hold the preview URL of the new image
@@ -94,6 +96,8 @@ function UpdateCity({ params }) {
     formData.append('title', city.title);
     formData.append('slug', city.slug);
     formData.append('description', city.description);
+    formData.append('sco_title', city.sco_title);
+    formData.append('sco_description', city.sco_description);
     formData.append('country_id', city.country_id);
     if (city.imageFile) {
       formData.append('file', city.imageFile); // Upload new image
@@ -199,6 +203,31 @@ function UpdateCity({ params }) {
               )}
             </div>
           </label>
+          <div className="sco_panel">
+              <h3>Update City Sco meta keywords</h3>
+              <div className="form-group">
+              <label htmlFor="packages_galleries">Seo title</label>
+                 <input
+                type="text"
+                id="sco_title"
+                name="sco_title"
+                value={city.sco_title}
+                onChange={handleChange}
+                placeholder="Enter seo meta title"
+              />
+              </div>
+              <div className="form-group">
+              <label htmlFor="packages_galleries">Seo description</label>
+                 <input
+                type="text"
+                id="sco_description"
+                name="sco_description"
+                value={city.sco_description}
+                onChange={handleChange}
+                placeholder="Enter seo meta description"
+              />
+              </div>
+            </div>
           <button type="submit" className="update-packages-button"  disabled={isLoading} >
             {isLoading ? 'Updating...' : 'Update City'} 
           </button>

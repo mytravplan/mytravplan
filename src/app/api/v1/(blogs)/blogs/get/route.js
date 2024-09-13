@@ -36,6 +36,9 @@ export async function GET(req) {
             } : null,
             blog_overview: blog.blog_overview,
             blog_description: blog.blog_description,
+            sco_title:blog.sco_title,
+            sco_description:blog.sco_description,
+            sco_host_url:blog.sco_host_url,
             createdAt: blog.createdAt
         }));
 

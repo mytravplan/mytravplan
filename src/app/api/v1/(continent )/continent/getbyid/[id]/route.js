@@ -43,6 +43,9 @@ export async function GET(req, { params }) {
             title: continent.title,  
             description: continent.description,  
             slug: continent.slug,
+            sco_title:continent.sco_title,
+            sco_description:continent.sco_description,
+            sco_host_url:continent.sco_host_url,
             countries:countries.map(country => ({
                 _id: country._id,
                 images: country.images,
