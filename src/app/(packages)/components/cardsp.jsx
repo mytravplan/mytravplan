@@ -45,10 +45,10 @@ const Allpackages = () => {
                     <div className="info">
                       <h3>{pkg.title}</h3>
                       <p>{pkg.package_nights || 0} nights / {pkg.package_days} days</p>
-                      <p className="rating">
+                      {/* <p className="rating">
                         <span className="star">⭐</span> {pkg.rating} ({pkg.reviews})
-                      </p>
-                      <p className="price">From {pkg.package_price}</p>
+                      </p> */}
+                      <p className="price">From ̥₹ {pkg.package_price}</p>
                       <div className="buttons">
                         <Link href={`/packages/${pkg.slug.toLowerCase().replace(' ', '-')}`}>
                           <button className="details-btn">View Details</button>

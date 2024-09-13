@@ -95,7 +95,7 @@ export async function GET(req) {
         .sort({ createdAt: -1 })  
         .limit(limit)
         .skip(skip)
-        .select("_id image title description slug")
+        .select("_id image name slug")
         .lean()
         .exec(),
       FooterModel.find()
@@ -233,8 +233,7 @@ export async function GET(req) {
       packageCategories: packageCategories.map(category => ({
         _id: category._id,
         image: category.image,
-        title: category.title,
-        description: category.description,
+        name: category.name,
         slug: category.slug,
       })),
       footer: footer.length > 0 ? footer[0] : null,

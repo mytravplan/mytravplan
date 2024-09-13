@@ -7,6 +7,9 @@ import { EmptyActivityPackages } from '@/app/_common/EmptyComponents';
 const ExploreDestinations = ({ packagescat }) => {
 
 
+  console.log(`packagescat`)
+  console.log(packagescat)
+
 
  
 
@@ -49,7 +52,7 @@ const ExploreDestinations = ({ packagescat }) => {
                     className="image"
                   />
                 )}
-                <p>{destination.slug}</p>
+                <p>{destination?.name}</p>
               </Link>
             </div>
           )))}

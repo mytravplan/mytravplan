@@ -54,9 +54,9 @@ const BestSellingPackages = ({ packages, loading }) => {
                     <div className="info">
                       <h3>{pkg.title}</h3>
                       <p>{pkg.package_nights} nights / {pkg.package_days} days | {pkg.customizable}</p>
-                      <p className="rating">
+                      {/* <p className="rating">
                         <span className="star">★ {pkg.rating}</span> ({pkg.reviews})
-                      </p>
+                      </p> */}
                       <p className="price">From ₹ {pkg.package_price || 0}</p>
                       <div className="buttons">
                         <Link href={`/packages/${pkg.slug}`}><button className="details-btn">View Details</button></Link>
