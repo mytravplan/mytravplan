@@ -6,7 +6,7 @@ import React from 'react'
 function LogoutPage({role}) {
     const logoutHandler = async () => {
         await signOut({
-            callbackUrl:role==='admin'?'/admin/login': '/login',
+            callbackUrl:role==='admin'?'/admin/login': '/',
             redirect: true
         })
     }
