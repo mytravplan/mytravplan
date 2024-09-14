@@ -16,7 +16,7 @@ const TopDestinations = ({ response }) => {
         <p className="top-dest-subtitle">Unlimited Choices | Best Prices | Happy Memories | Hot Deals</p>
         <div className="top-dest-gridContainer">
           { reversedCities === null || reversedCities === undefined || reversedCities.length === 0 ? <EmptyComponent /> : (reversedCities.map((destination, index) => (
-            <Link className="top-dest-cardOuter" href={`/${destination.slug.toLowerCase().replace(' ', '-')}`} key={index}>
+            <Link className="top-dest-cardOuter" href={`/cities/${destination.slug.toLowerCase().replace(' ', '-')}`} key={index}>
               <div className="top-dest-card">
 
                 {destination.images ? destination.images.map((e) => (

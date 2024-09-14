@@ -47,7 +47,7 @@ const TopDiscountedActivities = ({result}) => {
       <p className="top-discounted-subtitle">Unlimited Choices | Best Prices | Happy Memories | Hot Deals</p>
       <div className="top-discounted-gridContainer">
         {result === null || result === undefined || result.length === 0?<EmptyComponent/>:(result?.map((activity, index) => (
-          <Link className="top-discounted-cardOuter" href={`/${activity.slug.toLowerCase().replace(' ', '-')}`} key={index}>
+          <Link className="top-discounted-cardOuter" href={`/activity/${activity.slug.toLowerCase().replace(' ', '-')}`} key={index}>
             <div className="top-discounted-card">
               <div className="top-discounted-overlay">
                 <span className="top-discounted-label">{activity.discount} % </span>
