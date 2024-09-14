@@ -13,7 +13,7 @@ export async function GET(req) {
         let result = await BookingModel.find()
             .populate({
                 path: 'user_id', 
-                select: '_id registerusername phoneNumber', 
+                select: '_id registerusername phoneNumber package_id', 
             })
             .sort({ createdAt: -1 })
             .skip(skip)

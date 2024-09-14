@@ -2626,8 +2626,15 @@ form.form.flight-form h3 {
 /* MyOrders.css */
 
 .my-orders-container {
-	padding: 20px;
+	padding: 70px 20px;
 	background-color: #f9f9f9;
+}
+.my_ouder_wrapper {
+    max-width: 1450px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 20px;
 }
 
 .no-bookings {
@@ -2636,13 +2643,23 @@ form.form.flight-form h3 {
 	color: #555;
 	margin-top: 20px;
 }
+.my_ouder_wrapper_head {
+    max-width: 1450px;
+    margin: auto;
+}
 
+
+#orders {
+    color: #000;
+	font-size: 36px;
+	margin: 0px 0px 20px 0px;
+}
 .booking-card {
 	background-color: #fff;
 	border: 1px solid #ddd;
 	border-radius: 8px;
 	padding: 15px;
-	margin: 10px 0;
+
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -3828,6 +3845,13 @@ img.carimage {
 }
 
 @media(max-width:990px) {
+	.my_ouder_wrapper {
+    max-width: 1450px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
 	.flight-container {
 		grid-template-columns: 1fr;
 		box-shadow: unset;
@@ -4095,8 +4119,29 @@ img.carimage {
 
 }
 
-@media(max-width:467px) {
+@media only screen and (max-width:600px) {
+	.my_ouder_wrapper {
+        max-width: 1450px;
+        margin: auto;
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        gap: 20px;
+    }
+	#orders {
+		color: #000;
+		font-size: 30px;
+		margin: 0px 0px 20px 0px;
+	}
+}
+	
 
+
+@media(max-width:467px) {
+	#orders {
+		color: #000;
+		font-size: 26px;
+		margin: 0px 0px 20px 0px;
+	}
 	.destinations-container-countries{
 		display: grid;
 		grid-template-columns: 1fr 1fr;

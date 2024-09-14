@@ -7,8 +7,7 @@ import { EmptyActivityPackages } from '@/app/_common/EmptyComponents';
 const ExploreDestinations = ({ packagescat }) => {
 
 
-  console.log(`packagescat`)
-  console.log(packagescat)
+  
 
 
  

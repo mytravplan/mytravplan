@@ -34,7 +34,7 @@ export default async function middleware(request) {
   }
 
   // Redirect unauthenticated users trying to access private user routes
-  if (!token && userPrivateRoutes.includes(pathname)) {
+  if (!token && userPrivateRoutes.includes(pathname)&&user.role==='user') {
     return NextResponse.redirect(new URL('/login', request.url));
   }
 

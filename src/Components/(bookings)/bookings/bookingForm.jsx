@@ -11,8 +11,7 @@ import { toast } from 'react-toastify';
 const BookingForm = ({ setIsopenForm,packageId }) => {
     const { data: session } = useSession();
     const user_id = session?.user?._id ? session?.user?._id : null;
-    console.log(`user_id`)
-    console.log(user_id)
+ 
     let api = EXPORT_ALL_APIS();
     const [user, setUser] = useState({
         name: '',

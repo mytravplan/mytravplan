@@ -20,7 +20,7 @@ export async function GET(req, { params }) {
                 select: 'package_id createdAt',
                 populate: {
                     path: 'package_id',
-                    select: 'description'  
+                    select: 'title description'  
                 }
             });
 
@@ -47,6 +47,7 @@ export async function GET(req, { params }) {
             bookings: paginatedBookings.map(booking => ({
                 booking_id: booking._id,
                 _id: booking.package_id._id,
+                title: booking.package_id.title,
                 description: booking.package_id.description,
                 createdAt: booking.createdAt
             })),
