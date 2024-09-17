@@ -27,7 +27,7 @@ import React from 'react';
  */
 export const generateSlug = (title) => {
   return title
-    // .toLowerCase()
+    .toLowerCase()
     .trim()
     .replace(/\s+/g, '-') // Replace spaces with hyphens
     .replace(/[^a-z0-9-]/g, ''); // Remove non-alphanumeric characters except hyphens
