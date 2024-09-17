@@ -46,7 +46,6 @@ const Login = () => {
         if (handelError()) {
             return;
         }
-
         try {
             const checkUserResp = await fetch('/api/v1/otpuser/check-user', {
                 method: 'POST',
@@ -64,7 +63,6 @@ const Login = () => {
                 setShowNameField(true);
                 setVerifyOtp(false);
             }
-
             const resp = await fetch('/api/v1/send-otp', {
                 method: 'POST',
                 body: JSON.stringify(user),
@@ -99,9 +97,11 @@ const Login = () => {
             valid = true;
             errorfield.phoneNumber = 'Phone number is required';
         }
-
+        else if (phoneNumber.length>=10) {
+            valid = true;
+            errorfield.phoneNumber = 'Phone number should be 10 digit';
+        }
         setError(errorfield);
-
         return valid;
     };
 
@@ -115,7 +115,6 @@ const Login = () => {
                     'Content-Type': 'application/json',
                 },
             });
-
             const result = await resp.json();
             if (result.isOTPVerified) {
                 await saveUser(info.phoneNumber, user.registerusername);
@@ -125,9 +124,7 @@ const Login = () => {
                     callbackUrl: '/',
                     redirect: true,
                 });
-                if(showNameField===true){
-                    ''
-                }
+                
             } else {
                 
                     alert(result.error || 'Please provide valid Otp');
