@@ -15,6 +15,7 @@ const Login = () => {
         registerusername: ''
     });
 
+    let [error, setError] = useState({});
     const [otp, setOtp] = useState('');
     const [user, setUser] = useState({
         phoneNumber: '',
@@ -24,9 +25,11 @@ const Login = () => {
         expiry: 86400,
     });
     const [verifyOtp, setVerifyOtp] = useState(false);
+    const [showNameField, setShowNameField] = useState(false);
+ 
 
     const closeLogin = () => {
-        router.push(`/`);
+        router.push('/');
     };
 
     const changeHandler = (value, e) => {
@@ -34,12 +37,34 @@ const Login = () => {
             setUser({ ...user, [e.target.name]: e.target.value });
         } else {
             setUser({ ...user, phoneNumber: value });
+            setError({ ...user, phoneNumber: '' });
         }
     };
 
     const handleSendOtp = async (e) => {
         e.preventDefault();
+        if (handelError()) {
+            return;
+        }
+
         try {
+            const checkUserResp = await fetch('/api/v1/otpuser/check-user', {
+                method: 'POST',
+                body: JSON.stringify({ phoneNumber: user.phoneNumber }),
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            const checkUserResult = await checkUserResp.json();
+
+            if (checkUserResult.userExists === true) {
+                setShowNameField(false);
+                setVerifyOtp(true);
+            } else {
+                setShowNameField(true);
+                setVerifyOtp(false);
+            }
+
             const resp = await fetch('/api/v1/send-otp', {
                 method: 'POST',
                 body: JSON.stringify(user),
@@ -55,7 +80,7 @@ const Login = () => {
                     phoneNumber: user.phoneNumber,
                     registerusername: user.registerusername
                 });
-                localStorage.setItem('userInfos',JSON.stringify(result))
+                localStorage.setItem('userInfos', JSON.stringify(result));
                 setVerifyOtp(true);
             } else {
                 alert(result.error || 'Error sending OTP');
@@ -63,6 +88,21 @@ const Login = () => {
         } catch (error) {
             console.error('Internal server issue:', error);
         }
+    };
+
+    const handelError = () => {
+        let { phoneNumber } = user;
+        let valid = false;
+        let errorfield = {};
+
+        if (!phoneNumber) {
+            valid = true;
+            errorfield.phoneNumber = 'Phone number is required';
+        }
+
+        setError(errorfield);
+
+        return valid;
     };
 
     const verifyOtpHandler = async (e) => {
@@ -85,8 +125,13 @@ const Login = () => {
                     callbackUrl: '/',
                     redirect: true,
                 });
+                if(showNameField===true){
+                    ''
+                }
             } else {
-                alert(result.error || 'OTP verification failed');
+                
+                    alert(result.error || 'Please provide valid Otp');
+                
             }
         } catch (error) {
             console.error('Internal server issue:', error);
@@ -113,6 +158,10 @@ const Login = () => {
         }
     };
 
+    const handleNext = () => {
+        setShowNameField(false);
+    };
+
     return (
         <div className="login-wrapper">
             <div className="login-modal" style={{ backgroundImage: `url(${popupbg.src})` }}>
@@ -122,47 +171,73 @@ const Login = () => {
                 </div>
                 <div className="form-section">
                     <h2>{verifyOtp ? 'Enter OTP to Verify Your Phone Number' : 'Enter Mobile Number To Personalize Your Trip'}</h2>
-                    <form onSubmit={verifyOtp ? verifyOtpHandler : handleSendOtp}>
-                        {verifyOtp ? (
-                            <div className="input-group">
-                                <input
-                                    type="number"
-                                    name="otp"
-                                    value={otp}
-                                    placeholder="Enter OTP"
-                                    onChange={(e) => setOtp(e.target.value)}
-                                />
-                            </div>
-                        ) : (
+                    <form onSubmit={(e) => {
+                        e.preventDefault();
+                        if (verifyOtp && !showNameField) {
+                            verifyOtpHandler(e);
+                        } else if (!verifyOtp) {
+                            handleSendOtp(e);
+                        }
+                    }}>
+                        {!verifyOtp ? (
                             <>
-                                <div className="input-group">
-                                    <input
-                                        id="registerusername"
-                                        name="registerusername"
-                                        value={user.registerusername}
-                                        onChange={(e) => changeHandler(null, e)}
-                                        placeholder="Enter Your Name"
-                                    />
-                                </div>
+                                {/* Phone input field */}
                                 <div className="input-group">
                                     <PhoneInput
                                         id="phone-number"
                                         defaultCountry="IN"
                                         value={user.phoneNumber}
-                                        onChange={(value) => changeHandler(value)}
+                                        onChange={(value) => setUser({ ...user, phoneNumber: value })}
                                         placeholder="Enter Your Phone Number"
                                     />
+                                    {error.phoneNumber && <span className="error-message">{error.phoneNumber}</span>}
                                 </div>
+                                <button type="submit">Get OTP</button>
+                            </>
+                        ) : (
+                            <>
+                                {showNameField ? (
+                                    <>
+                                        {/* Name input field */}
+                                        <div className="input-group">
+                                            <input
+                                                id="registerusername"
+                                                name="registerusername"
+                                                value={user.registerusername}
+                                                onChange={(e) => setUser({ ...user, registerusername: e.target.value })}
+                                                placeholder="Enter Your Name"
+                                            />
+                                            
+                                        </div>
+                                        {/* "Next" button to show OTP input field */}
+                                        <button type="button" onClick={handleNext}>Next</button>
+                                    </>
+                                ) : (
+                                    <>
+                                        {/* OTP input field */}
+                                        <div className="input-group">
+                                            <input
+                                                type="number"
+                                                name="otp"
+                                                value={otp}
+                                                placeholder="Enter OTP"
+                                                onChange={(e) => setOtp(e.target.value)}
+                                            />
+                                        </div>
+                                        <button type="submit">Verify OTP</button>
+                                    </>
+                                )}
                             </>
                         )}
-                        <button type="submit">
-                            {verifyOtp ? 'Verify OTP' : 'Get OTP'}
-                        </button>
                     </form>
+
+
+
+
+
                 </div>
                 <img src={car.src} alt="Car" className="car-animation" />
             </div>
-
         </div>
     );
 };
