@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import popupbg from '../../../../public/images/popup-bg.png';
 import PhoneInput from 'react-phone-number-input';
@@ -9,13 +10,13 @@ import car from '../../assets/home_images/car2.png';
 const Login = () => {
     const router = useRouter();
 
+    const [step, setStep] = useState(1);
     const [info, setInfo] = useState({
         orderId: '',
         phoneNumber: '',
         registerusername: ''
     });
-
-    let [error, setError] = useState({});
+    const [error, setError] = useState({});
     const [otp, setOtp] = useState('');
     const [user, setUser] = useState({
         phoneNumber: '',
@@ -26,7 +27,6 @@ const Login = () => {
     });
     const [verifyOtp, setVerifyOtp] = useState(false);
     const [showNameField, setShowNameField] = useState(false);
- 
 
     const closeLogin = () => {
         router.push('/');
@@ -43,67 +43,84 @@ const Login = () => {
 
     const handleSendOtp = async (e) => {
         e.preventDefault();
-        if (handelError()) {
-            return;
-        }
+
         try {
-            const checkUserResp = await fetch('/api/v1/otpuser/check-user', {
-                method: 'POST',
-                body: JSON.stringify({ phoneNumber: user.phoneNumber }),
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-            const checkUserResult = await checkUserResp.json();
-
-            if (checkUserResult.userExists === true) {
-                setShowNameField(false);
-                setVerifyOtp(true);
+            if (handelError()) {
+                return false;
             } else {
-                setShowNameField(true);
-                setVerifyOtp(false);
-            }
-            const resp = await fetch('/api/v1/send-otp', {
-                method: 'POST',
-                body: JSON.stringify(user),
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-
-            const result = await resp.json();
-            if (result) {
-                setInfo({
-                    orderId: result.orderId,
-                    phoneNumber: user.phoneNumber,
-                    registerusername: user.registerusername
+                const checkUserResp = await fetch('/api/v1/otpuser/check-user', {
+                    method: 'POST',
+                    body: JSON.stringify({ phoneNumber: user.phoneNumber }),
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
                 });
-                localStorage.setItem('userInfos', JSON.stringify(result));
-                setVerifyOtp(true);
-            } else {
-                alert(result.error || 'Error sending OTP');
+                const checkUserResult = await checkUserResp.json();
+
+                if (checkUserResult.userExists === true) {
+                    setShowNameField(false);
+                    setVerifyOtp(true);
+                    setStep(3);
+                } else {
+                    setShowNameField(true);
+                    setVerifyOtp(false);
+                    setStep(2);
+                }
+                const resp = await fetch('/api/v1/send-otp', {
+                    method: 'POST',
+                    body: JSON.stringify(user),
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                const result = await resp.json();
+                if (result) {
+                    setInfo({
+                        orderId: result.orderId,
+                        phoneNumber: user.phoneNumber,
+                        registerusername: user.registerusername
+                    });
+                    localStorage.setItem('userInfos', JSON.stringify(result));
+                } else {
+                    alert(result.error || 'Error sending OTP');
+                }
             }
+
         } catch (error) {
             console.error('Internal server issue:', error);
         }
     };
 
     const handelError = () => {
-        let { phoneNumber } = user;
-        let valid = false;
+        let { phoneNumber, registerusername } = user;
+        let invalid = false;
         let errorfield = {};
-
+    
+        // Check if phone number is provided
         if (!phoneNumber) {
-            valid = true;
+            invalid = true;
             errorfield.phoneNumber = 'Phone number is required';
+        } else if (phoneNumber.length !== 13) { 
+            invalid = true;
+            errorfield.phoneNumber = 'Phone number should be exactly 10 digits';
         }
-        else if (phoneNumber.length>=10) {
-            valid = true;
-            errorfield.phoneNumber = 'Phone number should be 10 digit';
+
+        console.log(`the lenhth of the number is phoneNumber.length`)
+        console.log(phoneNumber.length)
+    
+        // Check if name is required in step 2
+        if (step === 2 && !registerusername) {
+            invalid = true;
+            errorfield.registerusername = 'Name is required';
         }
+    
+        // Set errors and show alerts if necessary
         setError(errorfield);
-        return valid;
+         
+        return invalid;
     };
+    
 
     const verifyOtpHandler = async (e) => {
         e.preventDefault();
@@ -124,11 +141,8 @@ const Login = () => {
                     callbackUrl: '/',
                     redirect: true,
                 });
-                
             } else {
-                
-                    alert(result.error || 'Please provide valid Otp');
-                
+                alert(result.error || 'Please provide a valid OTP');
             }
         } catch (error) {
             console.error('Internal server issue:', error);
@@ -156,7 +170,7 @@ const Login = () => {
     };
 
     const handleNext = () => {
-        setShowNameField(false);
+        setStep(3);
     };
 
     return (
@@ -167,16 +181,22 @@ const Login = () => {
                     <img src="/images/popup-img.png" alt="Travel" />
                 </div>
                 <div className="form-section">
-                    <h2>{verifyOtp ? 'Enter OTP to Verify Your Phone Number' : 'Enter Mobile Number To Personalize Your Trip'}</h2>
+                    <h2>
+                        {step === 1 && 'Enter Mobile Number To Personalize Your Trip'}
+                        {step === 2 && (showNameField ? 'Enter Your Name' : 'Enter OTP to Verify Your Phone Number')}
+                        {step === 3 && 'Enter OTP to Verify Your Phone Number'}
+                    </h2>
                     <form onSubmit={(e) => {
                         e.preventDefault();
-                        if (verifyOtp && !showNameField) {
-                            verifyOtpHandler(e);
-                        } else if (!verifyOtp) {
+                        if (step === 1) {
                             handleSendOtp(e);
+                        } else if (step === 2 && showNameField) {
+                            handleNext(); // Move to OTP verification step
+                        } else if (step === 3) {
+                            verifyOtpHandler(e);
                         }
                     }}>
-                        {!verifyOtp ? (
+                        {step === 1 && (
                             <>
                                 {/* Phone input field */}
                                 <div className="input-group">
@@ -191,7 +211,8 @@ const Login = () => {
                                 </div>
                                 <button type="submit">Get OTP</button>
                             </>
-                        ) : (
+                        )}
+                        {step === 2 && (
                             <>
                                 {showNameField ? (
                                     <>
@@ -204,7 +225,6 @@ const Login = () => {
                                                 onChange={(e) => setUser({ ...user, registerusername: e.target.value })}
                                                 placeholder="Enter Your Name"
                                             />
-                                            
                                         </div>
                                         {/* "Next" button to show OTP input field */}
                                         <button type="button" onClick={handleNext}>Next</button>
@@ -226,12 +246,22 @@ const Login = () => {
                                 )}
                             </>
                         )}
+                        {step === 3 && (
+                            <>
+                                {/* OTP input field */}
+                                <div className="input-group">
+                                    <input
+                                        type="number"
+                                        name="otp"
+                                        value={otp}
+                                        placeholder="Enter OTP"
+                                        onChange={(e) => setOtp(e.target.value)}
+                                    />
+                                </div>
+                                <button type="submit">Verify OTP</button>
+                            </>
+                        )}
                     </form>
-
-
-
-
-
                 </div>
                 <img src={car.src} alt="Car" className="car-animation" />
             </div>
@@ -240,3 +270,4 @@ const Login = () => {
 };
 
 export default Login;
+

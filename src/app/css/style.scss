@@ -619,12 +619,17 @@ body::-webkit-scrollbar-thumb {
 }
 
 .PhoneInput {
-	display: flex;
-	align-items: center;
-	box-shadow: 2px 2px 12px #9b9b9b29;
-	padding: 10px;
-	border-radius: 10px;
+    display: flex;
+    align-items: center;
+    box-shadow: unset;
+    padding: 0 14px;
+    border-radius: 0;
+    border: 1px solid #00000026;
+    border-radius: 6px;
+    width: 100%;
 }
+
+ 
 
 .form-section p {
 	display: none;
@@ -2648,6 +2653,15 @@ form.form.flight-form h3 {
     margin: auto;
 }
 
+input#phone-number {
+    border: unset;
+    padding: 0px 0px 0px 10px;
+}
+input#phone-number:focus-visible {
+    outline: unset;
+}
+
+
 
 #orders {
     color: #000;
@@ -3254,11 +3268,22 @@ img.carimage {
 	padding: 0px 29px;
 	border-left: none;
 	height: 51px;
-	border: 1px solid #000;
+	border: 1px solid #00000024;
 	border-radius: 7px;
 	width: 100%;
 	font-size: 16px;
 	letter-spacing: 0.5px;
+}
+span.error-message {
+    background: unset!important;
+    margin: 0px!important;
+    padding: 0px!important;
+    text-align: left!important;
+    width: 100%;
+    color: #ff000075;
+}
+.login-wrapper .input-group input:focus-visible{
+	outline: unset!important;
 }
 
 .login-wrapper .input-group {
@@ -3266,6 +3291,7 @@ img.carimage {
 	align-items: center;
 	gap: 10px;
 	margin-top: 40px;
+	flex-direction: column;
 }
 
 .login-wrapper form button {
