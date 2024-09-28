@@ -21,13 +21,13 @@ export async function HandleFileUpload(file, host) {
     }
 
     // Construct the public URL of the uploaded file
-    const img_url = `http://${host}/uploads/${sanitizedFileName}`;
+    // const img_url = `http://${host}/uploads/${sanitizedFileName}`;
 
     return {
         name: sanitizedFileName,
         path: filePath,
         contentType: file.type,
-        img_url
+        // img_url
     };
 }
 
