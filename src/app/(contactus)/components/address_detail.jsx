@@ -1,10 +1,14 @@
+'use client'
 import React from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
+ 
 import Image1 from '../../assets/home_images/map.svg';
 import Image2 from '../../assets/home_images/phone.svg';
 import Image3 from '../../assets/home_images/office.svg';
+import useFetchAllSections from '@/hooks/useLoadApiHook';
 const AddressDetail = () => {
+  let response=useFetchAllSections()
+
+  let {footer={}}=response.data
   return (
   <div className="address_container">
     <div className="address_card">
@@ -16,7 +20,7 @@ const AddressDetail = () => {
       </div>
       <div className="content">
         <h3>Address</h3>
-        <p>Corporate Office: 401, Time Shoppers, Opp. Deepkamal Mall, Sarthana Jakatnaka,</p>
+        <p>{footer?.address}</p>
       </div>
     </div>
     <div className="address_card">
@@ -28,8 +32,18 @@ const AddressDetail = () => {
       </div>
       <div className="content">
         <h3>Contact</h3>
-        <p><span>Mobile:</span> <a href="tel:+918627814386">+918627814386</a></p>
-        <p><span>Email:</span> <a href="mailto:booking@streetromeo.com">booking@streetromeo.com</a></p>
+        <p><span>Mobile:</span>
+        {footer?.phoneNumbers?.map((e,index)=>{
+          return  <a href={`tel:+91 ${e}`} key={index}>{e}</a>
+
+        })}
+        </p>
+        <p><span>Email:</span>
+        {footer?.emailAddresses?.map((e,index)=>{
+          return  <a href={`mailto: ${e}`} key={index}>{e}</a>
+
+        })}
+        </p>
       </div>
     </div>
     <div className="address_card">

@@ -5,8 +5,12 @@ import Inclusions from './inclusions';
 import LoadingBar from '@/app/_common/innerLoader/innerLoader';
 import BookingAndLogin from '@/app/_common/bookingAndLogin';
 import emptyImage from '../../../../assets/home_images/empty.jpg';
+import useFetchAllSections from '@/hooks/useLoadApiHook';
 
 const Itinerary = ({ result }) => {
+  let response = useFetchAllSections()
+
+  let { footer = {} } = response.data
   const [openDay, setOpenDay] = useState(null);
   const [activeTab, setActiveTab] = useState('inclusions');
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -117,8 +121,15 @@ const Itinerary = ({ result }) => {
                         Do not hesitate to give us a call. We are an expert team and we are happy to talk to you
                       </p>
                       <div className='contact_card'>
-                        <a href='tel:+91 8627814386'>+91 8627814386</a>
-                        <a href='mailto:booking@streetromeo.com'>booking@streetromeo.com</a>
+                        {footer?.phoneNumbers?.map((e, index) => {
+                          return <a href={`tel:+91 ${e}`} key={index}>{e}</a>
+                        })}
+                        {footer?.emailAddresses?.map((e, index) => {
+                          return <a href={`mailto: ${e}`} key={index}>{e}</a>
+
+                        })}
+
+
                       </div>
                     </div>
                   </div>
@@ -164,50 +175,50 @@ const Itinerary = ({ result }) => {
 
 function EmptyComponent() {
   return (
-      <>
-          {Array(1).fill().map((_, index) => (
-             <div className='overview' key={index}>
-             <div className='summary_slider'>
-               <div className="itinerary_inner">
-                 <div className='itenary_contact'>
-                   <div className='top_summary aaa'>
-                     <div className='top_summary_inner'>
-                     </div>
-                   </div>
- 
-                   <div className='iten_inner aaa'>
-                     <h2 className='heading_inner_page'></h2>
-                     <div className='day_content'>
-                     </div>
-                   </div>
-                   <div className="tabs_inclusion">
-                   </div>
-                   <div className="tabContent aaa">
-                   </div>
-                 </div>
- 
- 
-                 <div className='right_query'>
-                   <div className='card_contact aaa'>
-                     
-                   </div>
+    <>
+      {Array(1).fill().map((_, index) => (
+        <div className='overview' key={index}>
+          <div className='summary_slider'>
+            <div className="itinerary_inner">
+              <div className='itenary_contact'>
+                <div className='top_summary aaa'>
+                  <div className='top_summary_inner'>
+                  </div>
+                </div>
 
-                     <div className='gallery_inner_page'>
-                       <div className="sidebar-gallery">
-                         <div className="galleryGrid aaa">
-                             <img
-                               src={emptyImage.src}
-                             />
-                         </div>
-                       </div>
-                     </div>
+                <div className='iten_inner aaa'>
+                  <h2 className='heading_inner_page'></h2>
+                  <div className='day_content'>
+                  </div>
+                </div>
+                <div className="tabs_inclusion">
+                </div>
+                <div className="tabContent aaa">
+                </div>
+              </div>
 
-                 </div>
-               </div>
-             </div>
-           </div>
-          ))}
-      </>
+
+              <div className='right_query'>
+                <div className='card_contact aaa'>
+
+                </div>
+
+                <div className='gallery_inner_page'>
+                  <div className="sidebar-gallery">
+                    <div className="galleryGrid aaa">
+                      <img
+                        src={emptyImage.src}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </>
   );
 }
 
