@@ -8,6 +8,7 @@ import CredentialsProvider from 'next-auth/providers/credentials';
  
 
 export const authOptions = {
+  secret: process.env.NEXTAUTH_SECRET,  
   pages: {
     signIn: '/login',
   },
@@ -59,5 +60,3 @@ export const authOptions = {
     
   ],
 };
-
-export default authOptions;

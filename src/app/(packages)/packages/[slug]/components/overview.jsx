@@ -30,6 +30,8 @@ const Itinerary = ({ result }) => {
     setCurrentImage('');
   };
 
+  console.log(result)
+
   return (
     <>
       {result === undefined || result === null ? (
@@ -114,7 +116,7 @@ const Itinerary = ({ result }) => {
 
                 <div className='right_query'>
                   <div className='card_contact'>
-                    <span>Package Code: 128391823</span>
+                    <span>Package Id {ele._id}</span>
                     <div className='question'>
                       <h1>Have a Question?</h1>
                       <p>

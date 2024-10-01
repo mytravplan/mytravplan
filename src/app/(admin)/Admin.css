@@ -10,7 +10,7 @@ body{
 /* Admin login style */
 
 .admin_login_page {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
