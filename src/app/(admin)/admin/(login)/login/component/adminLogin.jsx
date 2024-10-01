@@ -199,7 +199,7 @@ function AdminLoginPage() {
                         setTimeout(() => {
                             // Sign out after 1 minute
                             signIn('credentials', { redirect: false }).then(() => {
-                                window.location.href = '/login'; // Redirect to login
+                                window.location.href = '/admin/login'; // Redirect to login
                             });
                         }, 60 * 1000); // 60 seconds
                     }
@@ -214,11 +214,7 @@ function AdminLoginPage() {
         }
     };
 
-    useEffect(() => {
-        if (!session) {
-            window.location.href = '/admin/login';
-        }
-    }, [session]);
+  
 
     return (
         <>
