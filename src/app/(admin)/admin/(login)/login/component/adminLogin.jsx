@@ -215,9 +215,8 @@ function AdminLoginPage() {
     };
 
     useEffect(() => {
-        // Automatically redirect if session changes
         if (!session) {
-            window.location.href = '/login';
+            window.location.href = '/admin/login';
         }
     }, [session]);
 
