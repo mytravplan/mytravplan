@@ -6,11 +6,13 @@ import LoadingBar from '@/app/_common/innerLoader/innerLoader';
 import BookingAndLogin from '@/app/_common/bookingAndLogin';
 import emptyImage from '../../../../assets/home_images/empty.jpg';
 import useFetchAllSections from '@/hooks/useLoadApiHook';
+ 
 
 const Itinerary = ({ result }) => {
   let response = useFetchAllSections()
 
   let { footer = {} } = response.data
+
   const [openDay, setOpenDay] = useState(null);
   const [activeTab, setActiveTab] = useState('inclusions');
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -30,7 +32,7 @@ const Itinerary = ({ result }) => {
     setCurrentImage('');
   };
 
-  console.log(result)
+  
 
   return (
     <>
