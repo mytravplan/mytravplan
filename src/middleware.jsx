@@ -14,7 +14,24 @@ export default async function middleware(request) {
   const userPublicRoutes = ['/login'];
 
   // Define private routes
-  const adminPrivateRoutes = ['/admin/dashboard'];
+  const adminPrivateRoutes =
+    ['/admin/dashboard',
+      '/admin/activities',
+      '/admin/blog',
+      '/admin/bookings',
+      '/admin/cities',
+      '/admin/contacts',
+      '/admin/continents',
+      '/admin/countries',
+      '/admin/flights',
+      '/admin/footer',
+      '/admin/notifications',
+      '/admin/packages',
+      '/admin/profile',
+      '/admin/reports',
+      '/admin/settings',
+      '/admin/users',
+    ];
   const userPrivateRoutes = ['/my-orders'];
 
   // Redirect admin users who are trying to access user public routes
@@ -34,7 +51,7 @@ export default async function middleware(request) {
   }
 
   // Redirect unauthenticated users trying to access private user routes
-  if (!token && userPrivateRoutes.includes(pathname)&&user.role==='user') {
+  if (!token && userPrivateRoutes.includes(pathname) && user.role === 'user') {
     return NextResponse.redirect(new URL('/login', request.url));
   }
 
@@ -44,7 +61,12 @@ export default async function middleware(request) {
   }
 
   // Redirect unauthenticated users trying to access admin routes
-  if (!token && pathname.startsWith('/admin') && adminPrivateRoutes.includes(pathname)) {
+  if (!token && pathname.startsWith('/admin') && !adminPublicRoutes.includes(pathname)) {
+    return NextResponse.redirect(new URL('/admin/login', request.url));
+  }
+
+  //redirect admin if haven't token and excess admin routes
+  if (!token && adminPrivateRoutes.includes(pathname)) {
     return NextResponse.redirect(new URL('/admin/login', request.url));
   }
 

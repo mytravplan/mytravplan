@@ -29,7 +29,7 @@ export const authOptions = {
   },
   session: {
     strategy: "jwt",
-    maxAge: 60, 
+    maxAge: 20, 
   },
   providers: [
     CredentialsProvider({
