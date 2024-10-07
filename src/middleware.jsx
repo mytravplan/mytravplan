@@ -44,7 +44,7 @@ export default async function middleware(request) {
   }
 
   // Redirect unauthenticated users trying to access admin routes
-  if (!token && pathname.startsWith('/admin') && !adminPublicRoutes.includes(pathname)) {
+  if (!token && pathname.startsWith('/admin') && adminPrivateRoutes.includes(pathname)) {
     return NextResponse.redirect(new URL('/admin/login', request.url));
   }
 
