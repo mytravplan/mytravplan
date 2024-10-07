@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import CitiesModel from "./citiesModel";
 import PackagesModel from "./packagesModel"; 
-
+import CategoryCategoryModel from "./countryCategories";
 // Define the image schema
 let imageSchema = new mongoose.Schema({
     name: {
@@ -56,7 +56,13 @@ const countrySchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'continents',
         index: true 
-    }
+    },
+    country_categories: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'country_categories'  
+        }
+    ]
 });
 
 // Create the country model

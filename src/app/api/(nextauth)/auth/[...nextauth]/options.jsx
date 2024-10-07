@@ -6,6 +6,7 @@ import OtpUserModel from '@/model/otpUser';
  
 import CredentialsProvider from 'next-auth/providers/credentials';
  
+ 
 
 export const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,  
@@ -25,6 +26,10 @@ export const authOptions = {
       session.user = token.user;
       return session;
     },
+  },
+  session: {
+    strategy: "jwt",
+    maxAge: 60, 
   },
   providers: [
     CredentialsProvider({
