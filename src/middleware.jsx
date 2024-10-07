@@ -49,19 +49,22 @@ export default async function middleware(request) {
     return NextResponse.redirect(new URL('/login', request.url));
   }
 
-  // Redirect unauthenticated users trying to access admin private routes
-  if (!token && adminPrivateRoutes.includes(pathname)) {
-    return NextResponse.redirect(new URL('/admin/login', request.url));
-  }
-
   // Redirect admin users trying to access private user routes
   if (token && user.role === 'admin' && userPrivateRoutes.includes(pathname)) {
     return NextResponse.redirect(new URL('/admin/dashboard', request.url));
   }
 
-  // Redirect unauthenticated users trying to access any admin routes
-  if (!token && pathname.startsWith('/admin') && !adminPublicRoutes.includes(pathname)) {
+  // Redirect unauthenticated users trying to access any admin private routes
+  if (!token && adminPrivateRoutes.includes(pathname)) {
     return NextResponse.redirect(new URL('/admin/login', request.url));
+  }
+
+  // Redirect admin users trying to access private routes without a valid token
+  if (token && user.role === 'admin' && adminPrivateRoutes.includes(pathname)) {
+    // If user role is admin but token is invalid or user object is not present, redirect
+    if (!user) {
+      return NextResponse.redirect(new URL('/admin/login', request.url));
+    }
   }
 
   // Proceed with request if no redirects
