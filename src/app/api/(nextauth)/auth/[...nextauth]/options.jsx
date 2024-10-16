@@ -27,10 +27,10 @@ export const authOptions = {
       return session;
     },
   },
-  session: {
-    strategy: "jwt",
-    maxAge: 5, 
-  },
+  // session: {
+  //   strategy: "jwt",
+  //   maxAge: 5, 
+  // },
   providers: [
     CredentialsProvider({
       name: 'User Credentials',
