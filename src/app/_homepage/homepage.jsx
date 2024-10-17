@@ -20,14 +20,14 @@ function Homepage({loading,continent,country,city,packages,blogs,packagescat}) {
           <div className='outer_section'>
 
             <World_section continent={continent} loading={loading}/>
-            <Destinations country={country} loading={loading}/>
+            <BestSellingPackages packages={packages} loading={loading}/>
             <ExplorationsFarAway city={city} loading={loading}/>
 
-            <BestSellingPackages packages={packages} loading={loading}/>
 
-            <ExploreDestinations packagescat={packagescat}/>
+            {/* <ExploreDestinations packagescat={packagescat}/> */}
 
             <LatestBlog blogs={blogs} loading={loading}/>
+            <Destinations country={country} loading={loading}/>
 
 
 

@@ -8,13 +8,13 @@ import emptyImage from '../../../../assets/home_images/empty.jpg';
 import BookingAndLogin from '@/app/_common/bookingAndLogin';
 
 
-const ContinentAllpackages = ({ slug_three }) => {
+const ContinentAllpackages = ({ slug_one }) => {
 
   let api = EXPORT_ALL_APIS()
   let [data, setData] = useState([])
 
   let loadSingleCityPackages = async () => {
-    let resp = await api.loadSingleCity(slug_three)
+    let resp = await api.loadSingleContinent(slug_one)
     setData(resp)
   }
 
@@ -22,16 +22,16 @@ const ContinentAllpackages = ({ slug_three }) => {
     loadSingleCityPackages();
   }, [])
 
-  let result = data ? data.result : []
+  let packages = data ? data.packages : []
 
   return (
 
     <>
-      <Topbanner slug={slug_three} />
+      <Topbanner slug={slug_one} />
       <div className="container card_main_section" style={{ margin: '50px auto' }}>
         <div className="card_discount">
           <div className="packages">
-            {result === undefined || result === null ? <EmptyCards /> : (result?.map((pkg, index) => (
+            {packages === undefined || packages === null ? <EmptyCards /> : (packages?.map((pkg, index) => (
               <div key={index} className="package">
                 {pkg.images ? pkg.images.map((e) => (
                   <Image

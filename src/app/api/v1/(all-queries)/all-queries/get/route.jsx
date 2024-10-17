@@ -9,16 +9,18 @@ import BlogModel from "@/model/blogModel";
 import ActivitiesModel from "@/model/activitiesModel";
 import PackageCategoryModel from "@/model/packageCategories";
 import FooterModel from "@/model/footerModel";
+import TestimonialsModel from "@/model/testimonialsModel"; // Corrected import name
+
 import { NextResponse } from "next/server";
 
+// Connect to the database
 DbConnect();
 
 export async function GET(req) {
   return handelAsyncErrors(async () => {
     const { page, limit, skip } = getPaginationParams(req);
 
-    
-    const [continents, countries, cities, packages, blogs, activities, packageCategories, footer] = await Promise.all([
+    const [continents, countries, cities, packages, blogs, activities, packageCategories, footer, testimonials] = await Promise.all([
       continentModel.find()
         .populate({
           path: "all_countries",
@@ -32,7 +34,7 @@ export async function GET(req) {
             },
           },
         })
-        .sort({ createdAt: -1 }) 
+        .sort({ createdAt: -1 })
         .limit(limit)
         .skip(skip)
         .lean()
@@ -46,19 +48,19 @@ export async function GET(req) {
             select: "_id title package_price package_discounted_price",
           },
         })
-        .sort({ createdAt: -1 }) 
+        .sort({ createdAt: -1 })
         .limit(limit)
         .skip(skip)
         .lean()
         .exec(),
       CitiesModel.find()
-        .sort({ createdAt: -1 })  
+        .sort({ createdAt: -1 })
         .limit(limit)
         .skip(skip)
         .lean()
         .exec(),
       PackagesModel.find()
-        .sort({ createdAt: -1 }) 
+        .sort({ createdAt: -1 })
         .limit(limit)
         .skip(skip)
         .populate({
@@ -78,21 +80,21 @@ export async function GET(req) {
         .exec(),
       BlogModel.find()
         .populate("blog_category", "_id name slug")
-        .sort({ createdAt: -1 })  
+        .sort({ createdAt: -1 })
         .limit(limit)
         .skip(skip)
         .select("_id images title description slug blog_category blog_overview blog_description createdAt")
         .lean()
         .exec(),
       ActivitiesModel.find()
-        .sort({ createdAt: -1 })  
+        .sort({ createdAt: -1 })
         .limit(limit)
         .skip(skip)
         .select("_id icon images title description slug activity_price activity_discounted_price")
         .lean()
         .exec(),
       PackageCategoryModel.find()
-        .sort({ createdAt: -1 })  
+        .sort({ createdAt: -1 })
         .limit(limit)
         .skip(skip)
         .select("_id image name slug")
@@ -101,9 +103,14 @@ export async function GET(req) {
       FooterModel.find()
         .lean()
         .exec(),
+      TestimonialsModel.find() // Ensure the model is correctly named here
+        .sort({ createdAt: -1 })
+        .limit(limit)
+        .skip(skip)
+        .lean()
+        .exec(),
     ]);
 
-   
     const totalCounts = await Promise.all([
       continentModel.countDocuments(),
       countriesModel.countDocuments(),
@@ -111,7 +118,8 @@ export async function GET(req) {
       PackagesModel.countDocuments(),
       BlogModel.countDocuments(),
       ActivitiesModel.countDocuments(),
-      PackageCategoryModel.countDocuments()
+      PackageCategoryModel.countDocuments(),
+      TestimonialsModel.countDocuments(),
     ]);
 
     // Format results
@@ -211,8 +219,7 @@ export async function GET(req) {
         const discount =
           activity.activity_price && activity.activity_discounted_price
             ? (
-                ((activity.activity_price -
-                  activity.activity_discounted_price) /
+                ((activity.activity_price - activity.activity_discounted_price) /
                   activity.activity_price) *
                 100
               ).toFixed(2)
@@ -237,6 +244,13 @@ export async function GET(req) {
         slug: category.slug,
       })),
       footer: footer.length > 0 ? footer[0] : null,
+      testimonials: testimonials.map(testimonial => ({ 
+        _id: testimonial._id,
+        name: testimonial.name,
+        description: testimonial.description,
+        designation: testimonial.designation,
+        createdAt: testimonial.createdAt,
+      })),
       pagination: {
         page,
         limit,
@@ -247,6 +261,7 @@ export async function GET(req) {
         totalBlogs: totalCounts[4],
         totalActivities: totalCounts[5],
         totalPackageCategories: totalCounts[6],
+        totalTestimonials: totalCounts[7],
       },
     };
 

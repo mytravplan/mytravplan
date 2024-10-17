@@ -1726,6 +1726,7 @@ a.navbar-item {
 .inner-w-container {
 	@include main_container;
 	margin: auto;
+	padding: 0px 20px 50px 20px!important;
 }
 
 
@@ -1746,7 +1747,7 @@ a.navbar-item {
 }
 
 .topdestination {
-	padding-bottom: 50px;
+	padding: 50px 20px !important;
 }
 
 .destinations {
