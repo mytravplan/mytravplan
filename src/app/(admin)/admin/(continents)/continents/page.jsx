@@ -39,6 +39,9 @@ function ContinentPage() {
 
   }
 
+  console.log(`continents`)
+  console.log(continents)
+
   useEffect(() => {
     fetchContinents();
   }, [currentPage]);

@@ -120,7 +120,7 @@ function CountryPage() {
                 <tr key={country._id}>
                   <td data-label="Image">
                     <img 
-                      src={`/uploads/${country.images[0].name}`} 
+                      src={`/uploads/${country?.images[0]?.name}`} 
                       alt={country.title} 
                       className="package-image" 
                     />

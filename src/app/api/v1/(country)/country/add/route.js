@@ -5,57 +5,72 @@ import continentModel from "@/model/continentModel";
 import { HandleFileUpload } from "@/helpers/uploadFiles";
 import { handelAsyncErrors } from "@/helpers/asyncErrors";
 
+// Establish database connection
 DbConnect();
 
 export async function POST(req) {
-    return handelAsyncErrors(async()=>{
-        let host=req.headers.get('host')
-        // Extract data from formdata
+    return handelAsyncErrors(async () => {
+        const host = req.headers.get('host');
+        // Extract data from form data
         const payload = await req.formData();
         const file = payload.get('file');
         const title = payload.get('title');
         const description = payload.get('description');
         const slug = payload.get('slug');
-        const sco_title = payload.get('sco_title')
-        const sco_description = payload.get('sco_description')
-        const sco_host_url = host
-        const continent_id = payload.get('continent_id');  
+        const sco_title = payload.get('sco_title');
+        const sco_description = payload.get('sco_description');
+        const continent_id = payload.get('continent_id');
 
-        // Check if slug is already exist
-        let existingSlug = await countriesModel.findOne({ slug });
+        // Check if at least one required field is present
+        if (!file && !title && !description && !slug && !continent_id) {
+            return NextResponse.json({
+                status: 400,
+                success: false,
+                message: 'At least one of the fields (file, title, description, slug, continent_id) is required.'
+            });
+        }
 
+        // Check if slug already exists
+        const existingSlug = await countriesModel.findOne({ slug });
         if (existingSlug) {
-            return NextResponse.json({status:401, success: false, message: 'slug is already exist' });
+            return NextResponse.json({
+                status: 401,
+                success: false,
+                message: 'Slug already exists.'
+            });
         }
 
         // Check if the continent ID is valid
-        let existingContinent = await continentModel.findById(continent_id);
-
+        const existingContinent = await continentModel.findById(continent_id);
         if (!existingContinent) {
-            return NextResponse.json({status:404, success: false, message: 'please provide valid continent id' });
+            return NextResponse.json({
+                status: 404,
+                success: false,
+                message: 'Please provide a valid continent ID.'
+            });
         }
 
-        // Upload single image
-        const uploadedFile = await HandleFileUpload(file,host);
-
-        const imageObject = {
-            name: uploadedFile.name,
-            path: uploadedFile.path,
-            contentType: uploadedFile.contentType,
-           
-             
-        };
+        // Upload single image if a file is provided
+        let imageObject = null;
+        if (file) {
+            const uploadedFile = await HandleFileUpload(file, host);
+            imageObject = {
+                name: uploadedFile.name,
+                path: uploadedFile.path,
+                contentType: uploadedFile.contentType,
+            };
+        }
 
         const countryDocument = new countriesModel({
-            images: [imageObject],
-            title: title,
-            description: description,
-            slug: slug,
+            images: imageObject ? [imageObject] : [],
+            title: title || '',
+            description: description || '',
+            slug: slug || '',
             all_cities: [],
             all_packages: [],
-            sco_title:sco_title,
-            sco_description:sco_description,
-            sco_host_url:sco_host_url,
+            sco_title: sco_title || '',
+            sco_description: sco_description || '',
+            sco_host_url: host,
             continent_id: continent_id,
         });
 
@@ -66,10 +81,6 @@ export async function POST(req) {
         existingContinent.all_countries.push(result._id);
         await existingContinent.save();
 
-        return NextResponse.json({status:201, success: true, result });
-    })
-    
-      
-
-     
+        return NextResponse.json({ status: 201, success: true, result });
+    });
 }
