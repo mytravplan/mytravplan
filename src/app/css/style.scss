@@ -1778,6 +1778,7 @@ a.navbar-item {
     border-radius: 24px 24px 0px 0px;
     color: #fff;
 }
+
 .test_details h3,h4,p {
     margin: 0px;
     text-transform:capitalize;
@@ -1794,8 +1795,38 @@ a.navbar-item {
     padding-bottom: 18px;
 }
 
+.testi_inner h2 {margin-bottom: 20px!important;}
 
 
+
+ 
+
+.testi_inner {
+    position: relative;
+}
+
+
+
+ 
+
+.testi_wrapper {
+    display: flex; /* Flex for internal content */
+    align-items: center; /* Center items vertically */
+    justify-content: center; /* Center items horizontally */
+    transition: transform 0.6s ease-in-out; /* Smooth transition for scaling */
+    transform: scale(0.5);  
+}
+
+.testi_wrapper.scale {
+    transform: scale(1); /* Full size when scaling in */
+}
+
+.testi_wrapper.scale-out {
+    transform: scale(0.5); /* Start at small size when scaling out */
+}
+
+ 
+ 
 
 
 
