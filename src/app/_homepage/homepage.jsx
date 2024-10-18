@@ -7,8 +7,9 @@ import World_section from '@/Components/worldSection'
 import React from 'react'
 import aeroplane from '../assets/home_images/aeroplane-bg.png';
 import Slider from '@/Components/mainSlider'
+import Testimonials from '@/Components/testimonials'
   
-function Homepage({loading,continent,country,city,packages,blogs,packagescat}) {
+function Homepage({loading,continent,country,city,packages,blogs,packagescat,testimonials}) {
  
   return (
    <>
@@ -25,6 +26,7 @@ function Homepage({loading,continent,country,city,packages,blogs,packagescat}) {
 
 
             {/* <ExploreDestinations packagescat={packagescat}/> */}
+            <Testimonials testimonials={testimonials} loading={loading}/>
 
             <LatestBlog blogs={blogs} loading={loading}/>
             <Destinations country={country} loading={loading}/>

@@ -29,13 +29,7 @@ export async function GET(req) {
             .exec();
 
              
-             let cc=continents.map((continent)=>({
-              countries:continent.all_countries.map((e)=>e._id)
-               
-            }))
-
-            console.log(`dd`)
-            console.log(cc)
+       
 
         // Count total documents
         const totalResults = await continentModel.countDocuments();

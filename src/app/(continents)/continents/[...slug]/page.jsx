@@ -17,7 +17,7 @@ function page({ params }) {
   return (
     <>
       <Layout>
-        {slugArray.length === 1 && (
+        {/* {slugArray.length === 1 && (
           <>
 
            
@@ -42,17 +42,17 @@ function page({ params }) {
             <ContinentAllpackages slug_one={slugArray[0]} slug_two={slugArray[1]} slug_three={slugArray[2]} />
 
           </>
-        )}
+        )} */}
 
 
-        {/* {slugArray.length === 1 && (
+        {slugArray.length === 1 && (
           <>
 
             
             <ContinentAllpackages slug_one={slugArray[0]}/>
 
           </>
-        )} */}
+        )}
 
       </Layout>
     </>

@@ -22,6 +22,7 @@ const sidebarItems = [
   { href: '/admin/settings', icon: FaCog, label: 'Settings' },
   { href: '/admin/reports', icon: FaFileAlt, label: 'Reports' },
   { href: '/admin/footer', icon: FaStickyNote, label: 'Footer' },
+  { href: '/admin/testimonials', icon: FaStickyNote, label: 'Testimonials' },
  
 ];
 

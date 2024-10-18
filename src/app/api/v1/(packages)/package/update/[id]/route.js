@@ -2,8 +2,9 @@ import { NextResponse } from "next/server";
 import { DbConnect } from "@/database/database";
 import { HandleFileUpload } from "@/helpers/uploadFiles";
 import PackagesModel from "@/model/packagesModel";
-import CitiesModel from "@/model/citiesModel";
+ 
 import { handelAsyncErrors } from "@/helpers/asyncErrors";
+import CitiesModel from "@/model/citiesModel";
 
 DbConnect();
 
@@ -24,20 +25,28 @@ export async function PUT(req, { params }) {
         const package_days = payload.get('package_days');
         const package_nights = payload.get('package_nights');
         const city_id = payload.get('city_id');
-        const packageOverview = payload.get('package_overview');
-        const packageTopSummary = payload.get('package_top_summary');
+        const packageOverview = payload.has('package_overview') ? payload.get('package_overview') : null;
+        const packageTopSummary = payload.has('package_top_summary') ? payload.get('package_top_summary') : null;
         const packageItinerary = payload.has('package_itinerary') ? JSON.parse(payload.get('package_itinerary')) : null;
         const packagesInclude = payload.has('packages_include') ? JSON.parse(payload.get('packages_include')) : null;
         const packagesExclude = payload.has('packages_exclude') ? JSON.parse(payload.get('packages_exclude')) : null;
-        const sco_title = payload.get('sco_title')
-        const sco_description = payload.get('sco_description')
-        const sco_host_url = host
+        const sco_title = payload.get('sco_title');
+        const sco_description = payload.get('sco_description');
+        const sco_host_url = host;
         const package_categories_id = payload.has('package_categories_id') ? JSON.parse(payload.get('package_categories_id')) : null;
 
         // Check if package exists
         let existingPackage = await PackagesModel.findById(id);
         if (!existingPackage) {
             return NextResponse.json({ success: false, message: 'Package not found' });
+        }
+
+        // Check if at least one field is provided
+        if (!title && !description && !slug && !package_price && !city_id && !package_categories_id) {
+            return NextResponse.json({
+                success: false,
+                message: 'At least one of the following fields is required: title, description, slug, package_price, city_id, package_categories_id.'
+            });
         }
 
         // Check if new slug already exists
@@ -72,8 +81,31 @@ export async function PUT(req, { params }) {
         if (sco_title) existingPackage.sco_title = sco_title;
         if (sco_description) existingPackage.sco_description = sco_description;
         if (sco_host_url) existingPackage.sco_host_url = sco_host_url;
-        if (city_id) existingPackage.city_id = city_id;
-        if (package_categories_id) existingPackage.package_categories_id = package_categories_id;
+
+        // Handle city update logic
+        if (city_id) {
+            // Remove the package ID from the old city's package list if it exists
+            if (existingPackage.city_id) {
+                const oldCity = await CitiesModel.findById(existingPackage.city_id);
+                if (oldCity) {
+                    oldCity.all_packages = oldCity.all_packages.filter(pkgId => pkgId.toString() !== existingPackage._id.toString());
+                    await oldCity.save();
+                }
+            }
+            // Update the package with the new city ID
+            existingPackage.city_id = city_id;
+            // Add the package ID to the new city's package list
+            const newCity = await CitiesModel.findById(city_id);
+            if (newCity) {
+                newCity.all_packages.push(existingPackage._id);
+                await newCity.save();
+            }
+        }
+
+        // Update package categories ID if provided
+        if (package_categories_id) {
+            existingPackage.package_categories_id = package_categories_id;
+        }
 
         // Upload new image if provided
         if (file && file.size > 0) {

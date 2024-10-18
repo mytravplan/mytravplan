@@ -199,7 +199,8 @@ export default function Home() {
     cities = [],
     packages = [],
     blogs = [],
-    packageCategories = []
+    packageCategories = [],
+    testimonials = []
   } = response.data || {};
 
   const { loading } = response;
@@ -211,8 +212,9 @@ export default function Home() {
     city: cities,
     packages: packages,
     blogs: blogs,
-    packagescat: packageCategories
-  }), [continents, countries, cities, packages, blogs, packageCategories]);
+    packagescat: packageCategories,
+    testimonials:testimonials
+  }), [continents, countries, cities, packages, blogs, packageCategories,testimonials]);
 
   // State for pop-ups and user verification
   const [isopenForm, setIsopenForm] = useState(false);
@@ -267,6 +269,7 @@ export default function Home() {
           packages={memoizedHomepageData.packages}
           blogs={memoizedHomepageData.blogs}
           packagescat={memoizedHomepageData.packagescat}
+          testimonials={memoizedHomepageData.testimonials}
         />
       </Layout>
     </>

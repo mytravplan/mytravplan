@@ -8,13 +8,13 @@ import emptyImage from '../../../../assets/home_images/empty.jpg';
 import BookingAndLogin from '@/app/_common/bookingAndLogin';
 
 
-const ContinentAllpackages = ({ slug_three }) => {
+const ContinentAllpackages = ({ slug_one }) => {
 
   let api = EXPORT_ALL_APIS()
   let [data, setData] = useState([])
 
   let loadSingleCityPackages = async () => {
-    let resp = await api.loadSingleCity(slug_three)
+    let resp = await api.loadSingleContinent(slug_one)
     setData(resp)
   }
 
@@ -27,7 +27,7 @@ const ContinentAllpackages = ({ slug_three }) => {
   return (
 
     <>
-      <Topbanner slug={slug_three} />
+      <Topbanner slug={slug_one} />
       <div className="container card_main_section" style={{ margin: '50px auto' }}>
         <div className="card_discount">
           <div className="packages">

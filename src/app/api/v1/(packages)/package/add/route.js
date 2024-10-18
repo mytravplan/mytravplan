@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { DbConnect } from "@/database/database";
 import { HandleFileUpload } from "@/helpers/uploadFiles";
-import { handelAsyncErrors } from "@/helpers/asyncErrors";
 import PackagesModel from "@/model/packagesModel";
 import CitiesModel from "@/model/citiesModel";
 
@@ -9,12 +8,10 @@ import CitiesModel from "@/model/citiesModel";
 DbConnect();
 
 export async function POST(req) {
-
-
-
     // Extract data from formdata
     const host = req.headers.get('host');
     const payload = await req.formData();
+    
     const file = payload.get('file');
     const title = payload.get('title');
     const description = payload.get('description');
@@ -31,17 +28,19 @@ export async function POST(req) {
     const packagesExclude = JSON.parse(payload.get('packages_exclude'));
     const package_categories_id = JSON.parse(payload.get('package_categories_id'));
 
+    // Check if at least one of the required fields is provided
+    if (!title && !description && !slug && !package_price && !city_id) {
+        return NextResponse.json({
+            status: 400,
+            success: false,
+            message: 'At least one of the following fields is required: title, description, slug, package_price, city_id.'
+        });
+    }
 
-    // sco
-
-        let sco_title=payload.get('sco_title')||null;
-        let sco_description=payload.get('sco_description')||null;
-        let sco_host_url=host
-
-        // Check if slug already exists
-        let existingSlug = await PackagesModel.findOne({ slug });
+    // Check if slug already exists
+    let existingSlug = await PackagesModel.findOne({ slug });
     if (existingSlug) {
-        return NextResponse.json({ status: 404, success: false, message: 'Slug already exists' });
+        return NextResponse.json({ status: 409, success: false, message: 'Slug already exists' });
     }
 
     // Check if city ID exists
@@ -50,31 +49,34 @@ export async function POST(req) {
         return NextResponse.json({ status: 404, success: false, message: 'City ID does not exist! Please provide a valid city ID' });
     }
 
-    // Upload the main image
-    const uploadedFile = await HandleFileUpload(file, host);
-    const imageObject = {
-        name: uploadedFile.name,
-        path: uploadedFile.path,
-        contentType: uploadedFile.contentType,
+    // Upload the main image if provided
+    let imageObject = null;
+    if (file) {
+        const uploadedFile = await HandleFileUpload(file, host);
+        imageObject = {
+            name: uploadedFile.name,
+            path: uploadedFile.path,
+            contentType: uploadedFile.contentType,
+        };
+    }
 
-    };
-
-    // Handle multiple gallery images
+    // Handle multiple gallery images if provided
     const galleryFiles = payload.getAll('packages_galleries');
     const galleryImages = [];
     for (const galleryFile of galleryFiles) {
-        const uploadedGalleryFile = await HandleFileUpload(galleryFile);
-        galleryImages.push({
-            name: uploadedGalleryFile.name,
-            path: uploadedGalleryFile.path,
-            contentType: uploadedGalleryFile.contentType,
-
-        });
+        if (galleryFile) {
+            const uploadedGalleryFile = await HandleFileUpload(galleryFile, host);
+            galleryImages.push({
+                name: uploadedGalleryFile.name,
+                path: uploadedGalleryFile.path,
+                contentType: uploadedGalleryFile.contentType,
+            });
+        }
     }
 
     // Create the package
     const response = new PackagesModel({
-        images: [imageObject],
+        images: imageObject ? [imageObject] : [],
         title: title,
         description: description,
         slug: slug,
@@ -90,9 +92,6 @@ export async function POST(req) {
         packages_exclude: packagesExclude,
         city_id: city_id,
         package_categories_id: package_categories_id,
-        sco_title:sco_title,
-        sco_description:sco_description,
-        sco_host_url:sco_host_url
     });
 
     // Save the package and update the city's package list
@@ -101,5 +100,4 @@ export async function POST(req) {
     await existingCity.save();
 
     return NextResponse.json({ status: 201, success: true, result });
-
 }

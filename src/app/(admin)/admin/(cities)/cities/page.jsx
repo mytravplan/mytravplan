@@ -124,7 +124,7 @@ function CityPage() {
                 <tr key={city._id}>
                   <td data-label="Image">
                     <img
-                      src={`/uploads/${city.images[0].name}`}
+                      src={`/uploads/${city?.images[0]?.name}`}
                       alt={city.title}
                       className="package-image"
                     />
