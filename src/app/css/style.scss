@@ -740,7 +740,7 @@ h2.same_heading {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	max-width: 80%;
+	max-width: 100%;
 }
 
 
@@ -953,6 +953,7 @@ p.price {
 .card_main_section {
 	@include main_container;
 	margin: auto;
+	padding: 0px 20px 40px 0px!important;
 }
 
 .copyright_footer p {
@@ -1788,11 +1789,11 @@ a.navbar-item {
     font-size: 24px;
 }
 .test_details h4 {
-    padding-bottom: 10px;
+    padding: 0px 10px 10px 10px;
     font-size: 20px;
 }
 .test_details p {
-    padding-bottom: 18px;
+    padding:0px 10px 18px 10px;
 }
 
 .testi_inner h2 {margin-bottom: 20px!important;}
@@ -1804,38 +1805,6 @@ a.navbar-item {
 .testi_inner {
     position: relative;
 }
-
-
-
- 
-
-.testi_wrapper {
-    display: flex; /* Flex for internal content */
-    align-items: center; /* Center items vertically */
-    justify-content: center; /* Center items horizontally */
-    transition: transform 0.6s ease-in-out; /* Smooth transition for scaling */
-    transform: scale(0.5);  
-}
-
-.testi_wrapper.scale {
-    transform: scale(1); /* Full size when scaling in */
-}
-
-.testi_wrapper.scale-out {
-    transform: scale(0.5); /* Start at small size when scaling out */
-}
-
- 
- 
-
-
-
-
-
-
-
-
-
 
 
 .topdestination p {
@@ -1869,11 +1838,23 @@ a.navbar-item {
 
 .card_main_section .packages {
 	display: grid;
-	grid-template-columns: 1fr 1fr;
-	row-gap: 50px;
-	column-gap: 50px;
+	grid-template-columns: 1fr 1fr 1fr;
+	row-gap: 24px;
+	column-gap: 24px;
 	margin-bottom: 0px;
-	width: 80%;
+	width: 100%;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.buttons button {
+    width: 174px;
+    margin: 0px!important;
 }
 
 .card_main_section .package {
@@ -1912,7 +1893,7 @@ h2.same_heading {
 }
 
 .card_discount {
-	display: flex;
+	display: block;
 	column-gap: 20px;
 	padding-top: 20px;
 	margin: 20px auto 50px auto;

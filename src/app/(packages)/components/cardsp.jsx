@@ -8,7 +8,7 @@ import Paginations from '@/app/_common/_paginations/paginations';
 import { PER_PAGE_LIMIT } from '@/utils/apis/api';
 import emptyImage from '../../assets/home_images/empty.jpg';
 import BookingAndLogin from '@/app/_common/bookingAndLogin';
-
+ 
 
 const Allpackages = () => {
   const [page, setPage] = useState(1);
@@ -41,7 +41,7 @@ const Allpackages = () => {
                         width={333} height={380}
                         className="image"
                       />
-                    )) : 'No image found'}
+                    )) : <img src={emptyImage.src} alt='package'  width={333} height={380}/>}
                     <div className="info">
                       <h3>{pkg.title}</h3>
                       <p>{pkg.package_nights || 0} nights / {pkg.package_days} days</p>

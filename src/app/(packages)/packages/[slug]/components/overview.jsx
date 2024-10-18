@@ -118,7 +118,7 @@ const Itinerary = ({ result }) => {
 
                 <div className='right_query'>
                   <div className='card_contact'>
-                    <span>Package Id {ele._id}</span>
+                
                     <div className='question'>
                       <h1>Have a Question?</h1>
                       <p>

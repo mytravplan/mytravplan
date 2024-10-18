@@ -31,7 +31,7 @@ const BestSellingPackages = ({ packages, loading }) => {
                { packages === null || packages === undefined || packages.length === 0 ? (
                 <EmptyPackages />
               ) : (
-                packages?.slice(0, 4)?.map((pkg, index) => (
+                packages?.slice(0, 9)?.map((pkg, index) => (
                   <div key={pkg._id} className="package">
                     {pkg.images && pkg.images.length > 0 ? (
                       <Image
@@ -68,14 +68,14 @@ const BestSellingPackages = ({ packages, loading }) => {
               )}
             </div>
 
-            <div className='discount_section' style={{
+            {/* <div className='discount_section' style={{
               backgroundImage: `url(${discountc.src})`,
               backgroundSize: 'cover',
               backgroundRepeat: 'no-repeat',
             }}>
               <span>Up to 40% Discount!</span>
               <button>Discover More</button>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
