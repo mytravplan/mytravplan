@@ -126,7 +126,7 @@ function Videos() {
                                     <td data-label="Description">{video.description}</td>
                                     <td data-label="Video">
                                         <video width="320" height="240" controls>
-                                            <source src={`${process.env.NEXT_PUBLIC_HOST_URL}/${video.videoUrl}`} type="video/mp4" />
+                                            <source src={`${video.videoUrl}`} type="video/mp4" />
                                             Your browser does not support the video tag.
                                         </video>
                                     </td>
