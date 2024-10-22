@@ -1756,6 +1756,9 @@ a.navbar-item {
     grid-template-columns: 1fr 1fr;
     gap: 20px;
     align-items: center;
+    background: #fff;
+    padding: 40px;
+    border-radius: 10px;
 }
 .testi_inner {
     max-width: 1410px;
@@ -1821,6 +1824,10 @@ a.navbar-item {
 
 .video_navigation button:nth-child(1) {
     border-radius: 0px 10px 10px 0px;
+    padding: 10px 10px;
+}
+.video_navigation button:nth-child(2) {
+    border-radius: 10px 0px 0px 10px;
     padding: 10px 10px;
 }
 .test_outer {
