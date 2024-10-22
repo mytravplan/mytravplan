@@ -10,7 +10,7 @@ const FooterSchema = new mongoose.Schema({
         required: true
     },
     address: {
-        type: String,
+        type: [String],
         required: true
     },
     socialIcons: [

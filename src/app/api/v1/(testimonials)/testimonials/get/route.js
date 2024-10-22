@@ -10,7 +10,7 @@ DbConnect();
 export async function GET(req) {
     let { page, limit, skip } = getPaginationParams(req);
     try {
-        const result = await TestimonialsModel.find({}).skip(skip)
+        const result = await TestimonialsModel.find({}).skip(skip).limit(limit)
         .limit(limit);
         let totalResult=await TestimonialsModel.countDocuments()
         return NextResponse.json({ status: 200, success: true, totalResult,result,page,limit });

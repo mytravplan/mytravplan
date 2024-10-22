@@ -12,6 +12,7 @@ import FooterModel from "@/model/footerModel";
 import TestimonialsModel from "@/model/testimonialsModel"; // Corrected import name
 
 import { NextResponse } from "next/server";
+import VideosModel from "@/model/videoModel";
 
 // Connect to the database
 DbConnect();
@@ -20,7 +21,7 @@ export async function GET(req) {
   return handelAsyncErrors(async () => {
     const { page, limit, skip } = getPaginationParams(req);
 
-    const [continents, countries, cities, packages, blogs, activities, packageCategories, footer, testimonials] = await Promise.all([
+    const [continents, countries, cities, packages, blogs, activities, packageCategories, footer, testimonials,testimonialVideos] = await Promise.all([
       continentModel.find()
         .populate({
           path: "all_countries",
@@ -103,7 +104,13 @@ export async function GET(req) {
       FooterModel.find()
         .lean()
         .exec(),
-      TestimonialsModel.find() // Ensure the model is correctly named here
+      TestimonialsModel.find()  
+        .sort({ createdAt: -1 })
+        .limit(limit)
+        .skip(skip)
+        .lean()
+        .exec(),
+      VideosModel.find()  
         .sort({ createdAt: -1 })
         .limit(limit)
         .skip(skip)
@@ -120,9 +127,10 @@ export async function GET(req) {
       ActivitiesModel.countDocuments(),
       PackageCategoryModel.countDocuments(),
       TestimonialsModel.countDocuments(),
+      VideosModel.countDocuments()
     ]);
 
-    // Format results
+   
     const result = {
       continents: continents.map(continent => ({
         _id: continent._id,
@@ -247,10 +255,22 @@ export async function GET(req) {
       testimonials: testimonials.map(testimonial => ({ 
         _id: testimonial._id,
         name: testimonial.name,
+        images:testimonial.images,
         description: testimonial.description,
         designation: testimonial.designation,
         createdAt: testimonial.createdAt,
       })),
+      testimonialvideos: testimonialVideos.map(video => ({ 
+        _id: video._id,
+        name: video.name,
+        description: video.description,
+        videoUrl: video.videoUrl,
+        createdAt: video.createdAt,
+  
+      })),
+     
+     
+
       pagination: {
         page,
         limit,
@@ -262,8 +282,12 @@ export async function GET(req) {
         totalActivities: totalCounts[5],
         totalPackageCategories: totalCounts[6],
         totalTestimonials: totalCounts[7],
+        totalTestimonialVideos: totalCounts[8],
       },
+      
     };
+
+     
 
     return NextResponse.json({
       status: 200,

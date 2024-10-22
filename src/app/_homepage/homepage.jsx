@@ -9,7 +9,7 @@ import aeroplane from '../assets/home_images/aeroplane-bg.png';
 import Slider from '@/Components/mainSlider'
 import Testimonials from '@/Components/testimonials'
   
-function Homepage({loading,continent,country,city,packages,blogs,packagescat,testimonials}) {
+function Homepage({loading,continent,country,city,packages,blogs,packagescat,testimonials,testimonialvideos}) {
  
   return (
    <>
@@ -26,7 +26,7 @@ function Homepage({loading,continent,country,city,packages,blogs,packagescat,tes
 
 
             {/* <ExploreDestinations packagescat={packagescat}/> */}
-            <Testimonials testimonials={testimonials} loading={loading}/>
+            <Testimonials testimonials={testimonials} testimonialvideos={testimonialvideos} loading={loading}/>
 
             <LatestBlog blogs={blogs} loading={loading}/>
             <Destinations country={country} loading={loading}/>

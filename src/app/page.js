@@ -184,14 +184,15 @@ import Homepage from './_homepage/homepage';
 import LoginPopup from '@/Components/loginPopup/Components/popup';
 import QueryForm from '@/Components/autoloadPopup/QueryForm';
 import useFetchAllSections from '@/hooks/useLoadApiHook';
-import dynamic from 'next/dynamic';
+
 
  
 
 export default function Home() {
  
   const response = useFetchAllSections();
-  console.log(response);
+ 
+  
   
   const {
     continents = [],
@@ -200,7 +201,8 @@ export default function Home() {
     packages = [],
     blogs = [],
     packageCategories = [],
-    testimonials = []
+    testimonials = [],
+    testimonialvideos=[]
   } = response.data || {};
 
   const { loading } = response;
@@ -213,8 +215,9 @@ export default function Home() {
     packages: packages,
     blogs: blogs,
     packagescat: packageCategories,
-    testimonials:testimonials
-  }), [continents, countries, cities, packages, blogs, packageCategories,testimonials]);
+    testimonials:testimonials,
+    testimonialvideos:testimonialvideos
+  }), [continents, countries, cities, packages, blogs, packageCategories,testimonials,testimonialvideos]);
 
   // State for pop-ups and user verification
   const [isopenForm, setIsopenForm] = useState(false);
@@ -270,6 +273,7 @@ export default function Home() {
           blogs={memoizedHomepageData.blogs}
           packagescat={memoizedHomepageData.packagescat}
           testimonials={memoizedHomepageData.testimonials}
+          testimonialvideos={memoizedHomepageData.testimonialvideos}
         />
       </Layout>
     </>

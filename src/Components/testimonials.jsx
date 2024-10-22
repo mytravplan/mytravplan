@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import empty from '../app/assets/home_images/empty.jpg';
- 
 
-function Testimonials({ testimonials }) {
-    console.log("Testimonials Data:", testimonials); // Debugging line to check testimonials data
-
-    const [currentIndex, setCurrentIndex] = useState(0);
+function Testimonials({ testimonials, testimonialvideos }) {
+    const [currentIndex, setCurrentIndex] = useState(0); // For testimonials
     const [isScaling, setIsScaling] = useState(false);
+    const [currentVideoIndex, setCurrentVideoIndex] = useState(0); // For videos
 
+
+    console.log(testimonials)
     const nextTestimonial = () => {
         setIsScaling(false); // Start the scaling out effect
         setTimeout(() => {
@@ -27,23 +27,39 @@ function Testimonials({ testimonials }) {
         return <div>Please wait, loading ....</div>;
     }
 
+    // Handle next and previous video navigation
+    const nextVideo = () => {
+        setCurrentVideoIndex((prevIndex) => (prevIndex + 1) % testimonialvideos.length);
+    };
+
+    const prevVideo = () => {
+        setCurrentVideoIndex((prevIndex) =>
+            prevIndex === 0 ? testimonialvideos.length - 1 : prevIndex - 1
+        );
+    };
+
     return (
+        <>
+        
         <div className="test_outer">
             <div className="testi_inner">
                 <h2 className='same_heading'>Our Testimonials</h2>
                 <div className="test_wrapper">
+              
                     <div className="testi_left_section">
                         <div className={`testi_wrapper ${isScaling ? 'scale' : 'scale-out'}`}>
                             <div className="test_img">
-                                {testimonials[currentIndex]?.images && testimonials[currentIndex]?.images.length > 0 ? (
-                                    <img
-                                        src={`/uploads/${testimonials[currentIndex]?.images[0]?.name}`}
-                                        alt={testimonials[currentIndex]?.name || "testimonials"}
-                                    />
+                                {testimonials[currentIndex]?.images?.length > 0 ? (
+                                    testimonials[currentIndex]?.images?.map((image, index) => (
+                                        <img
+                                            src={`/uploads/${image?.name}`}
+                                            alt="testimonials"
+                                            key={index}
+                                            onError={(e) => { e.target.src = empty.src; }}  
+                                        />
+                                    ))
                                 ) : (
-                                    <div className="no-image">
-                                        <img src={empty.src} alt="empty" />
-                                    </div>
+                                    <img src={empty.src} alt="No image available" />
                                 )}
                             </div>
                             <div className="test_details">
@@ -53,12 +69,43 @@ function Testimonials({ testimonials }) {
                             </div>
                         </div>
                     </div>
+
+                    {/* Right section for videos */}
                     <div className="testi_right_section">
-                        {/* Optional content for the right section */}
+                        <div className="video_wrapper">
+                            <div key={currentVideoIndex} className='videro_wrapper-inner'>
+                                <div className="test_desc_wrapper">
+                                    <div className="video_name">
+                                        <h4>{testimonialvideos[currentVideoIndex]?.name}</h4>
+                                    </div>
+                                    <div className="video_description">
+                                        <p>{testimonialvideos[currentVideoIndex]?.description}</p>
+                                    </div>
+                                </div>
+                                <div className="video_renderr">
+                                    <video width='100%' controls height='400px'>
+                                        <source
+                                            src={testimonialvideos[currentVideoIndex]?.videoUrl}
+                                            type="video/mp4"
+                                        />
+                                        Your browser does not support the video tag.
+                                    </video>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Video navigation buttons */}
+                        <div className="video_navigation">
+                            <button onClick={prevVideo}>{'<<'}</button>
+                            <button onClick={nextVideo}>{'>>'}</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
+         
+        </>
     );
 }
 

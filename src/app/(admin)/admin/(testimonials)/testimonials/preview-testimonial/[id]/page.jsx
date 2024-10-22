@@ -42,16 +42,13 @@ function PreviewTestimonial({ params }) {
           <h2><strong>Name:</strong> {testimonial.name}</h2>
           <h3><strong>Designation:</strong> {testimonial.designation}</h3>
           <div className="testimonial_image">
-            {testimonial.file ? (
-              <img
-                src={`/uploads/${testimonial.file.name}`} // Assuming the image path is similar
-                alt={testimonial.file.name}
-                className="preview-testimonial-image"
-                style={{ maxWidth: '200px', width: '100%', height: '200px' }}
-              />
-            ) : (
-              <p>No image available</p>
-            )}
+          {testimonial?.images.map((e,index)=>{
+                      return    <img key={index} width={350} height={350}
+                      src={`/uploads/${e?.name}`}
+                      alt={e.name}
+                      className="testimonial-image"
+                    />
+                    })}
           </div>
           <p><strong>Description:</strong> {testimonial.description}</p>
         </>

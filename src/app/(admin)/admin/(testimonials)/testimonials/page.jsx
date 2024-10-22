@@ -20,9 +20,11 @@ function Testimonials() {
   const [isOpen, setIsOpen] = useState(false);
   const [deleteItem, setDeleteItem] = useState(null);
 
-
-  console.log(`testimonials`)
+  console.log(`testimonials dsfasdfhadfha asdfhasjkdfhaksjdf`)
   console.log(testimonials)
+
+
+ 
 
   async function fetchTestimonials() {
     try {
@@ -46,7 +48,7 @@ function Testimonials() {
   }, [currentPage]);
 
   const handleAddClick = () => {
-    router.push('/admin/testimonials/add-testimonial'); // Adjust this path as necessary
+    router.push('/admin/testimonials/add-testimonial');  
   };
 
   const handleConfirm = async () => {
@@ -123,11 +125,14 @@ function Testimonials() {
               testimonials.map(testimonial => (
                 <tr key={testimonial._id}>
                   <td data-label="Image">
-                    <img
-                      src={`/uploads/${testimonial.file?.name}`}
-                      alt={testimonial.name}
+                    {testimonial?.images.map((e,index)=>{
+                      return    <img key={index}
+                      src={`/uploads/${e?.name}`}
+                      alt={e.name}
                       className="testimonial-image"
                     />
+                    })}
+                  
                   </td>
                   <td data-label="ID">{testimonial._id}</td>
                   <td data-label="Name">{testimonial.name}</td>
