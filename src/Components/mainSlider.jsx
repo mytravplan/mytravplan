@@ -48,7 +48,7 @@ const Slider = ({ sliderImages = [] }) => {
     <div className="slider">
       <img
         className='slider-images'
-        src={`/uploads/${imagesToShow[currentIndex]?.name || imagesToShow[currentIndex].src}`}
+        src={`/uploads/${imagesToShow[currentIndex]?.name}`}
         alt={imagesToShow[currentIndex]?.name || imagesToShow[currentIndex].alt || "loading..."}
         priority
         width={1920}
