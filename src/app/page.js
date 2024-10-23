@@ -191,6 +191,8 @@ import useFetchAllSections from '@/hooks/useLoadApiHook';
 export default function Home() {
  
   const response = useFetchAllSections();
+
+ 
  
   
   
@@ -202,7 +204,8 @@ export default function Home() {
     blogs = [],
     packageCategories = [],
     testimonials = [],
-    testimonialvideos=[]
+    testimonialvideos=[],
+    sliderImages=[]
   } = response.data || {};
 
   const { loading } = response;
@@ -216,7 +219,8 @@ export default function Home() {
     blogs: blogs,
     packagescat: packageCategories,
     testimonials:testimonials,
-    testimonialvideos:testimonialvideos
+    testimonialvideos:testimonialvideos,
+    sliderImages:sliderImages
   }), [continents, countries, cities, packages, blogs, packageCategories,testimonials,testimonialvideos]);
 
   // State for pop-ups and user verification
@@ -274,6 +278,7 @@ export default function Home() {
           packagescat={memoizedHomepageData.packagescat}
           testimonials={memoizedHomepageData.testimonials}
           testimonialvideos={memoizedHomepageData.testimonialvideos}
+          sliderImages={memoizedHomepageData.sliderImages}
         />
       </Layout>
     </>

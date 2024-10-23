@@ -13,6 +13,7 @@ import TestimonialsModel from "@/model/testimonialsModel"; // Corrected import n
 
 import { NextResponse } from "next/server";
 import VideosModel from "@/model/videoModel";
+import SliderModel from "@/model/slider";
 
 // Connect to the database
 DbConnect();
@@ -21,7 +22,7 @@ export async function GET(req) {
   return handelAsyncErrors(async () => {
     const { page, limit, skip } = getPaginationParams(req);
 
-    const [continents, countries, cities, packages, blogs, activities, packageCategories, footer, testimonials,testimonialVideos] = await Promise.all([
+    const [continents, countries, cities, packages, blogs, activities, packageCategories, footer, testimonials,testimonialVideos,imageSlider] = await Promise.all([
       continentModel.find()
         .populate({
           path: "all_countries",
@@ -116,6 +117,10 @@ export async function GET(req) {
         .skip(skip)
         .lean()
         .exec(),
+        SliderModel.find()
+        .sort({ createdAt: -1 })
+        .lean()
+        .exec()
     ]);
 
     const totalCounts = await Promise.all([
@@ -127,7 +132,8 @@ export async function GET(req) {
       ActivitiesModel.countDocuments(),
       PackageCategoryModel.countDocuments(),
       TestimonialsModel.countDocuments(),
-      VideosModel.countDocuments()
+      VideosModel.countDocuments(),
+      SliderModel.countDocuments()
     ]);
 
    
@@ -268,6 +274,10 @@ export async function GET(req) {
         createdAt: video.createdAt,
   
       })),
+      sliderImages: imageSlider.map(img => ({ 
+        _id: img._id,
+        galleries: img.galleries,
+      })),
      
      
 
@@ -283,6 +293,7 @@ export async function GET(req) {
         totalPackageCategories: totalCounts[6],
         totalTestimonials: totalCounts[7],
         totalTestimonialVideos: totalCounts[8],
+        totalSliderImages: totalCounts[9],
       },
       
     };

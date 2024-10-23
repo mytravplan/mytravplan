@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -12,26 +11,31 @@ import explore from '../app/assets/home_images/explore.png';
 import desti from '../app/assets/home_images/search-destination.png';
 import SearchResults from './SearchResults';
 
-const Slider = () => {
+const Slider = ({ sliderImages = [] }) => {
+ 
+  const galleries = sliderImages.length > 0 && sliderImages[0]?.galleries ? sliderImages[0].galleries : [];
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
   const [showResults, setShowResults] = useState(false);
   const router = useRouter();
 
-  const images = [
+  const defaultImages = [
     { src: europeone, alt: 'Hero Image' },
     { src: europetwo, alt: 'Hero Image' },
     { src: europethree, alt: 'Hero Image' },
     { src: europefour, alt: 'Hero Image' },
   ];
+ 
+  const imagesToShow = galleries.length > 0 ? galleries : defaultImages;
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % imagesToShow.length);
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [images.length]);
+  }, [imagesToShow.length]);
 
   const handleSearch = () => {
     const formattedQuery = searchQuery.trim().toLowerCase().replace(/\s+/g, '-');
@@ -39,14 +43,13 @@ const Slider = () => {
       router.push(`/search?query=${encodeURIComponent(formattedQuery)}`);
     }
   };
-  
 
   return (
     <div className="slider">
-      <Image
+      <img
         className='slider-images'
-        src={images[currentIndex].src}
-        alt={images[currentIndex].alt || "loading..."}
+        src={`/uploads/${imagesToShow[currentIndex]?.name || imagesToShow[currentIndex].src}`}
+        alt={imagesToShow[currentIndex]?.name || imagesToShow[currentIndex].alt || "loading..."}
         priority
         width={1920}
         height={999}
@@ -64,7 +67,7 @@ const Slider = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onFocus={() => setShowResults(true)}
-              onBlur={() => setTimeout(() => setShowResults(false), 100)} // Delay hiding to allow click
+              onBlur={() => setTimeout(() => setShowResults(false), 100)}  
               onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
             />
             {showResults && <SearchResults query={searchQuery} closePopup={() => setShowResults(false)} />}

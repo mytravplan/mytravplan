@@ -9,13 +9,13 @@ import aeroplane from '../assets/home_images/aeroplane-bg.png';
 import Slider from '@/Components/mainSlider'
 import Testimonials from '@/Components/testimonials'
   
-function Homepage({loading,continent,country,city,packages,blogs,packagescat,testimonials,testimonialvideos}) {
+function Homepage({loading,continent,country,city,packages,blogs,packagescat,testimonials,testimonialvideos,sliderImages}) {
  
   return (
    <>
    <div className='main_slider'>
           <div className='main_slider_inner' style={{ backgroundImage: `url(${aeroplane.src})` }}>
-            <Slider />
+            <Slider sliderImages={sliderImages}/>
           </div>
 
           <div className='outer_section'>

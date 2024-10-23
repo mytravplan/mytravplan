@@ -15,9 +15,7 @@ let imageSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-     
     
-
 });
 const blogsItemSchema = new mongoose.Schema({
     content: { type: String, required: true }
