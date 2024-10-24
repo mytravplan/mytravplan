@@ -35,6 +35,7 @@ const AddPackages = () => {
     package_categories_id: [],
     sco_title:'',
     sco_description:'',
+    isShow: false,
   });
   const [cities, setCities] = useState([]);
   const [cats, setCats] = useState([])
@@ -77,10 +78,10 @@ const AddPackages = () => {
   }, []);
 
   const handleChange = (e) => {
-    const { name, value, files } = e.target;
+    const { name, value, files, type, checked } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: files ? files[0] : value,
+      [name]: type === 'checkbox' ? checked : files ? files[0] : value,
     }));
   };
 
@@ -131,6 +132,7 @@ const AddPackages = () => {
       package_categories_id,
       sco_title,
       sco_description,
+      isShow
     } = formData;
 
     if (!title || !description || !slug || !file || !city_id) {
@@ -157,6 +159,7 @@ const AddPackages = () => {
       submissionData.append('city_id', city_id);  // Include city_id
       submissionData.append('sco_title', sco_title);  // Include city_id
       submissionData.append('sco_description', sco_description);  // Include city_id
+      submissionData.append('isShow', isShow);
       submissionData.append('package_categories_id', JSON.stringify(package_categories_id)); // Include categories
       packages_galleries.forEach((file) => {
         submissionData.append('packages_galleries', file);
@@ -306,6 +309,8 @@ const AddPackages = () => {
                 ))}
               </select>
             </div>
+           
+ 
             <div className="form-group">
               <label>Package Itinerary</label>
               {formData.packageItinerary.map((item, index) => (
@@ -405,8 +410,21 @@ const AddPackages = () => {
               )}
             </div>
 
+            <div className="form-group handelCheckbox">
+              <label>
+                
+              Do you want to enable this to be shown on the home page?
+              </label>
+              <input
+                  type="checkbox"
+                  name="isShow"
+                  checked={formData.isShow}
+                  onChange={handleChange}
+                />
+            </div>
+
             <div className="sco_panel">
-              <h3>Add Package Sco meta keywords</h3>
+              <h3>Add Package Seo meta keywords</h3>
               <div className="form-group">
               <label htmlFor="packages_galleries">Seo title</label>
                  <input

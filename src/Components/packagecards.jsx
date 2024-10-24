@@ -8,6 +8,9 @@ import BookingAndLogin from '@/app/_common/bookingAndLogin';
 import { EmptyPackages } from '@/app/_common/EmptyComponents';
 
 const BestSellingPackages = ({ packages, loading }) => {
+
+
+  const filterPackage = packages?.filter(e => e?.isShow===true);
   
 
  
@@ -28,10 +31,10 @@ const BestSellingPackages = ({ packages, loading }) => {
 
           <div className='card_discount'>
             <div className="packages">
-               { packages === null || packages === undefined || packages.length === 0 ? (
+               { filterPackage === null || filterPackage === undefined || filterPackage.length === 0 ? (
                 <EmptyPackages />
               ) : (
-                packages?.slice(0, 9)?.map((pkg, index) => (
+                filterPackage?.map((pkg, index) => (
                   <div key={pkg._id} className="package">
                     {pkg.images && pkg.images.length > 0 ? (
                       <Image

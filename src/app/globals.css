@@ -4,3 +4,15 @@ table.admin-testimonials-table img {
     width: 150px;
     height: 150px;
 }
+
+
+.handelCheckbox {
+    display: grid;
+    grid-template-columns: 80% 1fr;
+    align-items: center;
+    padding: 18px 0px;
+}
+.handelCheckbox label {
+    text-transform: capitalize;
+    color: #ff000069!important;
+}

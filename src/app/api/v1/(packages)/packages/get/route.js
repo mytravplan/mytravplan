@@ -55,7 +55,8 @@ export async function GET(req) {
                 _id: e.city_id._id.toString(),
                 title: e.city_id.title,
                 slug: e.city_id.slug
-            } : null
+            } : null,
+            isShow:e.isShow
         }));
 
         // Count total number of documents

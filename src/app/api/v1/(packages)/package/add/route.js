@@ -8,10 +8,9 @@ import CitiesModel from "@/model/citiesModel";
 DbConnect();
 
 export async function POST(req) {
-    // Extract data from formdata
     const host = req.headers.get('host');
     const payload = await req.formData();
-    
+
     const file = payload.get('file');
     const title = payload.get('title');
     const description = payload.get('description');
@@ -27,8 +26,9 @@ export async function POST(req) {
     const packagesInclude = JSON.parse(payload.get('packages_include'));
     const packagesExclude = JSON.parse(payload.get('packages_exclude'));
     const package_categories_id = JSON.parse(payload.get('package_categories_id'));
+    const isShow = payload.get('isShow') ? payload.get('isShow') === 'true' : false;
 
-    // Check if at least one of the required fields is provided
+    // Validation checks
     if (!title && !description && !slug && !package_price && !city_id) {
         return NextResponse.json({
             status: 400,
@@ -37,19 +37,17 @@ export async function POST(req) {
         });
     }
 
-    // Check if slug already exists
     let existingSlug = await PackagesModel.findOne({ slug });
     if (existingSlug) {
         return NextResponse.json({ status: 409, success: false, message: 'Slug already exists' });
     }
 
-    // Check if city ID exists
     let existingCity = await CitiesModel.findById(city_id);
     if (!existingCity) {
         return NextResponse.json({ status: 404, success: false, message: 'City ID does not exist! Please provide a valid city ID' });
     }
 
-    // Upload the main image if provided
+    // Image upload handling
     let imageObject = null;
     if (file) {
         const uploadedFile = await HandleFileUpload(file, host);
@@ -60,7 +58,7 @@ export async function POST(req) {
         };
     }
 
-    // Handle multiple gallery images if provided
+    // Handle multiple gallery images
     const galleryFiles = payload.getAll('packages_galleries');
     const galleryImages = [];
     for (const galleryFile of galleryFiles) {
@@ -92,6 +90,7 @@ export async function POST(req) {
         packages_exclude: packagesExclude,
         city_id: city_id,
         package_categories_id: package_categories_id,
+        isShow: isShow // Ensure this is a boolean
     });
 
     // Save the package and update the city's package list

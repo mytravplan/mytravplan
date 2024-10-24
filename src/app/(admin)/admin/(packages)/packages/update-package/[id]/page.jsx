@@ -33,10 +33,14 @@ const UpdatePackage = ({ params }) => {
     package_categories_id: [],
     sco_title: '',
     sco_description: '',
+    isShow: false
   });
   const [cities, setCities] = useState([]);
   const [cats, setCats] = useState([])
   const [isLoading, setIsLoading] = useState(false);
+
+
+
 
   const fetchPackageData = async () => {
     return handelAsyncErrors(async () => {
@@ -44,6 +48,7 @@ const UpdatePackage = ({ params }) => {
         const res = await fetch(`/api/v1/package/getbyid/${id}`);
         const data = await res.json();
         const packageData = data.result[0];
+
         if (data.success) {
           setFormData((prevData) => ({
             ...prevData,
@@ -53,6 +58,7 @@ const UpdatePackage = ({ params }) => {
             packagesExclude: packageData.packagesExclude || [{ description: '' }],
             city_id: packageData.city_id?._id || '',
             package_categories_id: packageData.package_under_categories?.map(cat => cat._id) || [],
+            isShow: packageData.isShow
           }));
         } else {
           toast.error(data.message || 'Failed to fetch package data');
@@ -62,6 +68,9 @@ const UpdatePackage = ({ params }) => {
       }
     });
   };
+
+  console.log(formData)
+  console.log(formData)
 
   const fetchCities = async () => {
     return handelAsyncErrors(async () => {
@@ -106,11 +115,13 @@ const UpdatePackage = ({ params }) => {
     }
   }, [id]);
 
+  
+
   const handleChange = (e) => {
-    const { name, value, files } = e.target;
+    const { name, value, files, type, checked } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: files ? files[0] : value,
+      [name]: type === 'checkbox' ? checked : files ? files[0] : value,
     }));
   };
 
@@ -161,6 +172,7 @@ const UpdatePackage = ({ params }) => {
       package_categories_id,
       sco_title,
       sco_description,
+      isShow
     } = formData;
 
 
@@ -186,7 +198,8 @@ const UpdatePackage = ({ params }) => {
       submissionData.append('city_id', city_id);
       submissionData.append('sco_title', sco_title);
       submissionData.append('sco_description', sco_description);
-      submissionData.append('package_categories_id', JSON.stringify(package_categories_id)); // Include categories
+      submissionData.append('isShow', isShow);
+      submissionData.append('package_categories_id', JSON.stringify(package_categories_id)); 
       gallery_files.forEach((file) => {
         submissionData.append('gallery_files', file);
       });
@@ -267,6 +280,7 @@ const UpdatePackage = ({ params }) => {
             placeholder="Enter discounted price"
           />
         </div>
+      
         <div className="form-group">
           <label htmlFor="package_days">Package Days</label>
           <select
@@ -455,6 +469,20 @@ const UpdatePackage = ({ params }) => {
             }}
           />
         </div>
+
+         
+        <div className="form-group handelCheckbox">
+              <label>
+                
+              Do you want to enable this to be shown on the home page?
+              </label>
+              <input
+                  type="checkbox"
+                  name="isShow"
+                  checked={formData.isShow}
+                  onChange={handleChange}
+                />
+            </div>
 
         <div className="sco_panel">
           <h3>Update Package Sco meta keywords</h3>

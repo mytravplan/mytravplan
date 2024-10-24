@@ -34,6 +34,7 @@ export async function PUT(req, { params }) {
         const sco_description = payload.get('sco_description');
         const sco_host_url = host;
         const package_categories_id = payload.has('package_categories_id') ? JSON.parse(payload.get('package_categories_id')) : null;
+        const isShow = payload.get('isShow') ? payload.get('isShow') === 'true' : false;
 
         // Check if package exists
         let existingPackage = await PackagesModel.findById(id);
@@ -81,6 +82,9 @@ export async function PUT(req, { params }) {
         if (sco_title) existingPackage.sco_title = sco_title;
         if (sco_description) existingPackage.sco_description = sco_description;
         if (sco_host_url) existingPackage.sco_host_url = sco_host_url;
+        if (payload.has('isShow')) {
+            existingPackage.isShow = isShow;  
+        }
 
         // Handle city update logic
         if (city_id) {

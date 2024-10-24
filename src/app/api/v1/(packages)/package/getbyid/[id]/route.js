@@ -33,8 +33,7 @@ export async function GET(req, { params }) {
                     model: 'packages_categories',  
                     select: '_id name slug'  
                 })
-                .lean(); // Convert to plain JavaScript objects
-
+                .lean();
            
 
             if (!result) {
@@ -79,6 +78,7 @@ export async function GET(req, { params }) {
                     name: category.name,
                     slug: category.slug
                 })) || null,
+                isShow:result.isShow,
                 sco_title:result.sco_title,
                 sco_description:result.sco_description,
                 sco_host_url:result.sco_host_url,

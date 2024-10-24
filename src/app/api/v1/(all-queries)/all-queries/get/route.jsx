@@ -77,7 +77,7 @@ export async function GET(req) {
             },
           },
         })
-        .select("_id images title description slug package_price package_discounted_price package_days package_nights")
+        .select("_id images title description slug package_price package_discounted_price package_days package_nights isShow")
         .lean()
         .exec(),
       BlogModel.find()
@@ -190,6 +190,7 @@ export async function GET(req) {
         package_discounted_price: pkg.package_discounted_price,
         package_days: pkg.package_days,
         package_nights: pkg.package_nights,
+        isShow:pkg.isShow,
         package_under_continent: pkg.city_id?.country_id?.continent_id
           ? {
               _id: pkg.city_id.country_id.continent_id._id.toString(),
