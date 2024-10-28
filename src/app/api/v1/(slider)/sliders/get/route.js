@@ -5,7 +5,11 @@ import { NextResponse } from "next/server";
  
 DbConnect()
 export async function GET(req) {
-    let result=await SliderModel.find({})
-    console.log(result)
-    return NextResponse.json({ status: 200, success: true, result });
+    try {
+        
+        let result=await SliderModel.find({}) 
+        return NextResponse.json({ status: 200, success: true, result });
+    } catch (error) {
+        return NextResponse.json({status:500,message:'internal server error'})
+    }
 }

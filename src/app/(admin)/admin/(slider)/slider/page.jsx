@@ -17,6 +17,9 @@ function SliderManagement() {
   });
   const router = useRouter();
 
+  console.log(`sliders`)
+  console.log(sliders)
+
   // Fetch all sliders
   async function fetchSliders() {
     try {
