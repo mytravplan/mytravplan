@@ -413,7 +413,7 @@ const AddPackages = () => {
             <div className="form-group handelCheckbox">
               <label>
                 
-              Do you want to enable this to be shown on the home page?
+                 Do you want to enable this to be shown on the home page?
               </label>
               <input
                   type="checkbox"
