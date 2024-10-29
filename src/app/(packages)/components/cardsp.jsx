@@ -50,7 +50,7 @@ const Allpackages = () => {
                       </p> */}
                       <p className="price">From ̥₹ {pkg.package_price}</p>
                       <div className="buttons">
-                        <Link href={`/packages/${pkg.slug.toLowerCase().replace(' ', '-')}`}>
+                        <Link href={`/packages/${pkg.slug}`}>
                           <button className="details-btn">View Details</button>
                         </Link>
                        <BookingAndLogin pkg={pkg}/>
