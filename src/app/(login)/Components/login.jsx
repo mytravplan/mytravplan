@@ -183,8 +183,10 @@ const Login = () => {
                 <div className="form-section">
                     <h2>
                         {step === 1 && 'Enter Mobile Number To Personalize Your Trip'}
-                        {step === 2 && (showNameField ? 'Enter Your Name' : 'Enter OTP to Verify Your Phone Number')}
-                        {step === 3 && 'Enter OTP to Verify Your Phone Number'}
+                        {step === 2 && (showNameField ? 'Enter Your Name' : `OTP has been sent to your phone number: ${user?.phoneNumber}`
+)}
+                        {step === 3 && `OTP has been sent to your phone number: ${user?.phoneNumber}`
+}
                     </h2>
                     <form onSubmit={(e) => {
                         e.preventDefault();

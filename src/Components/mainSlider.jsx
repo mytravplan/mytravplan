@@ -49,7 +49,7 @@ const Slider = ({ sliderImages = [] }) => {
       <img
         className='slider-images'
         src={`/uploads/${imagesToShow[currentIndex]?.name}`}
-        alt={imagesToShow[currentIndex]?.name || imagesToShow[currentIndex].alt || "loading..."}
+        alt={imagesToShow[currentIndex]?.name || "loading..."}
         priority
         width={1920}
         height={999}

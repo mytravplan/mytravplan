@@ -40,7 +40,8 @@ function BookingFromQuery() {
             if (data.orderId) {
                 setOrderId(data.orderId);
                 setOtpSent(true);
-                toast.success("OTP sent to your phone.");
+                toast.success(`OTP has been sent to your phone number: ${phone}`
+);
             } else {
                 toast.error("Failed to send OTP.");
             }
