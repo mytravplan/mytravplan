@@ -4076,16 +4076,7 @@ span.error-message {
 	// 	display: none;
 	// }
 
-	.top_banner_destination {
-		height: 772px!important;}
-
-		.heading_wrapper {
-			display: grid;
-			grid-template-columns: 1fr;
-			align-items: center;
-			gap: 20px;
-			padding: 53px 0px;
-		}
+	
 
 
 	.navbar-menu {
@@ -4113,6 +4104,17 @@ span.error-message {
 }
 
 @media(max-width:767px) {
+
+	.top_banner_destination {
+		height: 772px!important;}
+
+		.heading_wrapper {
+			display: grid;
+			grid-template-columns: 1fr;
+			align-items: center;
+			gap: 20px;
+			padding: 53px 0px;
+		}
 
 	.card_category_section .packages,
 	.card_main_section .packages{
@@ -4352,6 +4354,18 @@ span.error-message {
 
 
 @media(max-width:467px) {
+	.country_input input {
+		width: 85%;
+	}
+	.country_input button {
+		width: 100%;
+		margin-top: 12px;
+	}
+	.form_outer {
+		padding: 16px;
+		background: #fff;
+		border-radius: 4px;
+	}
 	#orders {
 		color: #000;
 		font-size: 26px;
