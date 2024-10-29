@@ -18,8 +18,6 @@ function BookingFromQuery() {
     const [message, setMessage] = useState("");
     const [errors, setErrors] = useState({ name: "", email: "", phone: "" });
 
-    
-
     const sendOtp = async () => {
         if (!phone) {
             setErrors((prevErrors) => ({ ...prevErrors, phone: "Phone number is required" }));
@@ -40,14 +38,18 @@ function BookingFromQuery() {
             if (data.orderId) {
                 setOrderId(data.orderId);
                 setOtpSent(true);
-                toast.success(`OTP has been sent to your phone number: ${phone}`
-);
+                toast.success(`OTP has been sent to your phone number: ${phone}`);
             } else {
                 toast.error("Failed to send OTP.");
             }
         } catch (error) {
             toast.error("An error occurred while sending OTP.");
         }
+    };
+
+    // New function to resend OTP
+    const resendOtp = async () => {
+        await sendOtp(); // Reuse the sendOtp function to send the OTP again
     };
 
     const verifyOtp = async () => {
@@ -86,12 +88,9 @@ function BookingFromQuery() {
                     body: JSON.stringify({ name, email, phone, message }),
                 });
                 const saveResult = await saveResponse.json();
-                console.log(`saveResult`)
-                 
+
                 if (saveResult?.result?.newUser) {
                     toast.success("Great! You have registered successfully!");
-
-
                     
                     setName("");
                     setEmail("");
@@ -103,10 +102,9 @@ function BookingFromQuery() {
                     setOtpVerified(false);
                     setErrors({ name: "", email: "", phone: "" });
 
-                   
                     await signIn("credentials", {
                         registerusername: name,
-                        phoneNumber:phone,
+                        phoneNumber: phone,
                         callbackUrl: "/",
                         redirect: true,
                     });
@@ -195,6 +193,8 @@ function BookingFromQuery() {
                                 required
                             />
                             <button onClick={verifyOtp}>Verify OTP</button>
+                            
+                            <button onClick={resendOtp}>Resend OTP</button>
                         </>
                     ) : null}
                 </div>
@@ -211,7 +211,7 @@ function BookingFromQuery() {
             </div>
 
             <button onClick={saveUser}>Submit</button>
-            <Link href={`/login`}>Already have an account? go to login</Link>
+            <Link href={`/login`}>Already have an account? Go to login</Link>
         </div>
     );
 }

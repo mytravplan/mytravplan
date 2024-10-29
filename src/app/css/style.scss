@@ -3,7 +3,13 @@
 @import 'extends';
 
 
-
+.input_buttons {
+    display: flex;
+    gap: 18px;
+}
+.input_buttons button:nth-child(1) {
+    order: 1;
+}
 
 .heading_wrapper {
     display: grid;

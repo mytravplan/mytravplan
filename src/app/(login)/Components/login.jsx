@@ -1,5 +1,6 @@
-
 import { useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify'; // Import Toastify
+import 'react-toastify/dist/ReactToastify.css'; // Import styles for Toastify
 import popupbg from '../../../../public/images/popup-bg.png';
 import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
@@ -97,7 +98,6 @@ const Login = () => {
         let invalid = false;
         let errorfield = {};
     
-        // Check if phone number is provided
         if (!phoneNumber) {
             invalid = true;
             errorfield.phoneNumber = 'Phone number is required';
@@ -106,21 +106,18 @@ const Login = () => {
             errorfield.phoneNumber = 'Phone number should be exactly 10 digits';
         }
 
-        console.log(`the lenhth of the number is phoneNumber.length`)
+        console.log(`the length of the number is phoneNumber.length`)
         console.log(phoneNumber.length)
     
-        // Check if name is required in step 2
         if (step === 2 && !registerusername) {
             invalid = true;
             errorfield.registerusername = 'Name is required';
         }
     
-        // Set errors and show alerts if necessary
         setError(errorfield);
          
         return invalid;
     };
-    
 
     const verifyOtpHandler = async (e) => {
         e.preventDefault();
@@ -173,8 +170,36 @@ const Login = () => {
         setStep(3);
     };
 
+    // Updated resend OTP function with toast
+    const handleResendOtp = async () => {
+        try {
+            const resp = await fetch('/api/v1/send-otp', {
+                method: 'POST',
+                body: JSON.stringify(user),
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            const result = await resp.json();
+            if (result) {
+                setInfo(prev => ({
+                    ...prev,
+                    orderId: result.orderId
+                }));
+                // Show toast notification
+                toast.success(`OTP has been resent to ${user.phoneNumber}`);
+            } else {
+                alert(result.error || 'Error resending OTP');
+            }
+        } catch (error) {
+            console.error('Internal server issue:', error);
+        }
+    };
+
     return (
         <div className="login-wrapper">
+            <ToastContainer /> {/* Add ToastContainer here */}
             <div className="login-modal" style={{ backgroundImage: `url(${popupbg.src})` }}>
                 <button className="close-button" onClick={closeLogin}>×</button>
                 <div className="image-section">
@@ -183,10 +208,8 @@ const Login = () => {
                 <div className="form-section">
                     <h2>
                         {step === 1 && 'Enter Mobile Number To Personalize Your Trip'}
-                        {step === 2 && (showNameField ? 'Enter Your Name' : `OTP has been sent to your phone number: ${user?.phoneNumber}`
-)}
-                        {step === 3 && `OTP has been sent to your phone number: ${user?.phoneNumber}`
-}
+                        {step === 2 && (showNameField ? 'Enter Your Name' : `OTP has been sent to your phone number: ${user?.phoneNumber}`)}
+                        {step === 3 && `OTP has been sent to your phone number: ${user?.phoneNumber}`}
                     </h2>
                     <form onSubmit={(e) => {
                         e.preventDefault();
@@ -200,7 +223,6 @@ const Login = () => {
                     }}>
                         {step === 1 && (
                             <>
-                                {/* Phone input field */}
                                 <div className="input-group">
                                     <PhoneInput
                                         id="phone-number"
@@ -218,7 +240,6 @@ const Login = () => {
                             <>
                                 {showNameField ? (
                                     <>
-                                        {/* Name input field */}
                                         <div className="input-group">
                                             <input
                                                 id="registerusername"
@@ -228,12 +249,10 @@ const Login = () => {
                                                 placeholder="Enter Your Name"
                                             />
                                         </div>
-                                        {/* "Next" button to show OTP input field */}
                                         <button type="button" onClick={handleNext}>Next</button>
                                     </>
                                 ) : (
                                     <>
-                                        {/* OTP input field */}
                                         <div className="input-group">
                                             <input
                                                 type="number"
@@ -250,7 +269,6 @@ const Login = () => {
                         )}
                         {step === 3 && (
                             <>
-                                {/* OTP input field */}
                                 <div className="input-group">
                                     <input
                                         type="number"
@@ -260,16 +278,18 @@ const Login = () => {
                                         onChange={(e) => setOtp(e.target.value)}
                                     />
                                 </div>
+                                <div className="input_buttons">
+
                                 <button type="submit">Verify OTP</button>
+                                <button type="button" onClick={handleResendOtp}>Resend OTP</button> 
+                                </div>
                             </>
                         )}
                     </form>
                 </div>
-                <img src={car.src} alt="Car" className="car-animation" />
             </div>
         </div>
     );
 };
 
 export default Login;
-
