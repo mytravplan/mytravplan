@@ -50,7 +50,7 @@ const ContinentAllpackages = ({ slug_one }) => {
                   </p>
                   <p className="price">From ₹ {pkg.package_price || 0}</p>
                   <div className="buttons">
-                    <Link href={`/packages/${pkg.slug.trim().toLowerCase().replace(/\s+/g, '-')}`}>
+                    <Link href={`/packages/${pkg.slug}`}>
                       <button className="details-btn">View Details</button>
                     </Link>
                     <BookingAndLogin pkg={pkg}/>
