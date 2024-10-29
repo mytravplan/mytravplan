@@ -66,7 +66,7 @@ export const SendEmail = async ({ name, email, phone_number, message, formType, 
                        ${packageDetails ? `<p><strong>Package:</strong> ${packageDetails.title} (Slug: ${packageDetails.slug})</p>` : ''}`
             };
         }
-        if (formType === 'user_register_form') {
+        else if (formType === 'user_register_form') {
             userMailOptions = {
                 from: process.env.NEXT_PUBLIC_SMPT_GMAIL,
                 to: email,

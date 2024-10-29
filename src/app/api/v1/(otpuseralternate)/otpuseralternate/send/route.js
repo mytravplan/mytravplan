@@ -31,7 +31,7 @@ export async function POST(req) {
 
         try {
             await SendEmail({
-                email,
+                email:email,
                 registerusername: name,
                 phoneNumber: phone,
                 message,
