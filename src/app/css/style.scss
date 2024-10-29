@@ -4076,6 +4076,17 @@ span.error-message {
 	// 	display: none;
 	// }
 
+	.top_banner_destination {
+		height: 772px!important;}
+
+		.heading_wrapper {
+			display: grid;
+			grid-template-columns: 1fr;
+			align-items: center;
+			gap: 20px;
+			padding: 53px 0px;
+		}
+
 
 	.navbar-menu {
 		flex-direction: row;
