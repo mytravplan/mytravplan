@@ -5,7 +5,71 @@
 
 
 
+.heading_wrapper {
+    display: grid;
+    grid-template-columns: 70% 1fr;
+    align-items: center;
+    gap: 20px;
+}
+.form_outer {
+    padding: 26px;
+    background: #fff;
+    border-radius: 4px;
+}
+.input_wrapper {
+    display: flex;
+    flex-direction: column;
+}
+.send_query_wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+.input_wrapper input {
+    padding: 14px;
+}
+.input_wrapper .PhoneInput {
+    padding:0px;
+    border: unset;
+	padding-bottom: 18px;
+}
+.input_wrapper .error {
+    color: #ff000061;
+}
+input::placeholder {
+    font-family: 'Jost';
+    font-size: 16px;
+}
 
+textarea::placeholder{
+	font-family: 'Jost';
+    font-size: 16px;
+}
+
+.input_wrapper textarea {
+    height: 110px;
+	padding: 14px;
+}
+
+.form_outer button {
+    padding: 10px 20px;
+    background: #CF0C2A;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-family: "Poppins";
+    font-weight: 600;
+    color: #fff;
+    border: unset;
+	cursor: pointer;
+}
+
+input,textarea:focus-visible,:focus {
+    outline: unset;
+}
+textarea,input {
+    border: 1px solid #80808057;
+}
 
 
 /* Add this CSS to your global styles or component-specific styles */

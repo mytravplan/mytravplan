@@ -10,7 +10,6 @@ DbConnect();
 export async function POST(req) {
     const host = req.headers.get('host');
     const payload = await req.formData();
-
     const file = payload.get('file');
     const title = payload.get('title');
     const description = payload.get('description');
@@ -90,7 +89,7 @@ export async function POST(req) {
         packages_exclude: packagesExclude,
         city_id: city_id,
         package_categories_id: package_categories_id,
-        isShow: isShow // Ensure this is a boolean
+        isShow: isShow 
     });
 
     // Save the package and update the city's package list

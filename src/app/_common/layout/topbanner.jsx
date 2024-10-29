@@ -37,9 +37,12 @@
 
 'use client';
 
+import BookingFromQuery from '@/Components/(bookings)/bookings/bookingFromQuery';
+import { useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 
 export default function Topbanner() {
+  const { data: session } = useSession();
   const pathname = usePathname();
 
   // Split the path to get all path segments after the first "/"
@@ -58,15 +61,28 @@ export default function Topbanner() {
         backgroundImage: `url('/images/destinationfullbanner.png')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        height: '400px',
+        height: '600px',
       }}
     >
       <div className='heading_two'>
-        <h2>
-          Explore <span>{slug}</span>
-        </h2>
-        <span className='hamburger'>{parentPath} / {slug}</span>
+        <div className="heading_wrapper">
+
+          <div className="heading_outer">
+
+            <h2>
+              Explore <span>{slug}</span>
+            </h2>
+            <span className='hamburger'>{parentPath} / {slug}</span>
+          </div>
+          {session ? "" :
+            <div className="form_outer">
+              <BookingFromQuery />
+
+            </div>
+          }
+        </div>
       </div>
+
     </div>
   );
 }
