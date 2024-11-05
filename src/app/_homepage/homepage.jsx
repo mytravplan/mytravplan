@@ -11,7 +11,7 @@ import Testimonials from '@/Components/testimonials'
   
 function Homepage({loading,continent,country,city,packages,blogs,packagescat,testimonials,testimonialvideos,sliderImages}) {
  
-  return (
+  return (   
    <>
    <div className='main_slider'>
           <div className='main_slider_inner' style={{ backgroundImage: `url(${aeroplane.src})` }}>
@@ -26,12 +26,11 @@ function Homepage({loading,continent,country,city,packages,blogs,packagescat,tes
 
 
             {/* <ExploreDestinations packagescat={packagescat}/> */}
+
             <Testimonials testimonials={testimonials} testimonialvideos={testimonialvideos} loading={loading}/>
 
             <LatestBlog blogs={blogs} loading={loading}/>
             <Destinations country={country} loading={loading}/>
-
-
 
           </div>
 

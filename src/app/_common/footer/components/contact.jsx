@@ -1,6 +1,7 @@
 
 const ContactLinks = ({result}) => {
-  let{phoneNumbers=[],emailAddresses=[],address}=result||{}
+   
+  let{phoneNumbers=[],emailAddresses=[],address=[]}=result||{}
   return (
     <div className="contact-links-container">
       <div className="other-links">
@@ -29,7 +30,12 @@ const ContactLinks = ({result}) => {
       <div className="address-us">
         <h3 className="contact-title">Address Us:</h3>
         <div className="address-description">
-          <p>{address || 'No address available'}</p>
+           {address===undefined?('no result found'):(
+            address?.map((e)=>{
+              return <p key={e?._id}>{e?.address || 'No address available'}</p>
+            })
+           )}
+          
         </div>
       </div>
     </div>

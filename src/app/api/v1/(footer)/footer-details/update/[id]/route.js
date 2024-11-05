@@ -23,13 +23,11 @@ export async function PUT(req, { params }) {
 
         // Update socialIcons only if provided
         if (payload.socialIcons) {
-            existingFooter.socialIcons = payload.socialIcons.map(icon => {
-                return {
-                    name: icon.name || existingFooter.socialIcons.find(existingIcon => existingIcon.iconUrl === icon.iconUrl)?.name,
-                    iconUrl: icon.iconUrl || existingFooter.socialIcons.find(existingIcon => existingIcon.iconUrl === icon.iconUrl)?.iconUrl,
-                    url: icon.url || existingFooter.socialIcons.find(existingIcon => existingIcon.iconUrl === icon.iconUrl)?.url,
-                };
-            });
+            existingFooter.socialIcons = payload.socialIcons.map(icon => ({
+                name: icon.name || existingFooter.socialIcons.find(existingIcon => existingIcon.iconUrl === icon.iconUrl)?.name,
+                iconUrl: icon.iconUrl || existingFooter.socialIcons.find(existingIcon => existingIcon.iconUrl === icon.iconUrl)?.iconUrl,
+                url: icon.url || existingFooter.socialIcons.find(existingIcon => existingIcon.iconUrl === icon.iconUrl)?.url,
+            }));
         }
 
         // Save the updated document

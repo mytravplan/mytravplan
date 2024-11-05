@@ -25,6 +25,7 @@ const sidebarItems = [
   { href: '/admin/testimonials', icon: FaPenAlt, label: 'Testimonials' },
   { href: '/admin/testimonial-videos', icon: FaStickyNote, label: 'Testimonial Videos' },
   { href: '/admin/slider', icon: FaPenAlt, label: 'Slider' },
+  { href: '/admin/privacypolicy', icon: FaPenAlt, label: 'PrivacyPolicy' },
  
 ];
 

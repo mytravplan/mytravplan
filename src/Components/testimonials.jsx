@@ -7,7 +7,7 @@ function Testimonials({ testimonials, testimonialvideos }) {
     const [currentVideoIndex, setCurrentVideoIndex] = useState(0); // For videos
 
 
-    console.log(testimonials)
+  
     const nextTestimonial = () => {
         setIsScaling(false); // Start the scaling out effect
         setTimeout(() => {

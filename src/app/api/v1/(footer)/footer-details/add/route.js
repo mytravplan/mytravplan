@@ -9,14 +9,16 @@ export async function POST(req) {
   return handelAsyncErrors(async () => {
     try {
       const formData = await req.formData();
-      const address = formData.get("address");
+
+      
+      
+      const addresses = JSON.parse(formData.get("address")); 
       const phoneNumbers = JSON.parse(formData.get("phoneNumbers"));
       const emailAddresses = JSON.parse(formData.get("emailAddresses"));
       const socialIcons = JSON.parse(formData.get("socialIcons"));
 
     
-
-      if (!address || !phoneNumbers || !emailAddresses || !socialIcons) {
+      if (!addresses || !phoneNumbers || !emailAddresses || !socialIcons) {
         return NextResponse.json(
           { success: false, message: 'Invalid data provided' },
           { status: 400 }
@@ -24,7 +26,7 @@ export async function POST(req) {
       }
 
       const result = new FooterModel({
-        address,
+        address: addresses,  
         phoneNumbers,
         emailAddresses,
         socialIcons,

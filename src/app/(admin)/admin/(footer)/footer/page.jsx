@@ -1,5 +1,3 @@
-// /app/(admin)/admin/(footer)/footer/page.jsx
-
 'use client';
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
@@ -10,7 +8,7 @@ function FooterPage() {
   const [footerData, setFooterData] = useState({
     phoneNumbers: [],
     emailAddresses: [],
-    address: '',
+    address: [],
     socialIcons: [],
   });
 
@@ -27,10 +25,10 @@ function FooterPage() {
         setFooterData({
           phoneNumbers: result.phoneNumbers,
           emailAddresses: result.emailAddresses,
-          address: result.address,
+          address: result.address, // Assuming result.address is an array of objects
           socialIcons: result.socialIcons,
         });
-        setFooterId(result._id); // Set the ID for updating
+        setFooterId(result?._id); // Set the ID for updating
       } else {
         console.error('Error fetching footer data:', data.message);
       }
@@ -87,16 +85,10 @@ function FooterPage() {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!footerData) {
-      if (!footerData.address) {
-        toast.error('fill address field');
-      } if (footerData.phoneNumbers) {
-        toast.error('fill phone number field');
-      } if (footerData.emailAddresses) {
-        toast.error('fill email field');
-      } if (footerData.socialIcons) {
-        toast.error('add icons,name,url');
-      }
+
+    // Validation checks
+    if (!footerData.address.length || footerData.phoneNumbers.length === 0 || footerData.emailAddresses.length === 0 || footerData.socialIcons.length === 0) {
+      toast.error('Please fill all required fields');
       return;
     }
 
@@ -106,21 +98,14 @@ function FooterPage() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          address: footerData.address,
-          phoneNumbers: footerData.phoneNumbers,
-          emailAddresses: footerData.emailAddresses,
-          socialIcons: footerData.socialIcons,
-        }),
+        body: JSON.stringify(footerData),
       });
 
       const result = await response.json();
       if (response.ok) {
-        console.log(result);
         toast.success(result.message); // Set success state
         setIsEditing(false); // Hide form after successful update
-
-        fetchFooterData();
+        fetchFooterData(); // Refresh footer data
       } else {
         toast.error(result.message);
       }
@@ -129,53 +114,54 @@ function FooterPage() {
     }
   };
 
-
   const cancelUpdate = () => {
     fetchFooterData();
     setIsEditing(false);
-  }
-
+  };
 
   return (
     <div className='footer_data'>
-
       <div className="footer_content_wrapper">
         <div className="display_footer_data">
           <h1>Footer Page</h1>
           <div>
             <strong>Address:</strong>
-            <p>{footerData.address}</p>
+            <p>
+              {footerData.address.length > 0 ? footerData.address.map((addr, index) => (
+                <p key={index}>{addr.address}</p>
+              )) : 'No address provided'}
+            </p>
           </div>
 
           <div>
             <h3>Phone Numbers:</h3>
             <ul>
-              {footerData.phoneNumbers.map((phone, index) => (
+              {footerData.phoneNumbers.length > 0 ? footerData.phoneNumbers.map((phone, index) => (
                 <li key={index}>{phone}</li>
-              ))}
+              )) : <li>No phone numbers provided</li>}
             </ul>
           </div>
 
           <div>
             <h3>Email Addresses:</h3>
             <ul>
-              {footerData.emailAddresses.map((email, index) => (
+              {footerData.emailAddresses.length > 0 ? footerData.emailAddresses.map((email, index) => (
                 <li key={index}>{email}</li>
-              ))}
+              )) : <li>No email addresses provided</li>}
             </ul>
           </div>
 
           <div>
             <h3>Social Icons:</h3>
             <ul>
-              {footerData.socialIcons.map((icon, index) => (
+              {footerData.socialIcons.length > 0 ? footerData.socialIcons.map((icon, index) => (
                 <li key={index}>
                   <Link href={icon.url} target="_blank" rel="noopener noreferrer">
                     <img src={icon.iconUrl} alt={icon.name} style={{ width: 24, height: 24, marginRight: 8 }} />
                     {icon.name}
                   </Link>
                 </li>
-              ))}
+              )) : <li>No social icons provided</li>}
             </ul>
           </div>
 
@@ -189,11 +175,32 @@ function FooterPage() {
             <form onSubmit={handleSubmit}>
               <div>
                 <h2>Address:</h2>
-                <textarea 
-                name="address" 
-                id="address" 
-                value={footerData.address}
-                onChange={(e) => handleInputChange(e, null, 'address')}></textarea>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Address</th>
+                      <th>Remove</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {footerData.address.map((addr, index) => (
+                      <tr key={index}>
+                        <td>
+                          <textarea
+                            name="address"
+                            value={addr.address}
+                            onChange={(e) => handleInputChange(e, index, 'address', 'object')}
+                          />
+                        </td>
+                        <td>
+                          <FaMinus className="toggle-icon" onClick={() => removeField('address', index, 'object')} />
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+
+                <FaPlus className="toggle-icon" onClick={() => addField('address', 'object')} />
               </div>
 
               <div>
@@ -274,25 +281,22 @@ function FooterPage() {
                           <input
                             type="text"
                             name="name"
-                            placeholder="Icon Name"
                             value={icon.name}
                             onChange={(e) => handleInputChange(e, index, 'socialIcons', 'object')}
                           />
                         </td>
                         <td>
                           <input
-                            type="text"
+                            type="url"
                             name="url"
-                            placeholder="Link URL"
                             value={icon.url}
                             onChange={(e) => handleInputChange(e, index, 'socialIcons', 'object')}
                           />
                         </td>
                         <td>
                           <input
-                            type="text"
+                            type="url"
                             name="iconUrl"
-                            placeholder="Icon Image URL"
                             value={icon.iconUrl}
                             onChange={(e) => handleInputChange(e, index, 'socialIcons', 'object')}
                           />
@@ -308,13 +312,12 @@ function FooterPage() {
                 <FaPlus className="toggle-icon" onClick={() => addField('socialIcons', 'object')} />
               </div>
 
-              <button type="submit">Update Content</button>
-              <button className='cancel_update' onClick={cancelUpdate}>Cancel</button>
+              <button type="submit">Save Changes</button>
+              <button type="button" onClick={cancelUpdate}>Cancel</button>
             </form>
           </div>
         )}
       </div>
-
     </div>
   );
 }

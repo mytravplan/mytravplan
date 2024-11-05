@@ -2555,12 +2555,22 @@ a.card_outer {
 }
 
 .address_container {
-	display: grid;
-	gap: 35px;
-	background: #E8E4FF;
-	border-radius: 5px;
-	padding: 30px;
-	grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    display: flex;
+    gap: 35px;
+    background: #E8E4FF;
+    border-radius: 5px;
+    padding: 30px;
+    flex-direction: column;
+}
+.top_contact_wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 35px;
+}
+.bottom_contact_wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 35px;
 }
 
 .address_card .content p {
@@ -4055,6 +4065,19 @@ span.error-message {
 }
 
 @media(max-width:990px) {
+	.address_container {
+	 
+		gap: 20px;
+		 
+	}
+	.top_contact_wrapper {
+		 
+		gap: 20px;
+	}
+	.bottom_contact_wrapper {
+	 
+		gap: 20px;
+	}
 	.my_ouder_wrapper {
     max-width: 1450px;
     margin: auto;
@@ -4062,6 +4085,7 @@ span.error-message {
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
 }
+
 	.flight-container {
 		grid-template-columns: 1fr;
 		box-shadow: unset;
@@ -4076,11 +4100,21 @@ span.error-message {
 		height: 25px;
 	}
 }
-
+@media only screen and (max-width:768px) {
+	.top_contact_wrapper {
+		grid-template-columns: 1fr;
+	}
+	.bottom_contact_wrapper {
+		grid-template-columns: 1fr;
+	}
+	
+}
 @media (min-width: 768px) {
 	// .navbar-toggle {
 	// 	display: none;
 	// }
+
+	
 
 	
 
@@ -4110,7 +4144,16 @@ span.error-message {
 }
 
 @media(max-width:767px) {
-
+	
+	.test_wrapper {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 20px;
+		align-items: center;
+		background: #fff;
+		padding: 20px;
+		border-radius: 10px;
+	}
 	.top_banner_destination {
 		height: 772px!important;}
 
@@ -4191,12 +4234,10 @@ span.error-message {
 	}
 
 	.address_container {
-		display: grid;
-		gap: 35px;
-		background: #E8E4FF;
-		border-radius: 5px;
-		padding: 2px;
-		grid-template-columns: 1fr;
+		 
+		gap: 20px;
+	 
+		 
 	}
 
 	.heading_two h2 {
