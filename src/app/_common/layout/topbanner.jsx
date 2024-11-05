@@ -72,7 +72,7 @@ export default function Topbanner() {
             <h2>
               Explore <span>{slug}</span>
             </h2>
-            <span className='hamburger'>{parentPath} / {slug}</span>
+           
           </div>
           {session ? "" :
             <div className="form_outer">
