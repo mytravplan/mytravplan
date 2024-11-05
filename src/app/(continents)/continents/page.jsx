@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import Layout from '@/app/_common/layout/layout';
 import Topbanner from '@/app/_common/layout/topbanner';
 import ContinentPage from './components/continentPage';
@@ -14,12 +14,7 @@ export default function PageComponent() {
   const { continents = [], pagination = {} } = response.data || {};
   const { totalContinents = 0 } = pagination;
 
-  const memoizedContinents = useMemo(() => ({
-    continents: continents
-  }), [continents]);
-
- 
-  const reversedContinents = Array.isArray(memoizedContinents.continents) ? [...memoizedContinents.continents].reverse() : [];
+  const reversedContinents = Array.isArray(continents) ? [...continents].reverse() : [];
 
   return (
     <Layout>

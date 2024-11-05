@@ -1,5 +1,5 @@
 'use client';
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import Explorations from './Components/citiesinnercards';
 import Layout from '../../_common/layout/layout';
 import Topbanner from '@/app/_common/layout/topbanner';
@@ -12,15 +12,11 @@ export default function Page() {
   // Fetch data with pagination
   const response = useFetchAllSections(page, PER_PAGE_LIMIT);
 
-  const { cities = [],pagination = {}} = response.data || {};
-  
+  const { cities = [], pagination = {} } = response.data || {};
   const { totalCities = 0 } = pagination;
 
-  const memoizedCity = useMemo(() => ({
-    cities: cities,
-  }), [ cities]);
-
-  const reversedCities = Array.isArray(memoizedCity.cities) ? [...memoizedCity.cities].reverse() : [];
+  // Remove memoization
+  const reversedCities = Array.isArray(cities) ? [...cities].reverse() : [];
 
   return (
     <Layout>

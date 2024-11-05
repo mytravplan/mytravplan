@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import Layout from '@/app/_common/layout/layout';
 import Topbanner from '@/app/_common/layout/topbanner';
 import CountryPage from './components/countryPage';
@@ -14,16 +14,12 @@ export default function PageComponent() {
   const { countries = [], pagination = {} } = response.data || {};
   const { totalCountries = 0 } = pagination;
 
-  const memoizedCountry = useMemo(() => ({
-    countries: countries,
-  }), [ countries]);
-  
-
-  const reversedCountries = Array.isArray(memoizedCountry.countries) ? [...memoizedCountry.countries] : [];
+  // No need for memoization
+  const reversedCountries = Array.isArray(countries) ? [...countries].reverse() : [];
 
   return (
     <Layout>
-      <div className="coutryinner">
+      <div className="countryinner">
         <Topbanner />
         <CountryPage 
           country={reversedCountries} 

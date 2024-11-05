@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import useFetchAllSections from '@/hooks/useLoadApiHook';
@@ -8,7 +8,6 @@ import Paginations from '@/app/_common/_paginations/paginations';
 import { PER_PAGE_LIMIT } from '@/utils/apis/api';
 import emptyImage from '../../assets/home_images/empty.jpg';
 import BookingAndLogin from '@/app/_common/bookingAndLogin';
- 
 
 const Allpackages = () => {
   const [page, setPage] = useState(1);
@@ -17,11 +16,8 @@ const Allpackages = () => {
   const { packages = [], pagination = {} } = response.data;
   const { totalPackages = 0 } = pagination;
 
-  const memoizedPackages = useMemo(() => ({
-    packages: packages,
-  }), [packages]);
-
-  let reversedPackages = Array.isArray(memoizedPackages.packages) ? [...memoizedPackages.packages].reverse() : []
+  // Remove memoization
+  const reversedPackages = Array.isArray(packages) ? [...packages].reverse() : [];
 
   return (
     <>
@@ -31,7 +27,7 @@ const Allpackages = () => {
             {
               reversedPackages.length === 0 ?
                 <EmptyPackageComponent />
-                : reversedPackages?.map((pkg, index) => (
+                : reversedPackages.map((pkg, index) => (
                   <div key={index} className="package">
                     {pkg.images ? pkg.images.map((e) => (
                       <Image
@@ -41,19 +37,16 @@ const Allpackages = () => {
                         width={333} height={380}
                         className="image"
                       />
-                    )) : <img src={emptyImage.src} alt='package'  width={333} height={380}/>}
+                    )) : <img src={emptyImage.src} alt='package' width={333} height={380} />}
                     <div className="info">
                       <h3>{pkg.title}</h3>
                       <p>{pkg.package_nights || 0} nights / {pkg.package_days} days</p>
-                      {/* <p className="rating">
-                        <span className="star">⭐</span> {pkg.rating} ({pkg.reviews})
-                      </p> */}
-                      <p className="price">From ̥₹ {pkg.package_price}</p>
+                      <p className="price">From ₹ {pkg.package_price}</p>
                       <div className="buttons">
                         <Link href={`/packages/${pkg.slug}`}>
                           <button className="details-btn">View Details</button>
                         </Link>
-                       <BookingAndLogin pkg={pkg}/>
+                        <BookingAndLogin pkg={pkg} />
                       </div>
                     </div>
                   </div>
@@ -91,7 +84,5 @@ function EmptyPackageComponent() {
     </>
   );
 }
+
 export default Allpackages;
-
-
-
