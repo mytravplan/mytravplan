@@ -5,14 +5,14 @@ const Destinations = ({result}) => {
 
    
   
-  const reversedCountryLinks = Array.isArray(result)?[...result].reverse():[]
+  // const reversedCountryLinks = Array.isArray(result)?[...result].reverse():[]
 
 
 
 
  
 
-  // const reversedCountryLinks = result?.filter(e => e?.isShow===true);
+  const reversedCountryLinks = result?.filter(e => e?.isShow===true);
 
   return (
     <div className="destinations-container">
