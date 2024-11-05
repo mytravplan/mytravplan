@@ -43,11 +43,19 @@ export default function Home() {
 
             // Show BookingForm only if user is verified and not an admin
             setIsopenForm(session.user.role === 'user' && !isAdmin);
-            setIsLogin(session.user.role !== 'user'); // Show LoginPopup if not a user
+            
+            // Show LoginPopup if not a user
+            if (session.user.role !== 'user') {
+              setTimeout(() => {
+                setIsLogin(true);
+              }, 3000); // Delay for 2 seconds
+            }
           } else {
             setUserVerified(false);
             setIsAdmin(false);
-            setIsLogin(true); // Show LoginPopup if no session
+            setTimeout(() => {
+              setIsLogin(true); // Show LoginPopup if no session after delay
+            }, 3000); // Delay for 2 seconds
             setIsopenForm(false); // Ensure BookingForm is not shown
           }
 
@@ -63,10 +71,8 @@ export default function Home() {
 
   return (
     <>
-
       {isopenForm && <QueryForm setIsopenForm={setIsopenForm} />}
       {isLogin && <LoginPopup setIsLogin={setIsLogin} />}
-
       <Layout>
         <Homepage
           continent={continents}
