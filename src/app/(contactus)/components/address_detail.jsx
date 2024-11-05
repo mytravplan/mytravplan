@@ -10,8 +10,7 @@ const AddressDetail = () => {
 
   let { footer = {} } = response.data
   let { address = [] } = footer
-  console.log(`address`)
-  console.log(address)
+ 
   return (
     <div className="address_container">
 
@@ -19,7 +18,7 @@ const AddressDetail = () => {
 
       <div className="top_contact_wrapper">
         {address?.map((e) => {
-          return <div className="address_card">
+          return <div className="address_card" key={e?._id}>
             <div className="icon">
               <img
                 src={Image1.src}
