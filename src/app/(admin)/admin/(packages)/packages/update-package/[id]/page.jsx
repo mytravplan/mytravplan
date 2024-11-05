@@ -69,8 +69,7 @@ const UpdatePackage = ({ params }) => {
     });
   };
 
-  console.log(formData)
-  console.log(formData)
+   
 
   const fetchCities = async () => {
     return handelAsyncErrors(async () => {

@@ -165,6 +165,7 @@ export async function GET(req) {
         title: country.title,
         description: country.description,
         slug: country.slug,
+        isShow: country.isShow,
         cities: country.all_cities.map(city => ({
           _id: city._id,
           city_name: city.title,

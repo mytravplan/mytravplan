@@ -19,6 +19,7 @@ const AddCountry = () => {
     sco_title:'',
     sco_description:'',
     continent_id: '',
+    isShow: false,
   });
   const [isLoading, setIsLoading] = useState(false);
   const [continents, setContinents] = useState([]);
@@ -41,11 +42,13 @@ const AddCountry = () => {
     fetchContinents();
   }, []);
 
+
+
   const handleChange = (e) => {
-    const { name, value, files } = e.target;
+    const { name, value, files, type, checked } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: files ? files[0] : value,
+      [name]: type === 'checkbox' ? checked : files ? files[0] : value,
     }));
   };
 
@@ -53,7 +56,7 @@ const AddCountry = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    const { title, description, slug, file, sco_title,sco_description,continent_id } = formData;
+    const { title, description, slug, file, sco_title,sco_description,continent_id ,isShow} = formData;
 
     if (!title || !description || !slug || !file || !continent_id) {
       toast.error('Please fill in all fields and upload an image.');
@@ -70,6 +73,7 @@ const AddCountry = () => {
       submissionData.append('sco_title', sco_title);
       submissionData.append('sco_description', sco_description);
       submissionData.append('continent_id', continent_id);
+      submissionData.append('isShow', isShow);
 
       const res = await fetch('/api/v1/country/add', {
         method: 'POST',
@@ -134,6 +138,18 @@ const AddCountry = () => {
             </div>
           )}
         </div>
+        <div className="form-group handelCheckbox">
+              <label>
+                
+                 Do you want to enable this to be shown on the footer?
+              </label>
+              <input
+                  type="checkbox"
+                  name="isShow"
+                  checked={formData.isShow}
+                  onChange={handleChange}
+                />
+            </div>
         <div className="sco_panel">
               <h3>Add Country Seo meta keywords</h3>
               <div className="form-group">
@@ -158,6 +174,8 @@ const AddCountry = () => {
                 placeholder="Enter seo meta description"
               />
               </div>
+              
+            
             </div>
         <button type="submit" className="button" disabled={isLoading}>
           {isLoading ? 'Loading...' : 'Add Country'}

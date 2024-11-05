@@ -1,5 +1,3 @@
-// // /app/(admin)/admin/(countries)/countries/update-country/[id]/page.jsx
-
 'use client';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -13,59 +11,61 @@ function UpdateCountry({ params }) {
     description: '',
     sco_title: '',
     sco_description: '',
-    images: [], // This will hold the current image list
-    imageFile: null, // This will hold the new image file
-    imagePreviewUrl: '', // This will hold the preview URL of the new image
+    images: [],
+    imageFile: null,
+    imagePreviewUrl: '',
     continent_id: '',
+    isShow: false 
   });
   const [loading, setLoading] = useState(true);
-  const [isLoading, setIsLoading] = useState(false); // Add isLoading state
+  const [isLoading, setIsLoading] = useState(false);
   const [continents, setContinents] = useState([]);
   const router = useRouter();
   const { id } = params;
 
- 
-    const fetchContinents = async () => {
-      return handelAsyncErrors(async () => {
-        const res = await fetch('/api/v1/continents/get?page=1&limit=1000', {
-          headers: {
-            'Cache-Control': 'no-cache'
-          }
-        });
-        const data = await res.json();
-        setContinents(data.result || []);
-      })
-        
-      
-    };
+  console.log(`country`)
+  console.log(country)
 
-    const fetchCountry = async () => {
-      return handelAsyncErrors(async () => {
-        const response = await fetch(`/api/v1/country/get/${id}`);
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
+  const fetchContinents = async () => {
+    return handelAsyncErrors(async () => {
+      const res = await fetch('/api/v1/continents/get?page=1&limit=1000', {
+        headers: {
+          'Cache-Control': 'no-cache'
         }
-        const data = await response.json();
-        if (data.success) {
-          setCountry({
-            ...data.result,
-            images: data.result.images.map(img => img.name), // Extract image names
-            continent_id : data.result.continent_id || ''
-          });
-          console.log('Data:', data);
-        } else {
-          toast.error(data.message || 'An error occurred');
-        }
-        setLoading(false);
-      })
-    };
-    useEffect(() => {
+      });
+      const data = await res.json();
+      setContinents(data.result || []);
+    });
+  };
+
+  const fetchCountry = async () => {
+    return handelAsyncErrors(async () => {
+      const response = await fetch(`/api/v1/country/get/${id}`);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      if (data.success) {
+        setCountry({
+          ...data.result,
+          images: data.result.images.map(img => img.name),
+          continent_id: data.result.continent_id || '',
+          isShow: data.result.isShow // Set isShow from fetched data
+        });
+      } else {
+        toast.error(data.message || 'An error occurred');
+      }
+      setLoading(false);
+    });
+  };
+
+  useEffect(() => {
     fetchContinents();
     fetchCountry();
   }, [id]);
 
   const handleChange = (e) => {
-    const { name, value, files } = e.target;
+    const { name, value, type, checked, files } = e.target;
     if (name === 'image') {
       const file = files[0];
       const reader = new FileReader();
@@ -73,12 +73,17 @@ function UpdateCountry({ params }) {
         setCountry((prevCountry) => ({
           ...prevCountry,
           imageFile: file,
-          imagePreviewUrl: reader.result, // Create a preview URL for the new image
+          imagePreviewUrl: reader.result,
         }));
       };
       if (file) {
         reader.readAsDataURL(file);
       }
+    } else if (type === 'checkbox') {
+      setCountry((prevCountry) => ({
+        ...prevCountry,
+        [name]: checked, // Handle checkbox
+      }));
     } else {
       setCountry((prevCountry) => ({
         ...prevCountry,
@@ -89,7 +94,7 @@ function UpdateCountry({ params }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setIsLoading(true); // Start loading
+    setIsLoading(true);
 
     const formData = new FormData();
     formData.append('title', country.title);
@@ -98,10 +103,11 @@ function UpdateCountry({ params }) {
     formData.append('sco_title', country.sco_title);
     formData.append('sco_description', country.sco_description);
     formData.append('continent_id', country.continent_id);
+    formData.append('isShow', country.isShow); // Include isShow in form data
     if (country.imageFile) {
-      formData.append('file', country.imageFile); // Upload new image
+      formData.append('file', country.imageFile);
     } else {
-      formData.append('file', ''); // Ensure file field is included if no new image
+      formData.append('file', '');
     }
 
     return handelAsyncErrors(async () => {
@@ -111,15 +117,13 @@ function UpdateCountry({ params }) {
       });
       const data = await response.json();
       if (data.success) {
-        toast.success( data.message || 'Country updated successfully!');
-        setTimeout(() => router.push('/admin/countries'), 2000); // Redirect after success
+        toast.success(data.message || 'Country updated successfully!');
+        setTimeout(() => router.push('/admin/countries'), 2000);
       } else {
         toast.error(data.message || 'An error occurred');
       }
-      setIsLoading(false); // End loading
-    })
-      
-    
+      setIsLoading(false);
+    });
   };
 
   return (
@@ -203,11 +207,22 @@ function UpdateCountry({ params }) {
               )}
             </div>
           </label>
+          <div className="form-group handelCheckbox">
+            <label>
+              Do you want to enable this to be shown on the footer?
+            </label>
+            <input
+              type="checkbox"
+              name="isShow"
+              checked={country.isShow} // Reflect current isShow state
+              onChange={handleChange}
+            />
+          </div>
           <div className="sco_panel">
-              <h3>Update Country Sco meta keywords</h3>
-              <div className="form-group">
+            <h3>Update Country Sco meta keywords</h3>
+            <div className="form-group">
               <label htmlFor="packages_galleries">Seo title</label>
-                 <input
+              <input
                 type="text"
                 id="sco_title"
                 name="sco_title"
@@ -215,10 +230,10 @@ function UpdateCountry({ params }) {
                 onChange={handleChange}
                 placeholder="Enter seo meta title"
               />
-              </div>
-              <div className="form-group">
+            </div>
+            <div className="form-group">
               <label htmlFor="packages_galleries">Seo description</label>
-                 <input
+              <input
                 type="text"
                 id="sco_description"
                 name="sco_description"
@@ -226,8 +241,8 @@ function UpdateCountry({ params }) {
                 onChange={handleChange}
                 placeholder="Enter seo meta description"
               />
-              </div>
             </div>
+          </div>
           <button type="submit" className="update-packages-button" disabled={isLoading}>
             {isLoading ? 'Updating...' : 'Update Country'}
           </button>

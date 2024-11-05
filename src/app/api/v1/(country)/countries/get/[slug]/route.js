@@ -43,6 +43,7 @@ export async function GET(req, { params }) {
             sco_title:country.sco_title,
             sco_description:country.sco_description,
             sco_host_url:country.sco_host_url,
+            isShow:country.isShow,
         }
     
         // Map the result to include details of cities and packages

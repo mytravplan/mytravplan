@@ -20,6 +20,7 @@ export async function POST(req) {
         const sco_title = payload.get('sco_title');
         const sco_description = payload.get('sco_description');
         const continent_id = payload.get('continent_id');
+        const isShow = payload.get('isShow') ? payload.get('isShow') === 'true' : false;
 
         // Check if at least one required field is present
         if (!file && !title && !description && !slug && !continent_id) {
@@ -72,6 +73,7 @@ export async function POST(req) {
             sco_description: sco_description || '',
             sco_host_url: host,
             continent_id: continent_id,
+            isShow: isShow 
         });
 
         // Save the country document

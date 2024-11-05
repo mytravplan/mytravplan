@@ -16,6 +16,7 @@ let imageSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    
 },{
     timestamps: true   
 });
@@ -62,7 +63,10 @@ const countrySchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'country_categories'  
         }
-    ]
+    ],
+    isShow:{
+        type: Boolean, default: false   
+    }
 });
 
 // Create the country model

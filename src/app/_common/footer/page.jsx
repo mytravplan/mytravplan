@@ -10,6 +10,8 @@ import useFetchAllSections from '@/hooks/useLoadApiHook'
 
 function Footer() {
   let response=useFetchAllSections()
+  console.log(`response`)
+  console.log(response)
   let {footer,countries}=response.data||{}
 
 

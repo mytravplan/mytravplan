@@ -22,6 +22,7 @@ export async function PUT(req, { params }) {
         const sco_title = payload.get('sco_title');
         const sco_description = payload.get('sco_description');
         const continentId = payload.get('continent_id');
+        const isShow = payload.get('isShow') ? payload.get('isShow') === 'true' : false;
 
         // Check if country exists
         let existingCountry = await countryModel.findById(id);
@@ -71,6 +72,9 @@ export async function PUT(req, { params }) {
                 newContinent.all_countries.push(existingCountry._id); // Add country ID to new continent
                 await newContinent.save(); // Save the changes to new continent
             }
+        }
+        if (payload.has('isShow')) {
+            existingCountry.isShow = isShow;  
         }
 
         // Save the updated document
