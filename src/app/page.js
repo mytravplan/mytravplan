@@ -63,7 +63,7 @@ export default function Home() {
 
   return (
     <>
-      {/* Pop-ups for login and booking form */}
+
       {isopenForm && <QueryForm setIsopenForm={setIsopenForm} />}
       {isLogin && <LoginPopup setIsLogin={setIsLogin} />}
 
