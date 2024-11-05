@@ -37,7 +37,7 @@ const ContinentAllpackages = ({ slug_one }) => {
       <div className="container card_main_section" style={{ margin: '50px auto' }}>
         <div className="card_discount">
           <div className="packages">
-            {packages === undefined || packages === null ? `We couldn't find any packages related to the ${slug_one} continent` : (packages?.map((pkg, index) => (
+            {packages === undefined || packages === null ? (`We couldn't find any packages related to the ${slug_one} continent`) : (packages?.map((pkg, index) => (
               <div key={index} className="package">
                 {pkg.images ? pkg.images.map((e) => (
                   <Image
