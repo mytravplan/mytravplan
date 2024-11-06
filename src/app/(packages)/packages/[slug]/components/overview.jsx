@@ -6,12 +6,14 @@ import LoadingBar from '@/app/_common/innerLoader/innerLoader';
 import BookingAndLogin from '@/app/_common/bookingAndLogin';
 import emptyImage from '../../../../assets/home_images/empty.jpg';
 import useFetchAllSections from '@/hooks/useLoadApiHook';
- 
+
 
 const Itinerary = ({ result }) => {
   let response = useFetchAllSections()
 
   let { footer = {} } = response.data
+
+
 
   const [openDay, setOpenDay] = useState(null);
   const [activeTab, setActiveTab] = useState('inclusions');
@@ -32,7 +34,9 @@ const Itinerary = ({ result }) => {
     setCurrentImage('');
   };
 
-  
+
+
+
 
   return (
     <>
@@ -47,6 +51,13 @@ const Itinerary = ({ result }) => {
               <h2 className='heading_inner_page'>Overview</h2>
               <p>{ele.packageOverview || null}</p>
             </div>
+
+            <div className='over' style={{marginTop:'50px'}}>
+              <h2 className='heading_inner_page'>Price (Per Person)</h2>
+              <p>₹ {ele?.package_price || null}</p>
+            </div>
+
+             
 
             <div className='summary_slider'>
               <div className="itinerary_inner">
@@ -118,7 +129,7 @@ const Itinerary = ({ result }) => {
 
                 <div className='right_query'>
                   <div className='card_contact'>
-                
+
                     <div className='question'>
                       <h1>Have a Question?</h1>
                       <p>

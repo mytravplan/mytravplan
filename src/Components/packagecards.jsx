@@ -60,7 +60,7 @@ const BestSellingPackages = ({ packages, loading }) => {
                       {/* <p className="rating">
                         <span className="star">★ {pkg.rating}</span> ({pkg.reviews})
                       </p> */}
-                      <p className="price">From ₹ {pkg.package_price || 0}</p>
+                      <p className="price">Per Person - ₹ {pkg.package_price || 0}</p>
                       <div className="buttons">
                         <Link href={`/packages/${pkg.slug}`}><button className="details-btn">View Details</button></Link>
                        <BookingAndLogin pkg={pkg}/>

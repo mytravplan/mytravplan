@@ -54,7 +54,7 @@ const CityAllpackages = ({ slug_one }) => {
                   <p className="rating">
                     <span className="star">⭐</span> {pkg.rating} ({pkg.reviews})
                   </p>
-                  <p className="price">From ₹ {pkg.package_price || 0}</p>
+                  <p className="price">Per Person - ₹ {pkg.package_price || 0}</p>
                   <div className="buttons">
                     <Link href={`/packages/${pkg.slug.trim().toLowerCase().replace(/\s+/g, '-')}`}>
                       <button className="details-btn">View Details</button>
