@@ -55,7 +55,7 @@ const Itinerary = ({ result }) => {
 
             <div className='over' style={{marginTop:'50px'}}>
               <h2 className='heading_inner_page'>Price (Per Person)</h2>
-              <p>₹ {ele?.package_price || null}</p>
+              <p>₹{ele?.package_price || null}</p>
             </div>
 
              

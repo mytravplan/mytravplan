@@ -74,7 +74,8 @@ function PackagesCatPackages({ slug }) {
                         <div className="info">
                           <h3>{pkg.title}</h3>
                           <p>{pkg.package_nights} nights / {pkg.package_days} days</p>
-                          <p className="price">Per Person - ₹ {pkg.package_price || 0}</p>
+                          <p className="price">Per Person - ₹{pkg.package_price || 0}</p>
+
                           <div className="buttons">
                             <Link href={`/packages/${pkg.title.trim().toLowerCase().replace(/\s+/g, '-').replace(/-+/g, '-')}`}>
                               <button className="details-btn">View Details</button>
