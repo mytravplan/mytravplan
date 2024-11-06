@@ -1,5 +1,6 @@
 'use client';
 
+ 
 import { useState } from 'react';
 
 const TravelGallery = ({ result }) => {
@@ -66,6 +67,7 @@ const TravelGallery = ({ result }) => {
           </div>
         </div>
       )}
+     
     </div>
   );
 };

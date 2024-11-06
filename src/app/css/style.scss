@@ -542,7 +542,11 @@ ul.destinations-list li {
 	object-fit: cover;
 }
 
-
+.galleryGrid img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
 
 
 .gallery,
@@ -3043,18 +3047,18 @@ h2.heading_inner_page {
 	margin-top: 5px;
 }
 
-// .galleryGrid {
-// 	display: grid;
-// 	grid-template-columns: 1fr 1fr;
-// 	gap: 10px;
-// }
-
 .galleryGrid {
-	display: flex;
-	flex-direction: column;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
 	gap: 10px;
-	cursor: zoom-in;
 }
+
+// .galleryGrid {
+// 	display: flex;
+// 	flex-direction: column;
+// 	gap: 10px;
+// 	cursor: zoom-in;
+// }
 
 .iten_inner {
 	box-shadow: 0px 4px 20px 3px #f5f5f5;
@@ -3847,7 +3851,11 @@ span.error-message {
 
 
 @media only screen and (max-width:1023px) {
-
+	.galleryGrid img {
+		width: 100%;
+		height: 300px;
+		object-fit: cover;
+	}
 	.modal-content {
 		max-width: 600px;
 		height: 400px;
@@ -4384,6 +4392,11 @@ span.error-message {
 }
 
 @media only screen and (max-width:600px) {
+	.galleryGrid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 10px;
+	}
 	.my_ouder_wrapper {
         max-width: 1450px;
         margin: auto;

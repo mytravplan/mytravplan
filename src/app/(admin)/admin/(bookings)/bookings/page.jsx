@@ -10,6 +10,7 @@ import { handelAsyncErrors } from '@/helpers/asyncErrors';
 import Breadcrumb from '@/app/(admin)/_common/Breadcrumb';
 import { format } from 'date-fns';
 import { PER_PAGE_LIMIT } from '@/utils/apis/api';
+import { formatDate, formatTime } from '@/helpers/formatDateTime';
 
 
 function BookingPage() {
@@ -89,6 +90,7 @@ function BookingPage() {
               <th>Email</th>
               <th>Phone Number</th>
               <th>Date</th>
+              <th>Time</th>
               <th>Message</th>
               <th>Actions</th>
             </tr>
@@ -104,7 +106,7 @@ function BookingPage() {
               </tr>
             ) : (
               bookings.map(booking =>{
-                const formattedDate = format(new Date(booking.createdAt), 'dd MMM yyyy');
+               
                 return(
                   <>
                   <tr key={booking._id}>
@@ -112,7 +114,8 @@ function BookingPage() {
                   <td data-label="Name">{booking.name}</td>
                   <td data-label="Email">{booking.email}</td>
                   <td data-label="Phone Number">{booking.phone_number}</td>
-                  <td data-label="Date">{formattedDate}</td>
+                  <td data-label="Date">{formatDate(booking.createdAt)}</td>
+                  <td data-label="Time">{formatTime(booking.createdAt)}</td>
                   <td data-label="Message">{booking.message}</td>
                   <td data-label="Actions">
                     <span className="actions">

@@ -6,6 +6,7 @@ import LoadingBar from '@/app/_common/innerLoader/innerLoader';
 import BookingAndLogin from '@/app/_common/bookingAndLogin';
 import emptyImage from '../../../../assets/home_images/empty.jpg';
 import useFetchAllSections from '@/hooks/useLoadApiHook';
+import ContactForm from '@/app/(contactus)/components/contactForm';
 
 
 const Itinerary = ({ result }) => {
@@ -168,6 +169,10 @@ const Itinerary = ({ result }) => {
                       </div>
                     </div>
                   )}
+                  <div className="gallery_inner_page">
+
+                  <ContactForm/>
+                  </div>
                 </div>
               </div>
             </div>
