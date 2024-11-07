@@ -2,7 +2,7 @@ import Layout from '@/app/_common/layout/layout'
 import { EXPORT_ALL_APIS } from '@/utils/apis/api';
 import React from 'react'
 
-async function PrivacyPolicy() {
+export default async function page() {
   let api=EXPORT_ALL_APIS()
   let resp=await api.fetchPrivacyPolicy()
   let data=resp.result[0]||[]
@@ -12,7 +12,7 @@ async function PrivacyPolicy() {
       <div className="privacy_outer">
         <div className="privacy_inner">
 
-      {data?.privacydata?.map((ele,index)=>{
+      {data?.privacydata===undefined?'no result found':data?.privacydata?.map((ele,index)=>{
         return  <div className="privacy-policy-container"  key={index}>
           <h2>{ele?.title}</h2>
           <p>{ele?.description}</p>
@@ -28,4 +28,4 @@ async function PrivacyPolicy() {
   )
 }
 
-export default PrivacyPolicy
+ 
