@@ -1,15 +1,12 @@
 import Layout from '@/app/_common/layout/layout'
 import { EXPORT_ALL_APIS } from '@/utils/apis/api';
 import React from 'react'
-
 export default async function page() {
-  // Fetching privacy policy data
   let api = EXPORT_ALL_APIS();
   let resp = await api.fetchPrivacyPolicy();
-
-  
-  let data = Array.isArray(resp?.result) && resp?.result.length > 0 ? resp.result[0] : [];
-
+  let data = 
+ Array.isArray(resp?.result)?resp?.result[0] : []
+ 
   return (
     <>
       <Layout>

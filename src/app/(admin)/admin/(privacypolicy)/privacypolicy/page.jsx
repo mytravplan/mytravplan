@@ -98,16 +98,20 @@ function PrivacyPolicyPage() {
           privacyPolicies.map((policy) => (
             <div key={policy._id} className="policy">
               <h3>Privacy Policy Details</h3>
-              {policy.privacydata.map((dataItem, index) => (
-                <div key={dataItem._id}>
-                  <h4>title: {dataItem.title}</h4>
-                  <p>description : {dataItem.description}</p>
-                 
-                 
-                </div>
-              ))}
-              <button onClick={() => { setCurrentPolicy(policy); setIsEditing(true); }}>Edit</button>
-             
+              {policy.privacydata.length > 0 ? (
+                policy.privacydata.map((dataItem, index) => (
+                  <div key={dataItem._id}>
+                    <h4>Title: {dataItem.title}</h4>
+                    <p>Description: {dataItem.description}</p>
+                  </div>
+                ))
+              ) : (
+                <p>No privacy data available</p>
+              )}
+              {/* Show the edit button even if there is no privacy data */}
+              <button onClick={() => { setCurrentPolicy(policy); setIsEditing(true); }}>
+                Edit
+              </button>
             </div>
           ))
         ) : (
@@ -119,45 +123,45 @@ function PrivacyPolicyPage() {
       {isEditing && currentPolicy && (
         <div className="edit-policy-form">
           <h2>Edit Policy</h2>
-          {currentPolicy.privacydata.map((dataItem, index) => (
-            <div key={dataItem._id}>
-              <input
-                type="text"
-                value={dataItem.title}
-                onChange={(e) =>
-                  setCurrentPolicy((prev) => {
-                    const updatedData = [...prev.privacydata];
-                    updatedData[index].title = e.target.value;
-                    return { ...prev, privacydata: updatedData };
-                  })
-                }
-                placeholder="Title"
-              />
-              <textarea
-                value={dataItem.description}
-                onChange={(e) =>
-                  setCurrentPolicy((prev) => {
-                    const updatedData = [...prev.privacydata];
-                    updatedData[index].description = e.target.value;
-                    return { ...prev, privacydata: updatedData };
-                  })
-                }
-                placeholder="Description"
-              />
-              {/* Show delete button only when editing the specific data entry */}
-              {isEditing && (
-                <button onClick={() => deletePrivacyData(index)}>Delete</button>
-              )}
-            </div>
-          ))}
-          <div className="wrapper_handel">
 
-         
+          {/* Show a message if privacydata is empty */}
+          {currentPolicy.privacydata.length === 0 ? (
+            <p>No privacy data found. You can add new entries.</p>
+          ) : (
+            currentPolicy.privacydata.map((dataItem, index) => (
+              <div key={dataItem._id}>
+                <input
+                  type="text"
+                  value={dataItem.title}
+                  onChange={(e) =>
+                    setCurrentPolicy((prev) => {
+                      const updatedData = [...prev.privacydata];
+                      updatedData[index].title = e.target.value;
+                      return { ...prev, privacydata: updatedData };
+                    })
+                  }
+                  placeholder="Title"
+                />
+                <textarea
+                  value={dataItem.description}
+                  onChange={(e) =>
+                    setCurrentPolicy((prev) => {
+                      const updatedData = [...prev.privacydata];
+                      updatedData[index].description = e.target.value;
+                      return { ...prev, privacydata: updatedData };
+                    })
+                  }
+                  placeholder="Description"
+                />
+                <button onClick={() => deletePrivacyData(index)}>Delete</button>
+              </div>
+            ))
+          )}
+
+          {/* Add a new privacy data entry */}
           <button onClick={addPrivacyData}>Add Privacy Data</button>
-          </div>
-          
+
           <button onClick={updatePolicy}>Save Changes</button>
-          
         </div>
       )}
     </div>
