@@ -171,15 +171,16 @@ const Itinerary = ({ result }) => {
                   )}
                   <div className="gallery_inner_page">
 
-                  <ContactForm/>
-                  </div>
+                  <ContactForm/>    
+                  </div>   
                 </div>
               </div>
             </div>
-          </div>
+          </div> 
         ))
-      )}
-
+      )}   
+       
+  
       {modalIsOpen && (
         <div className="preview_package_gallery_image">
           <div className="modal-content">
@@ -191,10 +192,8 @@ const Itinerary = ({ result }) => {
     </>
   );
 };
-
-
-function EmptyComponent() {
-  return (
+ function EmptyComponent() {
+  return ( 
     <>
       {Array(1).fill().map((_, index) => (
         <div className='overview' key={index}>
@@ -243,3 +242,4 @@ function EmptyComponent() {
 }
 
 export default Itinerary;
+

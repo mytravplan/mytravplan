@@ -51,10 +51,10 @@ const ContinentPage = ({ reversedContinents, setPage, page, totalContinents, lim
         setPage={setPage}
       />}
     </div>
-  );
+  ); 
 };
 
-function EmptyComponent() {
+function EmptyComponent() {   
   return (
     <>
     <div className="explorations">
@@ -77,8 +77,14 @@ function EmptyComponent() {
         ))}
       </div>
       </div>
+     
     </>
   );
 }
 
+
+
 export default ContinentPage;
+
+ 
+ 

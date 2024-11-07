@@ -18,7 +18,6 @@ const LatestBlog = ({blogs}) => {
             <span className="view-all">View All Blogs</span>
           </Link>
         </div>
-
         <div className="blog-container">
           { blogs === null || blogs === undefined || blogs.length === 0 ? (
             <EmptyBlogComponent/>

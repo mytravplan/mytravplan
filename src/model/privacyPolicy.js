@@ -1,12 +1,23 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
- const metaItemSchema = new mongoose.Schema({
-  title: { type: String, required: true },
-  description: { type: String, required: true },
+const privacySchema = new mongoose.Schema({
+  title: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
 });
 
- const PrivacyPolicySchema = new mongoose.Schema({
-  privacySections: [metaItemSchema], 
+const PrivacyPolicySchema = new mongoose.Schema({
+  privacydata: [privacySchema],
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
- export default mongoose.models.privacy_policy || mongoose.model('privacy_policy', PrivacyPolicySchema);
+const PrivacyPolicy = mongoose.models.privacy_policies || mongoose.model('privacy_policies', PrivacyPolicySchema);
+module.exports = PrivacyPolicy;

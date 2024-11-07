@@ -26,6 +26,7 @@ const CountryAllpackages = ({ slug_two }) => {
 
     return (
         <>
+     
             <Topbanner slug={slug_two} />
             <div className="container card_main_section">
                 <div className="card_discount">
@@ -64,6 +65,8 @@ const CountryAllpackages = ({ slug_two }) => {
             </div>
         </>
     );
+    
 };
 
 export default CountryAllpackages;
+

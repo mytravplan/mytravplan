@@ -17,8 +17,6 @@ export async function POST(req) {
         if (isExistSlug) {
             return NextResponse.json({ status: 409, success: false, message: 'Slug already exists' });
         }
-
-        let result = new CategoryModel({ name, slug });
         await result.save();
 
         return NextResponse.json({ status: 201, success: true, message: 'Category created successfully', result });
@@ -27,3 +25,4 @@ export async function POST(req) {
         return NextResponse.json({ status: 500, success: false, message: 'Internal Server Error' });
     }
 }
+

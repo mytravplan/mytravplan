@@ -252,6 +252,8 @@ export const EXPORT_ALL_APIS = () => {
     const loadAllCitiesWithLowestPrices = () => fetchApi(`${process.env.NEXT_PUBLIC_HOST_URL}/api/v1/cities/cities-with-lowest-price`);
 
     const loadAllPackages = () => fetchApi(`${process.env.NEXT_PUBLIC_HOST_URL}/api/v1/packages/get`);
+
+    const fetchPrivacyPolicy = () => fetchApi(`${process.env.NEXT_PUBLIC_HOST_URL}/api/v1/privacy-policy`);
     
   
     const loadSinglePackage = (slug) => fetchApi(`${process.env.NEXT_PUBLIC_HOST_URL}/api/v1/package/getbyslug/${slug}`);
@@ -286,7 +288,7 @@ export const EXPORT_ALL_APIS = () => {
         loadSingleCity,
  
         loadAllCitiesWithLowestPrices,
- 
+        fetchPrivacyPolicy,
         loadSinglePackage,
         loadAllPackages,
  
