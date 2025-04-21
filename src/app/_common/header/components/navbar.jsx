@@ -1,7 +1,7 @@
 // components/Navbar.js
 'use client';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import ballon from '../../../assets/home_images/ballon.png';
 import car from '../../../assets/home_images/car.png';
 import holiday from '../../../assets/home_images/holiday.png';
@@ -16,6 +16,30 @@ import closebar from '../../../assets/home_images/close-menu.svg';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  // Function to load or re-init the Razorpay embed script
+  const initRazorpayEmbed = useCallback(() => {
+    const SCRIPT_ID = 'razorpay-embed-btn-js';
+    if (!document.getElementById(SCRIPT_ID)) {
+      const script = document.createElement('script');
+      script.id = SCRIPT_ID;
+      script.src = 'https://cdn.razorpay.com/static/embed_btn/bundle.js';
+      script.defer = true;
+      document.body.appendChild(script);
+    } else {
+      window.__rzp__?.init && window.__rzp__.init();
+    }
+  }, []);
+
+  useEffect(() => {
+    initRazorpayEmbed();
+  }, [initRazorpayEmbed]);
+
+  const handlePayClick = (e) => {
+    e.preventDefault();
+    initRazorpayEmbed();
+  };
 
   return (
     <nav className="navbar">
@@ -64,9 +88,19 @@ const Navbar = () => {
             <img src={car.src} alt="Transfers" />
             Transfers
           </Link>
+         
+            {/* Pay Link */}
+            <Link href="#" className="navbar-item" onClick={handlePayClick}>
+            <div
+              className="razorpay-embed-btn"
+              data-url="https://pages.razorpay.com/pl_QLgnfA7aoQ4efU/view"
+              data-text="Pay Now"
+              data-color="#CA1E2A"
+              data-size="small"
+              />
+          </Link>
           <button className="contact-buttondfsadf mobile-button"><Link href='/contact-us' >Contact Us</Link></button>
-          
-        
+
         </div>
       </div>
     </nav>
@@ -74,3 +108,5 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+
