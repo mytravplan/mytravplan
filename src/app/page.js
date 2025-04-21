@@ -30,6 +30,8 @@ export default function Home() {
   const [userVerified, setUserVerified] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
+  console.log(userVerified)
+
   useEffect(() => {
     const checkSessionAndShowPopups = async () => {
       const popupShown = sessionStorage.getItem('popupShown');
