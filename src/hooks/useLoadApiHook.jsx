@@ -37,7 +37,7 @@ const useFetchAllSections = (page, limit) => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`/api/v1/all-queries/get?page=${page}&limit=${limit}`);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_HOST_URL}/api/v1/all-queries/get?page=${page}&limit=${limit}`);
         if (!response.ok) {
           throw new Error('Failed to fetch data');
         }
