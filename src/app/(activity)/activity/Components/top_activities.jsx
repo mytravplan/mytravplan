@@ -34,7 +34,7 @@ const TopActivities = ({ result }) => {
                   <div className="top-act-duration">{activity.duration}</div>
 
                 </div>
-                <h2 className='activity_price'>Price {activity?.activity_price}</h2>
+                <h2 className='activity_price'>Price ₹{activity?.activity_price}</h2>
                 <div className="top-act-Details"
                   style={{
                     backgroundImage: `url('/images/bacrounded.png')`,

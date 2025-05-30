@@ -53,7 +53,7 @@ const TopDiscountedActivities = ({result}) => {
             <div className="top-discounted-card">
               <div className="top-discounted-overlay">
                 {/* <span className="top-discounted-label">{activity.discount} % </span> */}
-                <span className="top-discounted-label">Price {activity.activity_price} </span>
+                <span className="top-discounted-label">Price ₹{activity.activity_price} </span>
               </div>
               
                 {activity.images ? activity.images.map((e) => (
