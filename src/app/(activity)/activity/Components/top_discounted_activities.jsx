@@ -2,7 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import discountactivitybg from '../../../assets/home_images/discount-activity-bg.png';
-import LoadingBar from '@/app/_common/innerLoader/innerLoader';
+ 
 import emptyImage from '../../../assets/home_images/empty.jpg'
 
 const discountedActivities = [
@@ -39,6 +39,8 @@ const discountedActivities = [
 ];
 
 const TopDiscountedActivities = ({result}) => {
+
+ 
   
   return (
     <div className="top-discounted-container" style={{ backgroundImage: `url(${discountactivitybg.src})`}} >
@@ -50,7 +52,8 @@ const TopDiscountedActivities = ({result}) => {
           <Link className="top-discounted-cardOuter" href={`/activity/${activity.slug.toLowerCase().replace(' ', '-')}`} key={index}>
             <div className="top-discounted-card">
               <div className="top-discounted-overlay">
-                <span className="top-discounted-label">{activity.discount} % </span>
+                {/* <span className="top-discounted-label">{activity.discount} % </span> */}
+                <span className="top-discounted-label">Price {activity.activity_price} </span>
               </div>
               
                 {activity.images ? activity.images.map((e) => (

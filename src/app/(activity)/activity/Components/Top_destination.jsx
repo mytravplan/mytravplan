@@ -1,12 +1,14 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import LoadingBar from '@/app/_common/innerLoader/innerLoader';
+ 
 import emptyImage from '../../../assets/home_images/empty.jpg'
 
 
 
 const TopDestinations = ({ response }) => {
+
+ 
 
   let reversedCities = Array.isArray(response) ? [...response].reverse() : []
   return (

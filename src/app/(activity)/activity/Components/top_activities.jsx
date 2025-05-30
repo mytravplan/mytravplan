@@ -2,12 +2,11 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import activitytop from '../../../assets/home_images/activity-top.png';
-import LoadingBar from '@/app/_common/innerLoader/innerLoader';
 import emptyImage from '../../../assets/home_images/empty.jpg'
  
 
 const TopActivities = ({ result }) => {
-  console.log(`memoize activities`,result)
+ 
   
   return (
     <div className="top-act-container" style={{ backgroundImage: `url(${activitytop.src})` }} >
@@ -18,7 +17,9 @@ const TopActivities = ({ result }) => {
           { result === null || result === undefined || result.length === 0 ? <EmptyComponent/> : (result?.slice(0,8)?.map((activity, index) => (
             <Link className="top-act-cardOuter" href={`/activity/${activity.slug.toLowerCase().replace(' ', '-')}`} key={index}>
               <div className="top-act-card">
+        
                 <div className='image-container-act'>
+
                
                    {activity.images ? activity.images.map((e) => (
                       <Image
@@ -33,12 +34,15 @@ const TopActivities = ({ result }) => {
                   <div className="top-act-duration">{activity.duration}</div>
 
                 </div>
+                <h2 className='activity_price'>Price {activity?.activity_price}</h2>
                 <div className="top-act-Details"
                   style={{
                     backgroundImage: `url('/images/bacrounded.png')`,
                     backgroundSize: 'cover',
                     backgroundRepeat: 'no-repeat'
                   }}>
+                          
+
 
                   <div className='top-act-icon'>
                     {activity.icon ? activity.icon.map((e) => (
@@ -53,6 +57,7 @@ const TopActivities = ({ result }) => {
                     )) : 'No image found'}
 
                   </div>
+             
                   <h3 className="top-act-country">{activity.title}</h3>
                   <p className="top-act-description">{activity.description}</p>
                 </div>
