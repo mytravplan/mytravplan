@@ -7,6 +7,7 @@ import ContactLinks from './components/contact';
 import footerb from '../../assets/home_images/footerbackground.png';
 import Offer from './components/offer';
 import useFetchAllSections from '@/hooks/useLoadApiHook';
+ 
 
 function Footer() {
   let response = useFetchAllSections();

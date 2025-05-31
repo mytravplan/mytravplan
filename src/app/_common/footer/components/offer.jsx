@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react'
 import offerimage from '../../../assets/home_images/offer.png';
-import QueryForm from '@/Components/autoloadPopup/QueryForm';
+// import QueryForm from '@/Components/autoloadPopup/QueryForm';
+ 
 
 
 function Offer() {
@@ -15,7 +16,7 @@ function Offer() {
 
   return (
    <>
-   {isopenForm && <QueryForm setIsopenForm={setIsopenForm} />}
+   {/* {isopenForm && <QueryForm setIsopenForm={setIsopenForm} />} */}
     <div className='offer_inner'>
       <div className='left_offer_side'>
          <h2>Book Your Package To Stay Updated With Our Latest Discounts more than 40% !!</h2>

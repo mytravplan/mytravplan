@@ -20,7 +20,7 @@ export default function Holiday() {
         <h3 className='se_booking'>Fast Secured Bookings</h3>
         <p className='support'>24 * 7 Support</p>
         <h3 className='deal'>Enjoy Exciting Deals</h3>
-        <a href="tel:+918627814386" className="phone-number">+918627814386</a>
+        <a href="tel:+919915272737" className="phone-number">+919915272737</a>
       </div>
     </div>
   );

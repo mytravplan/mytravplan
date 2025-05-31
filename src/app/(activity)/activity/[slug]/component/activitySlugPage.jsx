@@ -1,11 +1,11 @@
 'use client'
 import BookingAndLogin from "@/app/_common/bookingAndLogin";
-import LoadingBar from "@/app/_common/innerLoader/innerLoader";
+ 
 import { EXPORT_ALL_APIS } from "@/utils/apis/api";
-import Image from "next/image";
+ 
 import { useEffect, useState } from "react";
-import emptyImage from '../../../../assets/home_images/empty.jpg'
-import Link from "next/link";
+ 
+ 
 
 const ActivityBloggallery = ({ slug }) => {
     let [data, setData] = useState([])
@@ -20,6 +20,9 @@ const ActivityBloggallery = ({ slug }) => {
     }, [])
 
     let result = data ? data.result : []
+
+    console.log(`result`)
+    console.log(result)
 
 
     return (
@@ -53,8 +56,9 @@ const ActivityBloggallery = ({ slug }) => {
                                             <h1>Have a Question?</h1>
                                             <p>Do not hesitage to give us a call. We are an expert team and we are happy to talk to you</p>
                                             <div className='contact_card'>
-                                                <a href='tel:+91 8627814386'>+91 8627814386</a>
-                                                <a href='mailto:booking@streetromeo.com'>booking@streetromeo.com</a>
+                                                <a href='tel:+91 9915272737'>+919915272737</a>
+                                                
+                                                <a href='mailto:connect@mytravplan.com'>connect@mytravplan.com</a>
                                             </div>
                                         </div>
                                     </div>
