@@ -14,7 +14,7 @@ export async function POST(request) {
 
         const rawTitle = formData.get('transfer_title')
         const rawSlug = formData.get('transfer_slug')
-        const rawOverview = formData.get('transfer_overview')
+        const transfer_price = formData.get('transfer_price')
         const rawOverviewDesc = formData.get('transfer_overview_description')
 
         if (!transferImageFile || !(transferImageFile instanceof File)) {
@@ -54,8 +54,8 @@ export async function POST(request) {
         if (rawSlug && typeof rawSlug === 'string' && rawSlug.trim() !== '') {
             newTransferData.transfer_slug = rawSlug.trim()
         }
-        if (rawOverview && typeof rawOverview === 'string') {
-            newTransferData.transfer_overview = rawOverview.trim()
+        if (transfer_price) {
+            newTransferData.transfer_price = transfer_price
         }
         if (rawOverviewDesc && typeof rawOverviewDesc === 'string') {
             newTransferData.transfer_overview_description = rawOverviewDesc.trim()

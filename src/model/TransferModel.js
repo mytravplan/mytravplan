@@ -29,11 +29,12 @@ const TransferSchema = new Schema(
         ],
 
 
-        transfer_overview: {
+        transfer_price: {
             type: String,
             required: false,
             trim: true,
         },
+
 
 
         transfer_overview_description: {

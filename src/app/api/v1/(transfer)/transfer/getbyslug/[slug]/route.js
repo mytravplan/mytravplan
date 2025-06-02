@@ -8,13 +8,13 @@ export async function GET(req, { params }) {
   return handelAsyncErrors(async () => {
     const { slug } = params;
     await DbConnect
-    const transfer = await Transfer.findOne({ transfer_slug:slug });
-    if (!transfer) {
+    const result = await Transfer.findOne({ transfer_slug:slug });
+    if (!result) {
       return NextResponse.json(
         { status: 404, message: "Transfer not found." },
 
       );
     }
-    return NextResponse.json({ status: 200, transfer });
+    return NextResponse.json({ status: 200, result });
   });
 }

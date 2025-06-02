@@ -21,15 +21,15 @@ export async function GET(req, { params }) {
       );
     }
 
-    const transfer = await Transfer.findById(id);
-    if (!transfer) {
+    const result = await Transfer.findById(id);
+    if (!result) {
       return NextResponse.json(
         { status: 404, message: "Transfer not found." },
         
       );
     }
 
-    return NextResponse.json({ status: 200, transfer });
+    return NextResponse.json({ status: 200, result });
   });
 }
 
@@ -76,7 +76,7 @@ export async function PUT(request, { params }) {
 
     const rawTitle = formData.get('transfer_title')
     const rawSlug = formData.get('transfer_slug')
-    const rawOverview = formData.get('transfer_overview')
+    const transfer_price = formData.get('transfer_price')
     const rawOverviewDesc = formData.get('transfer_overview_description')
 
  
@@ -98,8 +98,8 @@ export async function PUT(request, { params }) {
     }
 
  
-    if (rawOverview !== null) {
-      updateData.transfer_overview = String(rawOverview).trim()
+    if (transfer_price !== null) {
+      updateData.transfer_price = Number(transfer_price)
     }
 
  

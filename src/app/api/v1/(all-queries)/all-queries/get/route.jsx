@@ -9,20 +9,20 @@ import BlogModel from "@/model/blogModel";
 import ActivitiesModel from "@/model/activitiesModel";
 import PackageCategoryModel from "@/model/packageCategories";
 import FooterModel from "@/model/footerModel";
-import TestimonialsModel from "@/model/testimonialsModel"; // Corrected import name
-
+import TestimonialsModel from "@/model/testimonialsModel"; 
 import { NextResponse } from "next/server";
 import VideosModel from "@/model/videoModel";
 import SliderModel from "@/model/slider";
+import Transfer from "@/model/TransferModel";
 
-// Connect to the database
+
 DbConnect();
 
 export async function GET(req) {
   return handelAsyncErrors(async () => {
     const { page, limit, skip } = getPaginationParams(req);
 
-    const [continents, countries, cities, packages, blogs, activities, packageCategories, footer, testimonials,testimonialVideos,imageSlider] = await Promise.all([
+    const [continents, countries, cities, packages, blogs, activities, packageCategories, footer, testimonials, testimonialVideos, imageSlider, transfers] = await Promise.all([
       continentModel.find()
         .populate({
           path: "all_countries",
@@ -105,22 +105,28 @@ export async function GET(req) {
       FooterModel.find()
         .lean()
         .exec(),
-      TestimonialsModel.find()  
+      TestimonialsModel.find()
         .sort({ createdAt: -1 })
         .limit(limit)
         .skip(skip)
         .lean()
         .exec(),
-      VideosModel.find()  
+      VideosModel.find()
         .sort({ createdAt: -1 })
         .limit(limit)
         .skip(skip)
         .lean()
         .exec(),
-        SliderModel.find()
+      SliderModel.find()
         .sort({ createdAt: -1 })
         .lean()
-        .exec()
+        .exec(),
+      Transfer.find()
+        .sort({ createdAt: -1 })
+        .limit(limit)
+        .skip(skip)
+        .lean()
+        .exec(),
     ]);
 
     const totalCounts = await Promise.all([
@@ -133,10 +139,11 @@ export async function GET(req) {
       PackageCategoryModel.countDocuments(),
       TestimonialsModel.countDocuments(),
       VideosModel.countDocuments(),
-      SliderModel.countDocuments()
+      SliderModel.countDocuments(),
+      Transfer.countDocuments()
     ]);
 
-   
+
     const result = {
       continents: continents.map(continent => ({
         _id: continent._id,
@@ -165,7 +172,7 @@ export async function GET(req) {
         title: country.title,
         description: country.description,
         slug: country.slug,
-        isShow:country.isShow,
+        isShow: country.isShow,
         cities: country.all_cities.map(city => ({
           _id: city._id,
           city_name: city.title,
@@ -191,27 +198,27 @@ export async function GET(req) {
         package_discounted_price: pkg.package_discounted_price,
         package_days: pkg.package_days,
         package_nights: pkg.package_nights,
-        isShow:pkg.isShow,
+        isShow: pkg.isShow,
         package_under_continent: pkg.city_id?.country_id?.continent_id
           ? {
-              _id: pkg.city_id.country_id.continent_id._id.toString(),
-              title: pkg.city_id.country_id.continent_id.title,
-              slug: pkg.city_id.country_id.continent_id.slug,
-            }
+            _id: pkg.city_id.country_id.continent_id._id.toString(),
+            title: pkg.city_id.country_id.continent_id.title,
+            slug: pkg.city_id.country_id.continent_id.slug,
+          }
           : null,
         package_under_country: pkg.city_id?.country_id
           ? {
-              _id: pkg.city_id.country_id._id.toString(),
-              title: pkg.city_id.country_id.title,
-              slug: pkg.city_id.country_id.slug,
-            }
+            _id: pkg.city_id.country_id._id.toString(),
+            title: pkg.city_id.country_id.title,
+            slug: pkg.city_id.country_id.slug,
+          }
           : null,
         package_under_city: pkg.city_id
           ? {
-              _id: pkg.city_id._id.toString(),
-              title: pkg.city_id.title,
-              slug: pkg.city_id.slug,
-            }
+            _id: pkg.city_id._id.toString(),
+            title: pkg.city_id.title,
+            slug: pkg.city_id.slug,
+          }
           : null,
       })),
       blogs: blogs.map(blog => ({
@@ -222,10 +229,10 @@ export async function GET(req) {
         slug: blog.slug,
         category: blog.blog_category
           ? {
-              _id: blog.blog_category._id,
-              name: blog.blog_category.name,
-              slug: blog.blog_category.slug,
-            }
+            _id: blog.blog_category._id,
+            name: blog.blog_category.name,
+            slug: blog.blog_category.slug,
+          }
           : null,
         blog_overview: blog.blog_overview,
         blog_description: blog.blog_description,
@@ -235,10 +242,10 @@ export async function GET(req) {
         const discount =
           activity.activity_price && activity.activity_discounted_price
             ? (
-                ((activity.activity_price - activity.activity_discounted_price) /
-                  activity.activity_price) *
-                100
-              ).toFixed(2)
+              ((activity.activity_price - activity.activity_discounted_price) /
+                activity.activity_price) *
+              100
+            ).toFixed(2)
             : "0";
         return {
           _id: activity._id,
@@ -260,28 +267,40 @@ export async function GET(req) {
         slug: category.slug,
       })),
       footer: footer.length > 0 ? footer[0] : null,
-      testimonials: testimonials.map(testimonial => ({ 
+      testimonials: testimonials.map(testimonial => ({
         _id: testimonial._id,
         name: testimonial.name,
-        images:testimonial.images,
+        images: testimonial.images,
         description: testimonial.description,
         designation: testimonial.designation,
         createdAt: testimonial.createdAt,
       })),
-      testimonialvideos: testimonialVideos.map(video => ({ 
+      testimonialvideos: testimonialVideos.map(video => ({
         _id: video._id,
         name: video.name,
         description: video.description,
         videoUrl: video.videoUrl,
         createdAt: video.createdAt,
-  
+
       })),
-      sliderImages: imageSlider.map(img => ({ 
+      sliderImages: imageSlider.map(img => ({
         _id: img._id,
         galleries: img.galleries,
       })),
-     
-     
+      transferData: transfers.map((ele) => ({
+        _id: ele._id,
+        transfer_image: ele.transfer_image,
+        transfer_title: ele.transfer_title,
+        transfer_galleries: ele.transfer_galleries || [],
+        transfer_overview: ele.transfer_overview,
+        transfer_overview_description: ele.transfer_overview_description,
+        transfer_slug: ele.transfer_slug,
+        createdAt: ele.createdAt,
+        updatedAt: ele.updatedAt,
+      })),
+
+
+
 
       pagination: {
         page,
@@ -296,8 +315,9 @@ export async function GET(req) {
         totalTestimonials: totalCounts[7],
         totalTestimonialVideos: totalCounts[8],
         totalSliderImages: totalCounts[9],
+        transferData: totalCounts[9],
       },
-      
+
     };
 
     return NextResponse.json({
