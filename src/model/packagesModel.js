@@ -55,7 +55,7 @@ const PackagesSchema = new mongoose.Schema({
     isShow:{
         type: Boolean, default: false   
     },
-    package_hotel_name: { type: String, required: true },
+    package_hotel_name: { type: String },
 },{
     timestamps: true   
 });
