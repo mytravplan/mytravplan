@@ -1,13 +1,13 @@
 import mongoose from "mongoose";
 import CitiesModel from "./citiesModel";
-import PackageCategoryModel from "./packageCategories"; 
+import PackageCategoryModel from "./packageCategories";
 
 // Define the image schema
 const imageSchema = new mongoose.Schema({
     name: { type: String, required: true },
     path: { type: String, required: true },
     contentType: { type: String, required: true },
-     
+
 });
 
 // Define the itinerary item schema
@@ -39,24 +39,25 @@ const PackagesSchema = new mongoose.Schema({
     packages_galleries: [imageSchema],
     packages_include: [metaItemSchema],
     packages_exclude: [metaItemSchema],
-    sco_title:{type: String, default: null},
-    sco_description:{type: String, default: null},
-    sco_host_url:{type: String, default: null},
-    city_id: {
+    sco_title: { type: String, default: null },
+    sco_description: { type: String, default: null },
+    sco_host_url: { type: String, default: null },
+    city_id: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'cities',
         required: true
-    },
-    package_categories_id:[{
+    }],
+    package_categories_id: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'packages_categories',
         required: true
     }],
-    isShow:{
-        type: Boolean, default: false   
-    }
-},{
-    timestamps: true   
+    isShow: {
+        type: Boolean, default: false
+    },
+    package_hotel_name: { type: String },
+}, {
+    timestamps: true
 });
 
 

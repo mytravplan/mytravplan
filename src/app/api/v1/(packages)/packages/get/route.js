@@ -41,6 +41,7 @@ export async function GET(req) {
             sco_title: e.sco_title,
             sco_description: e.sco_description,
             sco_host_url: e.sco_host_url,
+            package_hotel_name: result.package_hotel_name,
             package_under_continent: e.city_id?.country_id?.continent_id ? {
                 _id: e.city_id.country_id.continent_id._id.toString(),
                 title: e.city_id.country_id.continent_id.title,
@@ -59,7 +60,7 @@ export async function GET(req) {
             isShow:e.isShow
         }));
 
-        // Count total number of documents
+        
         let totalResults = await PackagesModel.countDocuments();
 
         return NextResponse.json({ status: 200, success: true, totalResults, result, page, limit });

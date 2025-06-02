@@ -16,9 +16,9 @@ import closebar from '../../../assets/home_images/close-menu.svg';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [showDropdown, setShowDropdown] = useState(false);
+ 
 
-  // Function to load or re-init the Razorpay embed script
+ 
   const initRazorpayEmbed = useCallback(() => {
     const SCRIPT_ID = 'razorpay-embed-btn-js';
     if (!document.getElementById(SCRIPT_ID)) {
@@ -89,10 +89,11 @@ const Navbar = () => {
             Transfers
           </Link>
          
-            {/* Pay Link */}
-            <Link href="#" className="navbar-item" onClick={handlePayClick}>
+           
+            <Link href="#" className="navbar-item rzpay" onClick={handlePayClick}>
             <div
               className="razorpay-embed-btn"
+              id='razor_pay_id'
               data-url="https://pages.razorpay.com/pl_QLgnfA7aoQ4efU/view"
               data-text="Pay Now"
               data-color="#CA1E2A"

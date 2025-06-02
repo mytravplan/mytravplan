@@ -2,6 +2,14 @@
 @import 'mixin';
 @import 'extends';
 
+html{
+	padding: 0;
+	margin: 0;
+}
+body{
+	padding: 0;
+	margin: 0;
+}
 
 .input_buttons {
     display: flex;
@@ -9,6 +17,10 @@
 }
 .input_buttons button:nth-child(1) {
     order: 1;
+}
+
+div#razor_pay_id iframe {
+    height: 55px;
 }
 
 h2.activity_price {

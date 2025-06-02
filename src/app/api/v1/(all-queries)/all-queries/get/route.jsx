@@ -194,6 +194,7 @@ export async function GET(req) {
         title: pkg.title,
         description: pkg.description,
         slug: pkg.slug,
+        package_hotel_name:pkg.package_hotel_name,
         package_price: pkg.package_price,
         package_discounted_price: pkg.package_discounted_price,
         package_days: pkg.package_days,

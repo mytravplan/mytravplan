@@ -27,14 +27,14 @@ const AddPackages = () => {
     packagesExclude: [{ description: '' }],
     file: null,
     packages_galleries: [],
-    city_id: '',
+    city_id: [],
     package_price: '',
     package_discounted_price: '',
     package_days: '1',
     package_nights: '1',
     package_categories_id: [],
-    sco_title:'',
-    sco_description:'',
+    sco_title: '',
+    sco_description: '',
     isShow: false,
   });
   const [cities, setCities] = useState([]);
@@ -132,7 +132,8 @@ const AddPackages = () => {
       package_categories_id,
       sco_title,
       sco_description,
-      isShow
+      isShow,
+      package_hotel_name,
     } = formData;
 
     if (!title || !description || !slug || !file || !city_id) {
@@ -155,12 +156,12 @@ const AddPackages = () => {
       submissionData.append('package_itinerary', JSON.stringify(packageItinerary));
       submissionData.append('packages_include', JSON.stringify(packagesInclude));
       submissionData.append('packages_exclude', JSON.stringify(packagesExclude));
-      submissionData.append('file', file);
-      submissionData.append('city_id', city_id);  // Include city_id
-      submissionData.append('sco_title', sco_title);  // Include city_id
-      submissionData.append('sco_description', sco_description);  // Include city_id
+      city_id.forEach((cid) => submissionData.append('city_id', cid));
+      submissionData.append('package_hotel_name', package_hotel_name);
+      submissionData.append('sco_title', sco_title);
+      submissionData.append('sco_description', sco_description);
       submissionData.append('isShow', isShow);
-      submissionData.append('package_categories_id', JSON.stringify(package_categories_id)); // Include categories
+      submissionData.append('package_categories_id', JSON.stringify(package_categories_id));
       packages_galleries.forEach((file) => {
         submissionData.append('packages_galleries', file);
       });
@@ -194,6 +195,21 @@ const AddPackages = () => {
               slug={formData.slug}
               setFormData={setFormData}
             />
+
+            <div className="form-group">
+              <label htmlFor="package_hotel_name">Hotel Name</label>
+              <input
+                type="text"
+                id="package_hotel_name"
+                name="package_hotel_name"
+                value={formData.package_hotel_name}
+                onChange={handleChange}
+                placeholder="Enter hotel name"
+              />
+            </div>
+
+
+
             <div className="form-group">
               <label htmlFor="description">Description</label>
               <textarea
@@ -294,14 +310,17 @@ const AddPackages = () => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="city_id">City</label>
+              <label htmlFor="city_id">City (Select Multiple) </label>
               <select
                 id="city_id"
                 name="city_id"
+                multiple
                 value={formData.city_id}
-                onChange={handleChange}
+                onChange={(e) => {
+                  const selected = Array.from(e.target.selectedOptions, opt => opt.value);
+                  setFormData(prevData => ({ ...prevData, city_id: selected }));
+                }}
               >
-                <option value="">Select a city</option>
                 {cities.map((city) => (
                   <option key={city._id} value={city._id}>
                     {city.title}
@@ -309,8 +328,8 @@ const AddPackages = () => {
                 ))}
               </select>
             </div>
-           
- 
+
+
             <div className="form-group">
               <label>Package Itinerary</label>
               {formData.packageItinerary.map((item, index) => (
@@ -412,40 +431,40 @@ const AddPackages = () => {
 
             <div className="form-group handelCheckbox">
               <label>
-                
-                 Do you want to enable this to be shown on the home page?
+
+                Do you want to enable this to be shown on the home page?
               </label>
               <input
-                  type="checkbox"
-                  name="isShow"
-                  checked={formData.isShow}
-                  onChange={handleChange}
-                />
+                type="checkbox"
+                name="isShow"
+                checked={formData.isShow}
+                onChange={handleChange}
+              />
             </div>
 
             <div className="sco_panel">
               <h3>Add Package Seo meta keywords</h3>
               <div className="form-group">
-              <label htmlFor="packages_galleries">Seo title</label>
-                 <input
-                type="text"
-                id="sco_title"
-                name="sco_title"
-                value={formData.sco_title}
-                onChange={handleChange}
-                placeholder="Enter seo meta title"
-              />
+                <label htmlFor="packages_galleries">Seo title</label>
+                <input
+                  type="text"
+                  id="sco_title"
+                  name="sco_title"
+                  value={formData.sco_title}
+                  onChange={handleChange}
+                  placeholder="Enter seo meta title"
+                />
               </div>
               <div className="form-group">
-              <label htmlFor="packages_galleries">Seo description</label>
-                 <input
-                type="text"
-                id="sco_description"
-                name="sco_description"
-                value={formData.sco_description}
-                onChange={handleChange}
-                placeholder="Enter seo meta description"
-              />
+                <label htmlFor="packages_galleries">Seo description</label>
+                <input
+                  type="text"
+                  id="sco_description"
+                  name="sco_description"
+                  value={formData.sco_description}
+                  onChange={handleChange}
+                  placeholder="Enter seo meta description"
+                />
               </div>
             </div>
 
