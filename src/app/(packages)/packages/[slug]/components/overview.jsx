@@ -59,7 +59,7 @@ const Itinerary = ({ result }) => {
             </div>
             <div className='over' style={{marginTop:'50px'}}>
               <h2 className='heading_inner_page'>Hotel Name</h2>
-              <p>{ele?.package_hotel_name || null}</p>
+              <p>{ele?.package_hotel_name || 'Not Available'}</p>
             </div>
 
              
