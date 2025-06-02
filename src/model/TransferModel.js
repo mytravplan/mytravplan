@@ -15,7 +15,7 @@ const TransferSchema = new Schema(
 
         transfer_title: {
             type: String,
-            required: true,
+            required: false,
             trim: true,
         },
 
