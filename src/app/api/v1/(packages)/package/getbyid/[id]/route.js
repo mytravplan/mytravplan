@@ -14,10 +14,10 @@ export async function GET(req, { params }) {
             return NextResponse.json({ status: 400, success: false, message: 'Package ID is required' });
         }
 
-
+         
 
         try {
-
+   
             const result = await PackagesModel.findById(id)
                 .populate({
                     path: 'city_id',
@@ -30,17 +30,17 @@ export async function GET(req, { params }) {
                 })
                 .populate({
                     path: 'package_categories_id',
-                    model: 'packages_categories',
-                    select: '_id name slug'
+                    model: 'packages_categories',  
+                    select: '_id name slug'  
                 })
                 .lean();
-
+           
 
             if (!result) {
                 return NextResponse.json({ status: 404, success: false, message: 'Package not found' });
             }
 
-
+           
             const formattedResult = {
                 _id: result._id,
                 title: result.title,
@@ -57,12 +57,7 @@ export async function GET(req, { params }) {
                 packages_galleries: result.packages_galleries,
                 packagesInclude: result.packages_include,
                 packagesExclude: result.packages_exclude,
-                city_id: (result.city_id || []).map((city) => ({
-                    _id: city._id.toString(),
-                    title: city.title,
-                    slug: city.slug,
-                })),
-               package_hotel_name: result.package_hotel_name,
+                city_id:result.city_id,
                 package_under_continent: result.city_id?.country_id?.continent_id ? {
                     _id: result.city_id.country_id.continent_id._id.toString(),
                     title: result.city_id.country_id.continent_id.title,
@@ -83,10 +78,10 @@ export async function GET(req, { params }) {
                     name: category.name,
                     slug: category.slug
                 })) || null,
-                isShow: result.isShow,
-                sco_title: result.sco_title,
-                sco_description: result.sco_description,
-                sco_host_url: result.sco_host_url,
+                isShow:result.isShow,
+                sco_title:result.sco_title,
+                sco_description:result.sco_description,
+                sco_host_url:result.sco_host_url,
             };
 
             return NextResponse.json({ status: 200, success: true, result: [formattedResult] });

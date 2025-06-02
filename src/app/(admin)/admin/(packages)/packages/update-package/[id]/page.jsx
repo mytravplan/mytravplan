@@ -25,7 +25,7 @@ const UpdatePackage = ({ params }) => {
     packagesExclude: [{ description: '' }],
     file: null,
     gallery_files: [],
-    city_id: [],
+    city_id: '',
     package_price: '',
     package_discounted_price: '',
     package_days: '1',
@@ -33,8 +33,7 @@ const UpdatePackage = ({ params }) => {
     package_categories_id: [],
     sco_title: '',
     sco_description: '',
-    isShow: false,
-    package_hotel_name: '',
+    isShow: false
   });
   const [cities, setCities] = useState([]);
   const [cats, setCats] = useState([])
@@ -57,10 +56,9 @@ const UpdatePackage = ({ params }) => {
             packageItinerary: packageData.packageItinerary || [{ day: '', location: '', tourname: '', itinerary_description: '' }],
             packagesInclude: packageData.packagesInclude || [{ description: '' }],
             packagesExclude: packageData.packagesExclude || [{ description: '' }],
-            city_id: packageData.city_id?.map(city => city._id) || [],
+            city_id: packageData.city_id?._id || '',
             package_categories_id: packageData.package_under_categories?.map(cat => cat._id) || [],
-            isShow: packageData.isShow,
-            package_hotel_name: packageData.package_hotel_name || '',
+            isShow: packageData.isShow
           }));
         } else {
           toast.error(data.message || 'Failed to fetch package data');
@@ -71,7 +69,7 @@ const UpdatePackage = ({ params }) => {
     });
   };
 
-
+   
 
   const fetchCities = async () => {
     return handelAsyncErrors(async () => {
@@ -116,7 +114,7 @@ const UpdatePackage = ({ params }) => {
     }
   }, [id]);
 
-
+  
 
   const handleChange = (e) => {
     const { name, value, files, type, checked } = e.target;
@@ -173,8 +171,7 @@ const UpdatePackage = ({ params }) => {
       package_categories_id,
       sco_title,
       sco_description,
-      isShow,
-      package_hotel_name,
+      isShow
     } = formData;
 
 
@@ -197,12 +194,11 @@ const UpdatePackage = ({ params }) => {
       submissionData.append('packages_include', JSON.stringify(packagesInclude));
       submissionData.append('packages_exclude', JSON.stringify(packagesExclude));
       submissionData.append('file', file);
-      city_id.forEach((cid) => submissionData.append('city_id', cid))
-      submissionData.append('package_hotel_name', package_hotel_name);
+      submissionData.append('city_id', city_id);
       submissionData.append('sco_title', sco_title);
       submissionData.append('sco_description', sco_description);
       submissionData.append('isShow', isShow);
-      submissionData.append('package_categories_id', JSON.stringify(package_categories_id));
+      submissionData.append('package_categories_id', JSON.stringify(package_categories_id)); 
       gallery_files.forEach((file) => {
         submissionData.append('gallery_files', file);
       });
@@ -228,17 +224,7 @@ const UpdatePackage = ({ params }) => {
     <div className="add-package-container">
       <h2>Update Package</h2>
       <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="package_hotel_name">Hotel Name</label>
-          <input
-            type="text"
-            id="package_hotel_name"
-            name="package_hotel_name"
-            value={formData.package_hotel_name}
-            onChange={handleChange}
-            placeholder="Enter hotel name"
-          />
-        </div>
+        {/* Form fields */}
         <div className="form-group">
           <label htmlFor="title">Title</label>
           <input
@@ -293,7 +279,7 @@ const UpdatePackage = ({ params }) => {
             placeholder="Enter discounted price"
           />
         </div>
-
+      
         <div className="form-group">
           <label htmlFor="package_days">Package Days</label>
           <select
@@ -362,7 +348,7 @@ const UpdatePackage = ({ params }) => {
           </select>
         </div>
 
-
+        {/* Handle dynamic fields for itinerary, include, exclude */}
         <div className="form-group">
           <label htmlFor="packageItinerary">Package Itinerary</label>
           {formData.packageItinerary.map((item, index) => (
@@ -438,17 +424,14 @@ const UpdatePackage = ({ params }) => {
           <button type="button" onClick={() => handleAddField('packagesExclude')}>Add Exclude Item</button>
         </div>
         <div className="form-group">
-          <label htmlFor="city_id">City (Select Multiple) </label>
+          <label htmlFor="city_id">City</label>
           <select
             id="city_id"
             name="city_id"
-            multiple
             value={formData.city_id}
-            onChange={(e) => {
-              const selected = Array.from(e.target.selectedOptions, opt => opt.value);
-              setFormData(prevData => ({ ...prevData, city_id: selected }));
-            }}
+            onChange={handleChange}
           >
+            <option value="">Select City</option>
             {cities.map((city) => (
               <option key={city._id} value={city._id}>
                 {city.title}
@@ -486,19 +469,19 @@ const UpdatePackage = ({ params }) => {
           />
         </div>
 
-
+         
         <div className="form-group handelCheckbox">
-          <label>
-
-            Do you want to enable this to be shown on the home page?
-          </label>
-          <input
-            type="checkbox"
-            name="isShow"
-            checked={formData.isShow}
-            onChange={handleChange}
-          />
-        </div>
+              <label>
+                
+              Do you want to enable this to be shown on the home page?
+              </label>
+              <input
+                  type="checkbox"
+                  name="isShow"
+                  checked={formData.isShow}
+                  onChange={handleChange}
+                />
+            </div>
 
         <div className="sco_panel">
           <h3>Update Package Sco meta keywords</h3>
