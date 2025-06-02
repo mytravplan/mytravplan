@@ -27,15 +27,16 @@ const AddPackages = () => {
     packagesExclude: [{ description: '' }],
     file: null,
     packages_galleries: [],
-    city_id: '',
+    city_id: [],
     package_price: '',
     package_discounted_price: '',
     package_days: '1',
     package_nights: '1',
     package_categories_id: [],
-    sco_title:'',
-    sco_description:'',
+    sco_title: '',
+    sco_description: '',
     isShow: false,
+    package_hotel_name: ''
   });
   const [cities, setCities] = useState([]);
   const [cats, setCats] = useState([])
@@ -132,7 +133,8 @@ const AddPackages = () => {
       package_categories_id,
       sco_title,
       sco_description,
-      isShow
+      isShow,
+      package_hotel_name
     } = formData;
 
     if (!title || !description || !slug || !file || !city_id) {
@@ -143,6 +145,7 @@ const AddPackages = () => {
 
     return handelAsyncErrors(async () => {
       const submissionData = new FormData();
+      submissionData.append('package_hotel_name', package_hotel_name);
       submissionData.append('title', title);
       submissionData.append('description', description);
       submissionData.append('slug', slug);
@@ -156,7 +159,7 @@ const AddPackages = () => {
       submissionData.append('packages_include', JSON.stringify(packagesInclude));
       submissionData.append('packages_exclude', JSON.stringify(packagesExclude));
       submissionData.append('file', file);
-      submissionData.append('city_id', city_id);  // Include city_id
+      submissionData.append('city_id', JSON.stringify(city_id));
       submissionData.append('sco_title', sco_title);  // Include city_id
       submissionData.append('sco_description', sco_description);  // Include city_id
       submissionData.append('isShow', isShow);
@@ -194,6 +197,18 @@ const AddPackages = () => {
               slug={formData.slug}
               setFormData={setFormData}
             />
+
+            <div className="form-group">
+              <label htmlFor="title">Hotel Name</label>
+              <input
+                id="package_hotel_name"
+                name="package_hotel_name"
+                value={formData.package_hotel_name}
+                onChange={handleChange}
+                placeholder="Enter hotel name"
+              />
+            </div>
+
             <div className="form-group">
               <label htmlFor="description">Description</label>
               <textarea
@@ -299,9 +314,14 @@ const AddPackages = () => {
                 id="city_id"
                 name="city_id"
                 value={formData.city_id}
-                onChange={handleChange}
+                onChange={(e) => setFormData(prevData => ({
+                  ...prevData,
+                  city_id: Array.from(e.target.selectedOptions, option => option.value)
+                }))}
+                multiple
+
               >
-                <option value="">Select a city</option>
+                <option value="">Select a city (Multiple Select) </option>
                 {cities.map((city) => (
                   <option key={city._id} value={city._id}>
                     {city.title}
@@ -309,8 +329,8 @@ const AddPackages = () => {
                 ))}
               </select>
             </div>
-           
- 
+
+
             <div className="form-group">
               <label>Package Itinerary</label>
               {formData.packageItinerary.map((item, index) => (
@@ -412,40 +432,40 @@ const AddPackages = () => {
 
             <div className="form-group handelCheckbox">
               <label>
-                
-                 Do you want to enable this to be shown on the home page?
+
+                Do you want to enable this to be shown on the home page?
               </label>
               <input
-                  type="checkbox"
-                  name="isShow"
-                  checked={formData.isShow}
-                  onChange={handleChange}
-                />
+                type="checkbox"
+                name="isShow"
+                checked={formData.isShow}
+                onChange={handleChange}
+              />
             </div>
 
             <div className="sco_panel">
               <h3>Add Package Seo meta keywords</h3>
               <div className="form-group">
-              <label htmlFor="packages_galleries">Seo title</label>
-                 <input
-                type="text"
-                id="sco_title"
-                name="sco_title"
-                value={formData.sco_title}
-                onChange={handleChange}
-                placeholder="Enter seo meta title"
-              />
+                <label htmlFor="packages_galleries">Seo title</label>
+                <input
+                  type="text"
+                  id="sco_title"
+                  name="sco_title"
+                  value={formData.sco_title}
+                  onChange={handleChange}
+                  placeholder="Enter seo meta title"
+                />
               </div>
               <div className="form-group">
-              <label htmlFor="packages_galleries">Seo description</label>
-                 <input
-                type="text"
-                id="sco_description"
-                name="sco_description"
-                value={formData.sco_description}
-                onChange={handleChange}
-                placeholder="Enter seo meta description"
-              />
+                <label htmlFor="packages_galleries">Seo description</label>
+                <input
+                  type="text"
+                  id="sco_description"
+                  name="sco_description"
+                  value={formData.sco_description}
+                  onChange={handleChange}
+                  placeholder="Enter seo meta description"
+                />
               </div>
             </div>
 

@@ -42,11 +42,11 @@ const PackagesSchema = new mongoose.Schema({
     sco_title:{type: String, default: null},
     sco_description:{type: String, default: null},
     sco_host_url:{type: String, default: null},
-    city_id: {
+    city_id: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'cities',
         required: true
-    },
+    }],
     package_categories_id:[{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'packages_categories',
@@ -54,7 +54,8 @@ const PackagesSchema = new mongoose.Schema({
     }],
     isShow:{
         type: Boolean, default: false   
-    }
+    },
+    package_hotel_name: { type: String, required: true },
 },{
     timestamps: true   
 });

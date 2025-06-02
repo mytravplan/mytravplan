@@ -42,17 +42,17 @@ export async function GET(req) {
             sco_description: e.sco_description,
             sco_host_url: e.sco_host_url,
             package_under_continent: e.city_id?.country_id?.continent_id ? {
-                _id: e.city_id.country_id.continent_id._id.toString(),
+                _id: e.city_id.country_id.continent_id._id,
                 title: e.city_id.country_id.continent_id.title,
                 slug: e.city_id.country_id.continent_id.slug
             } : null,
             package_under_country: e.city_id?.country_id ? {
-                _id: e.city_id.country_id._id.toString(),
+                _id: e.city_id.country_id._id,
                 title: e.city_id.country_id.title,
                 slug: e.city_id.country_id.slug
             } : null,
             package_under_city: e.city_id ? {
-                _id: e.city_id._id.toString(),
+                _id: e.city_id._id,
                 title: e.city_id.title,
                 slug: e.city_id.slug
             } : null,

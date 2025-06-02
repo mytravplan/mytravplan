@@ -201,21 +201,21 @@ export async function GET(req) {
         isShow: pkg.isShow,
         package_under_continent: pkg.city_id?.country_id?.continent_id
           ? {
-            _id: pkg.city_id.country_id.continent_id._id.toString(),
+            _id: pkg.city_id.country_id.continent_id._id,
             title: pkg.city_id.country_id.continent_id.title,
             slug: pkg.city_id.country_id.continent_id.slug,
           }
           : null,
         package_under_country: pkg.city_id?.country_id
           ? {
-            _id: pkg.city_id.country_id._id.toString(),
+            _id: pkg.city_id.country_id._id,
             title: pkg.city_id.country_id.title,
             slug: pkg.city_id.country_id.slug,
           }
           : null,
         package_under_city: pkg.city_id
           ? {
-            _id: pkg.city_id._id.toString(),
+            _id: pkg.city_id._id,
             title: pkg.city_id.title,
             slug: pkg.city_id.slug,
           }

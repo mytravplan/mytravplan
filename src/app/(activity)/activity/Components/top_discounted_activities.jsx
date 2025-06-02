@@ -68,7 +68,7 @@ const TopDiscountedActivities = ({result}) => {
                     )) : 'No image found'}
               <div className="top-discounted-Details">
                 <h3 className="top-discounted-country">{activity.title}</h3>
-                <p className="top-discounted-description">{activity.description}</p>
+                <p className="top-discounted-description">{activity.description.slice(0,60)+ '...'}</p>
               </div>
             </div>
           </Link>

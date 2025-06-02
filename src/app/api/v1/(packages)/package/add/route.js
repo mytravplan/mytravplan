@@ -18,14 +18,18 @@ export async function POST(req) {
     const package_discounted_price = payload.get('package_discounted_price');
     const package_days = payload.get('package_days');
     const package_nights = payload.get('package_nights');
-    const city_id = payload.get('city_id');
     const packageOverview = payload.get('package_overview');
     const packageTopSummary = payload.get('package_top_summary');
     const packageItinerary = JSON.parse(payload.get('package_itinerary'));
     const packagesInclude = JSON.parse(payload.get('packages_include'));
     const packagesExclude = JSON.parse(payload.get('packages_exclude'));
     const package_categories_id = JSON.parse(payload.get('package_categories_id'));
+    const city_id = JSON.parse(payload.get('city_id'));
     const isShow = payload.get('isShow') ? payload.get('isShow') === 'true' : false;
+    const package_hotel_name  = payload.get('package_hotel_name');
+
+
+ 
 
     // Validation checks
     if (!title && !description && !slug && !package_price && !city_id) {
@@ -89,7 +93,8 @@ export async function POST(req) {
         packages_exclude: packagesExclude,
         city_id: city_id,
         package_categories_id: package_categories_id,
-        isShow: isShow 
+        isShow: isShow,
+        package_hotel_name : package_hotel_name
     });
 
     // Save the package and update the city's package list

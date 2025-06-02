@@ -14,10 +14,10 @@ export async function GET(req, { params }) {
             return NextResponse.json({ status: 400, success: false, message: 'Package ID is required' });
         }
 
-         
+
 
         try {
-   
+
             const result = await PackagesModel.findById(id)
                 .populate({
                     path: 'city_id',
@@ -30,17 +30,17 @@ export async function GET(req, { params }) {
                 })
                 .populate({
                     path: 'package_categories_id',
-                    model: 'packages_categories',  
-                    select: '_id name slug'  
+                    model: 'packages_categories',
+                    select: '_id name slug'
                 })
                 .lean();
-           
+
 
             if (!result) {
                 return NextResponse.json({ status: 404, success: false, message: 'Package not found' });
             }
 
-           
+
             const formattedResult = {
                 _id: result._id,
                 title: result.title,
@@ -57,31 +57,36 @@ export async function GET(req, { params }) {
                 packages_galleries: result.packages_galleries,
                 packagesInclude: result.packages_include,
                 packagesExclude: result.packages_exclude,
-                city_id:result.city_id,
+                city_id: (result.city_id || []).map((city) => ({
+                    _id: city._id,
+                    title: city.title,
+                    slug: city.slug,
+                })),
+               package_hotel_name: result.package_hotel_name,
                 package_under_continent: result.city_id?.country_id?.continent_id ? {
-                    _id: result.city_id.country_id.continent_id._id.toString(),
+                    _id: result.city_id.country_id.continent_id._id,
                     title: result.city_id.country_id.continent_id.title,
                     slug: result.city_id.country_id.continent_id.slug
                 } : null,
                 package_under_country: result.city_id?.country_id ? {
-                    _id: result.city_id.country_id._id.toString(),
+                    _id: result.city_id.country_id._id,
                     title: result.city_id.country_id.title,
                     slug: result.city_id.country_id.slug
                 } : null,
                 package_under_city: result.city_id ? {
-                    _id: result.city_id._id.toString(),
+                    _id: result.city_id._id,
                     title: result.city_id.title,
                     slug: result.city_id.slug
                 } : null,
                 package_under_categories: result.package_categories_id?.map(category => ({
-                    _id: category._id.toString(),
+                    _id: category._id,
                     name: category.name,
                     slug: category.slug
                 })) || null,
-                isShow:result.isShow,
-                sco_title:result.sco_title,
-                sco_description:result.sco_description,
-                sco_host_url:result.sco_host_url,
+                isShow: result.isShow,
+                sco_title: result.sco_title,
+                sco_description: result.sco_description,
+                sco_host_url: result.sco_host_url,
             };
 
             return NextResponse.json({ status: 200, success: true, result: [formattedResult] });

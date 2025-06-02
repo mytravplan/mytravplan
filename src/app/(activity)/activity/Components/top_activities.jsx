@@ -59,7 +59,7 @@ const TopActivities = ({ result }) => {
                   </div>
              
                   <h3 className="top-act-country">{activity.title}</h3>
-                  <p className="top-act-description">{activity.description}</p>
+                  <p className="top-act-description">{activity.description.slice(0,60)+ '...'}</p>
                 </div>
               </div>
             </Link>

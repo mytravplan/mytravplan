@@ -24,7 +24,7 @@ export async function PUT(req, { params }) {
         const package_discounted_price = payload.get('package_discounted_price');
         const package_days = payload.get('package_days');
         const package_nights = payload.get('package_nights');
-        const city_id = payload.get('city_id');
+        const package_hotel_name = payload.get('package_hotel_name');
         const packageOverview = payload.has('package_overview') ? payload.get('package_overview') : null;
         const packageTopSummary = payload.has('package_top_summary') ? payload.get('package_top_summary') : null;
         const packageItinerary = payload.has('package_itinerary') ? JSON.parse(payload.get('package_itinerary')) : null;
@@ -34,6 +34,7 @@ export async function PUT(req, { params }) {
         const sco_description = payload.get('sco_description');
         const sco_host_url = host;
         const package_categories_id = payload.has('package_categories_id') ? JSON.parse(payload.get('package_categories_id')) : null;
+        const city_id = payload.has('city_id') ? JSON.parse(payload.get('city_id')) : null;
         const isShow = payload.get('isShow') ? payload.get('isShow') === 'true' : false;
 
         // Check if package exists
@@ -80,6 +81,7 @@ export async function PUT(req, { params }) {
         if (packagesInclude) existingPackage.packages_include = packagesInclude;
         if (packagesExclude) existingPackage.packages_exclude = packagesExclude;
         if (sco_title) existingPackage.sco_title = sco_title;
+        if (package_hotel_name) existingPackage.package_hotel_name = package_hotel_name;
         if (sco_description) existingPackage.sco_description = sco_description;
         if (sco_host_url) existingPackage.sco_host_url = sco_host_url;
         if (payload.has('isShow')) {

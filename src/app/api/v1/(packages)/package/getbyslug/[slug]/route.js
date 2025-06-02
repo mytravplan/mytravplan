@@ -56,23 +56,24 @@ export async function GET(req, { params }) {
                 packages_galleries: result.packages_galleries,
                 packagesInclude: result.packages_include,
                 packagesExclude: result.packages_exclude,
+                package_hotel_name: result.package_hotel_name,
                 package_under_continent: result.city_id?.country_id?.continent_id ? {
-                    _id: result.city_id.country_id.continent_id._id.toString(),
+                    _id: result.city_id.country_id.continent_id._id,
                     title: result.city_id.country_id.continent_id.title,
                     slug: result.city_id.country_id.continent_id.slug
                 } : null,
                 package_under_country: result.city_id?.country_id ? {
-                    _id: result.city_id.country_id._id.toString(),
+                    _id: result.city_id.country_id._id,
                     title: result.city_id.country_id.title,
                     slug: result.city_id.country_id.slug
                 } : null,
                 package_under_city: result.city_id ? {
-                    _id: result.city_id._id.toString(),
+                    _id: result.city_id._id,
                     title: result.city_id.title,
                     slug: result.city_id.slug
                 } : null,
                 package_under_categories: result.package_categories_id?.map(category => ({
-                    _id: category._id.toString(),
+                    _id: category._id,
                     name: category.name,
                     slug: category.slug
                 })) || null,
