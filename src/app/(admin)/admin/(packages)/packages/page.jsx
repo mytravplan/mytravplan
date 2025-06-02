@@ -27,7 +27,7 @@ function Packages() {
       const data = await response.json();
       if (data.success) {
         setPackages(data.result);
-        setTotalResults(data.totalResults); // Set totalResults from API
+        setTotalResults(data.totalResults);  
       } else {
         toast.error(data.message || 'Failed to fetch packages.');
       }

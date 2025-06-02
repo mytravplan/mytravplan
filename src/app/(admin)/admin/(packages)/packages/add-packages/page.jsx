@@ -1,5 +1,3 @@
-// /app/(admin)/admin/(packages)/packages/add-packages/page.jsx
-
 'use client'
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
@@ -9,6 +7,7 @@ import { toast } from 'react-toastify';
 import { handelAsyncErrors } from '@/helpers/asyncErrors';
 import PackageCategories from '../../package-category/PackageCategories';
 import { InputGroup } from '@/hooks/slugUtils';
+import Select from 'react-select';
 
 const generateOptions = (start, end) => {
   return Array.from({ length: end - start + 1 }, (_, i) => i + start);
@@ -39,9 +38,30 @@ const AddPackages = () => {
     package_hotel_name: ''
   });
   const [cities, setCities] = useState([]);
-  const [cats, setCats] = useState([])
+  const [cats, setCats] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  // Format cities for react-select
+  const cityOptions = cities.map(city => ({
+    value: city._id,
+    label: city.title
+  }));
+
+  // Format categories for react-select
+  const categoryOptions = cats.map(cat => ({
+    value: cat._id,
+    label: cat.name
+  }));
+
+  // Get selected cities
+  const selectedCities = cityOptions.filter(option => 
+    formData.city_id.includes(option.value)
+  );
+
+  // Get selected categories
+  const selectedCategories = categoryOptions.filter(option => 
+    formData.package_categories_id.includes(option.value)
+  );
 
   const fetchCities = async () => {
     return handelAsyncErrors(async () => {
@@ -58,6 +78,7 @@ const AddPackages = () => {
       }
     })
   };
+
   const fetchCategories = async () => {
     return handelAsyncErrors(async () => {
       const res = await fetch(`/api/v1/package-categories/get?page=1&limit=1000`, {
@@ -73,6 +94,7 @@ const AddPackages = () => {
       }
     })
   };
+
   useEffect(() => {
     fetchCities();
     fetchCategories();
@@ -108,6 +130,20 @@ const AddPackages = () => {
       updatedField.splice(index, 1);
       return { ...prevData, [field]: updatedField };
     });
+  };
+
+  const handleCityChange = (selectedOptions) => {
+    setFormData(prevData => ({
+      ...prevData,
+      city_id: selectedOptions ? selectedOptions.map(option => option.value) : []
+    }));
+  };
+
+  const handleCategoryChange = (selectedOptions) => {
+    setFormData(prevData => ({
+      ...prevData,
+      package_categories_id: selectedOptions ? selectedOptions.map(option => option.value) : []
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -160,10 +196,10 @@ const AddPackages = () => {
       submissionData.append('packages_exclude', JSON.stringify(packagesExclude));
       submissionData.append('file', file);
       submissionData.append('city_id', JSON.stringify(city_id));
-      submissionData.append('sco_title', sco_title);  // Include city_id
-      submissionData.append('sco_description', sco_description);  // Include city_id
+      submissionData.append('sco_title', sco_title);
+      submissionData.append('sco_description', sco_description);
       submissionData.append('isShow', isShow);
-      submissionData.append('package_categories_id', JSON.stringify(package_categories_id)); // Include categories
+      submissionData.append('package_categories_id', JSON.stringify(package_categories_id));
       packages_galleries.forEach((file) => {
         submissionData.append('packages_galleries', file);
       });
@@ -183,7 +219,6 @@ const AddPackages = () => {
       }
       setIsLoading(false);
     })
-
   };
 
   return (
@@ -289,48 +324,32 @@ const AddPackages = () => {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="package_categories_id">Categories</label>
-              <select
-                id="package_categories_id"
-                name="package_categories_id"
-                value={formData.package_categories_id}
-                onChange={(e) => setFormData(prevData => ({
-                  ...prevData,
-                  package_categories_id: Array.from(e.target.selectedOptions, option => option.value)
-                }))}
-                multiple
-              >
-                {cats.map((cat) => (
-                  <option key={cat._id} value={cat._id}>
-                    {cat.name}
-                  </option>
-                ))}
-              </select>
+              <label>Categories</label>
+              <Select
+                isMulti
+                options={categoryOptions}
+                value={selectedCategories}
+                onChange={handleCategoryChange}
+                className="react-select-container"
+                classNamePrefix="react-select"
+                placeholder="Select categories..."
+              />
             </div>
 
             <div className="form-group">
-              <label htmlFor="city_id">City</label>
-              <select
-                id="city_id"
-                name="city_id"
-                value={formData.city_id}
-                onChange={(e) => setFormData(prevData => ({
-                  ...prevData,
-                  city_id: Array.from(e.target.selectedOptions, option => option.value)
-                }))}
-                multiple
-
-              >
-                <option value="">Select a city (Multiple Select) </option>
-                {cities.map((city) => (
-                  <option key={city._id} value={city._id}>
-                    {city.title}
-                  </option>
-                ))}
-              </select>
+              <label>Cities</label>
+              <Select
+                isMulti
+                options={cityOptions}
+                value={selectedCities}
+                onChange={handleCityChange}
+                className="react-select-container"
+                classNamePrefix="react-select"
+                placeholder="Select cities..."
+              />
             </div>
 
-
+            {/* Rest of your form remains the same */}
             <div className="form-group">
               <label>Package Itinerary</label>
               {formData.packageItinerary.map((item, index) => (
@@ -432,7 +451,6 @@ const AddPackages = () => {
 
             <div className="form-group handelCheckbox">
               <label>
-
                 Do you want to enable this to be shown on the home page?
               </label>
               <input
@@ -479,7 +497,6 @@ const AddPackages = () => {
         </div>
       </div>
     </>
-
   );
 };
 

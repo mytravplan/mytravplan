@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { FaMinus } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import { handelAsyncErrors } from '@/helpers/asyncErrors';
+import Select from 'react-select';
 
 const generateOptions = (start, end) => {
   return Array.from({ length: end - start + 1 }, (_, i) => i + start);
@@ -40,6 +41,46 @@ const UpdatePackage = ({ params }) => {
   const [cats, setCats] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [existingImages, setExistingImages] = useState([]);
+
+
+
+
+  const cityOptions = cities.map(city => ({
+    value: city._id,
+    label: city.title
+  }));
+
+  // Format categories for react-select
+  const categoryOptions = cats.map(cat => ({
+    value: cat._id,
+    label: cat.name
+  }));
+
+  // Get selected cities
+  const selectedCities = cityOptions.filter(option =>
+    formData.city_id.includes(option.value)
+  );
+
+  // Get selected categories
+  const selectedCategories = categoryOptions.filter(option =>
+    formData.package_categories_id.includes(option.value)
+  );
+
+
+
+  const handleCityChange = (selectedOptions) => {
+    setFormData(prevData => ({
+      ...prevData,
+      city_id: selectedOptions ? selectedOptions.map(option => option.value) : []
+    }));
+  };
+
+  const handleCategoryChange = (selectedOptions) => {
+    setFormData(prevData => ({
+      ...prevData,
+      package_categories_id: selectedOptions ? selectedOptions.map(option => option.value) : []
+    }));
+  };
 
   const fetchPackageData = async () => {
     try {
@@ -372,6 +413,32 @@ const UpdatePackage = ({ params }) => {
           </div>
         </div>
 
+        <div className="form-group">
+          <label>Select Categories</label>
+          <Select
+            isMulti
+            options={categoryOptions}
+            value={selectedCategories}
+            onChange={handleCategoryChange}
+            className="react-select-container"
+            classNamePrefix="react-select"
+            placeholder="Select categories..."
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Select Cities </label>
+          <Select
+            isMulti
+            options={cityOptions}
+            value={selectedCities}
+            onChange={handleCityChange}
+            className="react-select-container"
+            classNamePrefix="react-select"
+            placeholder="Select cities..."
+          />
+        </div>
+
         {/* Overview and Summary */}
         <div className="form-group">
           <label htmlFor="packageOverview">Package Overview</label>
@@ -397,52 +464,6 @@ const UpdatePackage = ({ params }) => {
           />
         </div>
 
-        {/* Categories and Cities - Multi-select */}
-        <div className="form-row">
-          <div className="form-group">
-            <label htmlFor="package_categories_id">Categories</label>
-            <select
-              id="package_categories_id"
-              name="package_categories_id"
-              value={formData.package_categories_id}
-              onChange={(e) => {
-                const selected = Array.from(e.target.selectedOptions, option => option.value);
-                setFormData(prev => ({ ...prev, package_categories_id: selected }));
-              }}
-              multiple
-              className="multi-select"
-            >
-              {cats.map((cat) => (
-                <option key={cat._id} value={cat._id}>
-                  {cat.name}
-                </option>
-              ))}
-            </select>
-            <small>Hold Ctrl/Cmd to select multiple</small>
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="city_id">Select a city (Multiple Select) </label>
-            <select
-              id="city_id"
-              name="city_id"
-              value={formData.city_id}
-              onChange={(e) => {
-                const selected = Array.from(e.target.selectedOptions, option => option.value);
-                setFormData(prev => ({ ...prev, city_id: selected }));
-              }}
-              multiple
-              className="multi-select"
-            >
-              {cities.map((city) => (
-                <option key={city._id} value={city._id}>
-                  {city.title}
-                </option>
-              ))}
-            </select>
-            <small>Hold Ctrl/Cmd to select multiple</small>
-          </div>
-        </div>
 
         {/* Itinerary */}
         <div className="form-group">
