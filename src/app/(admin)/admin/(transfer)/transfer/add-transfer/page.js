@@ -195,7 +195,7 @@ const CreateTransfer = () => {
                 name="transfer_image"
                 accept="image/*"
                 onChange={handleChange}
-                required
+                 
               />
               {formData.transfer_image && (
                 <div className="image-preview">

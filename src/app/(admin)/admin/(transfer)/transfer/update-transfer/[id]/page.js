@@ -262,11 +262,11 @@ function UpdateTransfer({ params }) {
           />
         </div>
 
-        {/* Gallery Images */}
+      
         <div className="form-group">
           <label>Gallery Images</label>
           <div className="gallery-wrapper">
-            {/* Existing gallery images only */}
+     
             {formData.transfer_galleries.map((file, idx) => (
               <div key={`existing-${idx}`} className="gallery-image-wrapper">
                 <img
@@ -284,7 +284,7 @@ function UpdateTransfer({ params }) {
               </div>
             ))}
 
-            {/* New gallery previews only */}
+           
             {formData.transfer_gallery_previews.map((preview, idx) => (
               <div key={`new-${idx}`} className="gallery-image-wrapper">
                 <img
