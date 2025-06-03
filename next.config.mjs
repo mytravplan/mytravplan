@@ -6,12 +6,19 @@ const nextConfig = {
             {
                 source: "/api/:path*",
                 headers: [
-                    { key: "Access-Control-Allow-Origin", value: "*" },
+                    { key: "Access-Control-Allow-Origin", value: "https://mytravplan.com" },
                     { key: "Access-Control-Allow-Methods", value: "GET,DELETE,PATCH,POST,PUT,OPTIONS" },
                     { key: "Access-Control-Allow-Headers", value: "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version" },
                 ],
             },
         ];
+    },
+    images: {
+        domains: [
+            'res.cloudinary.com',
+            'my-bucket.s3.amazonaws.com',
+            'lh3.googleusercontent.com'
+        ]
     },
 
     async rewrites() {
