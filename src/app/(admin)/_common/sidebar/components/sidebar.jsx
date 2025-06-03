@@ -5,7 +5,7 @@
 import React from 'react';
 import './sidebar.css'; // Import the global CSS
 import Link from 'next/link';
-import { FaBars, FaTachometerAlt, FaGlobe, FaFlag, FaCity, FaTag, FaUsers, FaCog, FaFileAlt, FaCalendarCheck, FaAddressBook, FaPenAlt, FaHiking, FaPlane, FaStickyNote } from 'react-icons/fa';
+import {FaExchangeAlt , FaBars, FaTachometerAlt, FaGlobe, FaFlag, FaCity, FaTag, FaUsers, FaCog, FaFileAlt, FaCalendarCheck, FaAddressBook, FaPenAlt, FaHiking, FaPlane, FaStickyNote } from 'react-icons/fa';
 
 const sidebarItems = [
   { href: '/admin/dashboard', icon: FaTachometerAlt, label: 'Dashboard' },
@@ -15,6 +15,7 @@ const sidebarItems = [
   { href: '/admin/packages', icon: FaTag, label: 'Packages' },
   { href: '/admin/activities', icon: FaHiking , label: 'Activities' },
   { href: '/admin/blog', icon: FaPenAlt, label: 'Blogs' },
+  { href: '/admin/transfer', icon: FaExchangeAlt, label: 'Transfer' },
   { href: '/admin/contacts', icon: FaAddressBook, label: 'Contacts' },
   { href: '/admin/users', icon: FaUsers, label: 'Users' },
   { href: '/admin/bookings', icon: FaCalendarCheck, label: 'Bookings' },
@@ -25,7 +26,6 @@ const sidebarItems = [
   { href: '/admin/testimonials', icon: FaPenAlt, label: 'Testimonials' },
   { href: '/admin/testimonial-videos', icon: FaStickyNote, label: 'Testimonial Videos' },
   { href: '/admin/slider', icon: FaPenAlt, label: 'Slider' },
-  { href: '/admin/transfer', icon: FaPenAlt, label: 'Transfer' },
   { href: '/admin/privacypolicy', icon: FaPenAlt, label: 'PrivacyPolicy' },
  
 ];

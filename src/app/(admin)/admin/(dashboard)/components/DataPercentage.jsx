@@ -1,8 +1,5 @@
 
-// components/DataPercentage.jsx
-
 'use client';
-
 import { handelAsyncErrors } from '@/helpers/asyncErrors';
 import React, { useState, useEffect } from 'react';
 import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
@@ -11,7 +8,7 @@ const DataPercentage = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Function to fetch data from APIs
+ 
   const fetchData = async () => {
     return handelAsyncErrors(async () => {
       const endpoints = [
@@ -20,7 +17,6 @@ const DataPercentage = () => {
         '/api/v1/cities/get',
         '/api/v1/packages/get',
       ];
-
       const results = await Promise.all(endpoints.map(async (endpoint) => {
         const response = await fetch(endpoint);
         if (!response.ok) {
@@ -28,29 +24,21 @@ const DataPercentage = () => {
         }
         return response.json();
       }));
-
-      // Update data state
       setData([
         { label: 'Continents', value: results[0].totalResults, color: '#FF6384' },
         { label: 'Countries', value: results[1].totalResults, color: '#36A2EB' },
         { label: 'Cities', value: results[2].totalResults, color: '#FFCE56' },
         { label: 'Packages', value: results[3].totalResults, color: '#4BC0C0' },
       ]);
-
       setLoading(false);
     })
-      
-    
   };
-
   useEffect(() => {
     fetchData();
-    const intervalId = setInterval(fetchData, 60000); // Refresh every 60 seconds
+    const intervalId = setInterval(fetchData, 60000); 
     return () => clearInterval(intervalId);
   }, []);
-
   const total = data.reduce((sum, item) => sum + item.value, 0);
-
   return (
     <div className="pie-chart">
       {loading ? (

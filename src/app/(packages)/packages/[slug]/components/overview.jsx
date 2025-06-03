@@ -7,6 +7,7 @@ import BookingAndLogin from '@/app/_common/bookingAndLogin';
 import emptyImage from '../../../../assets/home_images/empty.jpg';
 import useFetchAllSections from '@/hooks/useLoadApiHook';
 import ContactForm from '@/app/(contactus)/components/contactForm';
+import HotelActivities from './hotelActivities';
 
 
 const Itinerary = ({ result }) => {
@@ -34,6 +35,9 @@ const Itinerary = ({ result }) => {
     setModalIsOpen(false);
     setCurrentImage('');
   };
+
+  console.log(`result`)
+  console.log(result)
 
 
 
@@ -118,7 +122,9 @@ const Itinerary = ({ result }) => {
                         packagesInclude={ele.packagesInclude}
                       />
                     ) : (
-                      'no result found'
+                      <HotelActivities
+                      hotel_activities={ele.hotel_activities}
+                      />
                     )}
                   </div>
                   {/* <button className="book-now-btn">

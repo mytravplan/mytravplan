@@ -5,6 +5,9 @@ import WelcomeCard from '../Components/sidebar'
 import Topbanner from '@/app/_common/layout/topbanner'
 import transferbg from '../../assets/home_images/transfer-bg.png';
 import TransferPage from './TransferPage'
+ 
+
+ 
 
 function page() {
   return (

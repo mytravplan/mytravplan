@@ -293,6 +293,7 @@ export async function GET(req) {
         transfer_title: ele.transfer_title,
         transfer_galleries: ele.transfer_galleries || [],
         transfer_overview: ele.transfer_overview,
+        transfer_price: ele.transfer_price,
         transfer_overview_description: ele.transfer_overview_description,
         transfer_slug: ele.transfer_slug,
         createdAt: ele.createdAt,

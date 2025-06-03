@@ -20,7 +20,7 @@ const BestSellingPackages = ({ packages, loading }) => {
     <>
 
       <div className="explore-packages" style={{ backgroundImage: `url(${explorebg.src})` }}>
-        <div className="container card_main_section">
+        <div className="container card_main_section home_packages">
           <div className="header_best_selling">
             <h2 className='same_heading'>Explore Best Selling Packages</h2>
             <div className='link_heading'>
@@ -30,7 +30,7 @@ const BestSellingPackages = ({ packages, loading }) => {
           </div>
 
           <div className='card_discount'>
-            <div className="packages">
+            <div className="packages all_packages">
                { filterPackage === null || filterPackage === undefined || filterPackage.length === 0 ? (
                 <EmptyPackages />
               ) : (
@@ -61,7 +61,7 @@ const BestSellingPackages = ({ packages, loading }) => {
                         <span className="star">★ {pkg.rating}</span> ({pkg.reviews})
                       </p> */}
                       <p className="price">Per Person - ₹ {pkg.package_price || 0}</p>
-                      <div className="buttons">
+                      <div className="buttons" id='pkg_button'>
                         <Link href={`/packages/${pkg.slug}`}><button className="details-btn">View Details</button></Link>
                        <BookingAndLogin pkg={pkg}/>
                       </div>

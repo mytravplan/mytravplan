@@ -21,7 +21,7 @@ const Allpackages = () => {
 
   return (
     <>
-      <div className="container card_main_section">
+      <div className="container card_main_section" id='package_card'>
         <div className="card_discount">
           <div className="packages">
             {
@@ -42,7 +42,7 @@ const Allpackages = () => {
                       <h3>{pkg.title}</h3>
                       <p>{pkg.package_nights || 0} nights / {pkg.package_days} days</p>
                       <p className="price">Per Person - ₹{pkg.package_price || 0}</p>
-                      <div className="buttons">
+                      <div className="buttons" id='pkg_button'>
                         <Link href={`/packages/${pkg.slug}`}>
                           <button className="details-btn">View Details</button>
                         </Link>

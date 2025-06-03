@@ -33,6 +33,9 @@ export async function PUT(req, { params }) {
     const packageItinerary = payload.has("package_itinerary")
       ? JSON.parse(payload.get("package_itinerary"))
       : null;
+    const hotelActivities = payload.has("hotel_activities")
+      ? JSON.parse(payload.get("hotel_activities"))
+      : null;
     const packagesInclude = payload.has("packages_include")
       ? JSON.parse(payload.get("packages_include"))
       : null;
@@ -107,8 +110,8 @@ export async function PUT(req, { params }) {
     if (packageOverview) existingPackage.package_overview = packageOverview;
     if (packageTopSummary)
       existingPackage.package_top_summary = packageTopSummary;
-    if (packageItinerary)
-      existingPackage.package_itinerary = packageItinerary;
+    if (packageItinerary) existingPackage.package_itinerary = packageItinerary;
+    if (hotelActivities) existingPackage.hotel_activities = hotelActivities;
     if (packagesInclude) existingPackage.packages_include = packagesInclude;
     if (packagesExclude) existingPackage.packages_exclude = packagesExclude;
     if (sco_title) existingPackage.sco_title = sco_title;

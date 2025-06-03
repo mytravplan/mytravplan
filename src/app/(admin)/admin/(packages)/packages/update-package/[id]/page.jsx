@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { FaMinus } from 'react-icons/fa';
 import { toast } from 'react-toastify';
-import { handelAsyncErrors } from '@/helpers/asyncErrors';
+
 import Select from 'react-select';
 
 const generateOptions = (start, end) => {
@@ -22,6 +22,7 @@ const UpdatePackage = ({ params }) => {
     packageOverview: '',
     packageTopSummary: '',
     packageItinerary: [{ day: '', location: '', tourname: '', itinerary_description: '' }],
+    hotel_activities: [{ hotel_name: '', activity_description: '' }],
     packagesInclude: [{ description: '' }],
     packagesExclude: [{ description: '' }],
     file: null,
@@ -50,18 +51,18 @@ const UpdatePackage = ({ params }) => {
     label: city.title
   }));
 
-  // Format categories for react-select
+ 
   const categoryOptions = cats.map(cat => ({
     value: cat._id,
     label: cat.name
   }));
 
-  // Get selected cities
+ 
   const selectedCities = cityOptions.filter(option =>
     formData.city_id.includes(option.value)
   );
 
-  // Get selected categories
+ 
   const selectedCategories = categoryOptions.filter(option =>
     formData.package_categories_id.includes(option.value)
   );
@@ -99,6 +100,7 @@ const UpdatePackage = ({ params }) => {
           packageOverview: packageData.packageOverview || '',
           packageTopSummary: packageData.packageTopSummary || '',
           packageItinerary: packageData.packageItinerary || [{ day: '', location: '', tourname: '', itinerary_description: '' }],
+          hotel_activities: packageData.hotel_activities || [{ hotel_name: '', activity_description: '' }],
           packagesInclude: packageData.packagesInclude || [{ description: '' }],
           packagesExclude: packageData.packagesExclude || [{ description: '' }],
           file: null, // This will be for new uploads
@@ -191,13 +193,32 @@ const UpdatePackage = ({ params }) => {
   };
 
   const handleAddField = (field) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      [field]: [...prevData[field], field === 'packageItinerary' ?
-        { day: '', location: '', tourname: '', itinerary_description: '' } :
-        { description: '' }]
-    }));
+    setFormData((prevData) => {
+      if (field === 'hotel_activities') {
+        return {
+          ...prevData,
+          hotel_activities: [
+            ...prevData.hotel_activities,
+            { hotel_name: '', activity_description: '' }
+          ]
+        };
+      }
+      if (field === 'packageItinerary') {
+        return {
+          ...prevData,
+          packageItinerary: [
+            ...prevData.packageItinerary,
+            { day: '', location: '', tourname: '', itinerary_description: '' }
+          ]
+        };
+      }
+      return {
+        ...prevData,
+        [field]: [...prevData[field], { description: '' }]
+      };
+    });
   };
+
 
   const handleRemoveField = (index, field) => {
     setFormData((prevData) => {
@@ -519,7 +540,47 @@ const UpdatePackage = ({ params }) => {
           </button>
         </div>
 
-        {/* Includes */}
+
+
+        <div className="form-group">
+          <label>Hotel Activities</label>
+          {formData.hotel_activities.map((item, index) => (
+            <div key={index} className="activity-item">
+              <div className="form-row">
+                <input
+                  type="text"
+                  name="hotel_name"
+                  value={item.hotel_name}
+                  onChange={(e) => handleDynamicChange(e, index, 'hotel_activities')}
+                  placeholder="Hotel Name"
+                  className="small-input"
+                />
+              </div>
+              <textarea
+                name="activity_description"
+                value={item.activity_description}
+                onChange={(e) => handleDynamicChange(e, index, 'hotel_activities')}
+                placeholder="Activity Description"
+                rows={3}
+              />
+              <button
+                type="button"
+                onClick={() => handleRemoveField(index, 'hotel_activities')}
+                className="remove-btn"
+              >
+                <FaMinus /> Remove
+              </button>
+            </div>
+          ))}
+          <button
+            type="button"
+            onClick={() => handleAddField('hotel_activities')}
+            className="add-btn"
+          >
+            Add Activity Item
+          </button>
+        </div>
+
         <div className="form-group">
           <label>Packages Include</label>
           {formData.packagesInclude.map((item, index) => (

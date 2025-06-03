@@ -1,6 +1,4 @@
 
-// /app/(admin)/admin/(cities)/cities/preview-city/[id]/page.jsx
-
 'use client';
 import { handelAsyncErrors } from '@/helpers/asyncErrors';
 import React, { useEffect, useState } from 'react';
@@ -17,6 +15,7 @@ function PreviewPackage({ params }) {
     packages_galleries: [],
     packagesInclude: [],
     packagesExclude: [],
+    hotel_activities: [],
     images: [],
     package_under_categories: [],
   });
@@ -31,7 +30,7 @@ function PreviewPackage({ params }) {
       }
       const data = await response.json();
       if (data.success && Array.isArray(data.result) && data.result.length > 0) {
-        setPkgs(data.result[0]);  // Set the first item from the result array
+        setPkgs(data.result[0]);
       } else {
         setError(data.message || 'No package found');
       }
@@ -42,6 +41,7 @@ function PreviewPackage({ params }) {
   useEffect(() => {
     fetchPkgs();
   }, [id]);
+ 
 
   return (
     <div className="preview-continent-container">
@@ -78,6 +78,16 @@ function PreviewPackage({ params }) {
                 <p><strong>Location:</strong> {itinerary.location}</p>
                 <p><strong>Tour Name:</strong> {itinerary.tourname}</p>
                 <p><strong>Description:</strong> {itinerary.itinerary_description}</p>
+              </li>
+            ))}
+          </ul>
+
+          <h3>Hotel Activities:</h3>
+          <ul>
+            {pkgs.hotel_activities?.map((ele, index) => (
+              <li key={index}>
+                <p><strong>Hotel:</strong> {ele?.hotel_name || 'not found'}</p>
+                <p><strong>Activities:</strong> {ele?.activity_description || 'not found'}</p>
               </li>
             ))}
           </ul>
@@ -134,21 +144,21 @@ function PreviewPackage({ params }) {
             )}
           </div>
           <div className="packages_under_categories">
-          <h2> package_under_categories</h2>
-            {pkgs.package_under_categories===null && pkgs.package_under_categories===undefined ? (
+            <h2> package_under_categories</h2>
+            {pkgs.package_under_categories === null && pkgs.package_under_categories === undefined ? (
               <p>no categories</p>
-            ):(
-              pkgs.package_under_categories.map((cat,index)=>{
-                return(
+            ) : (
+              pkgs.package_under_categories.map((cat, index) => {
+                return (
                   <>
-                  <ul key={index} className={`pkg_cat_${index + 1}`}>
-                    <li> {index + 1}
-                      <ul>
-                    <li><strong>category Name:</strong> {cat.name}</li>
-                      </ul>
-                    </li>
-                    
-                  </ul>
+                    <ul key={index} className={`pkg_cat_${index + 1}`}>
+                      <li> {index + 1}
+                        <ul>
+                          <li><strong>category Name:</strong> {cat.name}</li>
+                        </ul>
+                      </li>
+
+                    </ul>
                   </>
                 )
               })

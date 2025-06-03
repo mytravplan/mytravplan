@@ -1,4 +1,4 @@
-// components/WelcomeCard.js
+
 'use client';
 import { useState } from 'react';
 import planesidebar from '../../assets/home_images/plane.gif';
@@ -19,7 +19,7 @@ const WelcomeCard = () => {
     <div className="sidebar-enquiry">
       <img src={planesidebar.src}alt="Plane" className="plane" />
       <div className="enquiry-section">
-        <div className="planetitle">Welcome to Street romeo.</div>
+        <div className="planetitle">Welcome to MyTravPlan.</div>
         <button className="planebutton" onClick={openQueryForm}>Enquiry Now</button>
       </div>
     </div>

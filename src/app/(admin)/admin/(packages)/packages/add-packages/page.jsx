@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import './AddPackages.css';
@@ -22,6 +22,7 @@ const AddPackages = () => {
     packageOverview: '',
     packageTopSummary: '',
     packageItinerary: [{ day: '', location: '', tourname: '', itinerary_description: '' }],
+    hotel_activities: [{ hotel_name: '', activity_description: '' }],  
     packagesInclude: [{ description: '' }],
     packagesExclude: [{ description: '' }],
     file: null,
@@ -41,34 +42,27 @@ const AddPackages = () => {
   const [cats, setCats] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Format cities for react-select
   const cityOptions = cities.map(city => ({
     value: city._id,
     label: city.title
   }));
 
-  // Format categories for react-select
   const categoryOptions = cats.map(cat => ({
     value: cat._id,
     label: cat.name
   }));
 
-  // Get selected cities
-  const selectedCities = cityOptions.filter(option => 
+  const selectedCities = cityOptions.filter(option =>
     formData.city_id.includes(option.value)
   );
-
-  // Get selected categories
-  const selectedCategories = categoryOptions.filter(option => 
+  const selectedCategories = categoryOptions.filter(option =>
     formData.package_categories_id.includes(option.value)
   );
 
   const fetchCities = async () => {
     return handelAsyncErrors(async () => {
       const res = await fetch(`/api/v1/cities/get?page=1&limit=1000`, {
-        headers: {
-          'Cache-Control': 'no-cache'
-        }
+        headers: { 'Cache-Control': 'no-cache' }
       });
       const data = await res.json();
       if (data.success) {
@@ -76,23 +70,21 @@ const AddPackages = () => {
       } else {
         toast.error(data.message || 'Failed to fetch cities');
       }
-    })
+    });
   };
 
   const fetchCategories = async () => {
     return handelAsyncErrors(async () => {
       const res = await fetch(`/api/v1/package-categories/get?page=1&limit=1000`, {
-        headers: {
-          'Cache-Control': 'no-cache'
-        }
+        headers: { 'Cache-Control': 'no-cache' }
       });
       const data = await res.json();
       if (data.success) {
         setCats(data.result);
       } else {
-        toast.error(data.message || 'Failed to fetch cities');
+        toast.error(data.message || 'Failed to fetch categories');
       }
-    })
+    });
   };
 
   useEffect(() => {
@@ -117,12 +109,35 @@ const AddPackages = () => {
     });
   };
 
+ 
   const handleAddField = (field) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      [field]: [...prevData[field], field === 'packageItinerary' ? { day: '', location: '', tourname: '', itinerary_description: '' } : { description: '' }]
-    }));
+    setFormData((prevData) => {
+      if (field === 'hotel_activities') {
+        return {
+          ...prevData,
+          hotel_activities: [
+            ...prevData.hotel_activities,
+            { hotel_name: '', activity_description: '' }
+          ]
+        };
+      }
+      if (field === 'packageItinerary') {
+        return {
+          ...prevData,
+          packageItinerary: [
+            ...prevData.packageItinerary,
+            { day: '', location: '', tourname: '', itinerary_description: '' }
+          ]
+        };
+      }
+   
+      return {
+        ...prevData,
+        [field]: [...prevData[field], { description: '' }]
+      };
+    });
   };
+ 
 
   const handleRemoveField = (index, field) => {
     setFormData((prevData) => {
@@ -133,14 +148,14 @@ const AddPackages = () => {
   };
 
   const handleCityChange = (selectedOptions) => {
-    setFormData(prevData => ({
+    setFormData((prevData) => ({
       ...prevData,
       city_id: selectedOptions ? selectedOptions.map(option => option.value) : []
     }));
   };
 
   const handleCategoryChange = (selectedOptions) => {
-    setFormData(prevData => ({
+    setFormData((prevData) => ({
       ...prevData,
       package_categories_id: selectedOptions ? selectedOptions.map(option => option.value) : []
     }));
@@ -157,6 +172,7 @@ const AddPackages = () => {
       packageOverview,
       packageTopSummary,
       packageItinerary,
+      hotel_activities,
       packagesInclude,
       packagesExclude,
       file,
@@ -173,7 +189,7 @@ const AddPackages = () => {
       package_hotel_name
     } = formData;
 
-    if (!title || !description || !slug || !file || !city_id) {
+    if (!title || !description || !slug || !file || !city_id.length) {
       toast.error('Please fill in all required fields and upload an image.');
       setIsLoading(false);
       return;
@@ -192,6 +208,7 @@ const AddPackages = () => {
       submissionData.append('package_overview', packageOverview);
       submissionData.append('package_top_summary', packageTopSummary);
       submissionData.append('package_itinerary', JSON.stringify(packageItinerary));
+      submissionData.append('hotel_activities', JSON.stringify(hotel_activities));  
       submissionData.append('packages_include', JSON.stringify(packagesInclude));
       submissionData.append('packages_exclude', JSON.stringify(packagesExclude));
       submissionData.append('file', file);
@@ -208,7 +225,6 @@ const AddPackages = () => {
         method: 'POST',
         body: submissionData,
       });
-
       const data = await res.json();
 
       if (data.success) {
@@ -218,7 +234,7 @@ const AddPackages = () => {
         toast.error(data.message || 'An error occurred.');
       }
       setIsLoading(false);
-    })
+    });
   };
 
   return (
@@ -348,8 +364,6 @@ const AddPackages = () => {
                 placeholder="Select cities..."
               />
             </div>
-
-            {/* Rest of your form remains the same */}
             <div className="form-group">
               <label>Package Itinerary</label>
               {formData.packageItinerary.map((item, index) => (
@@ -386,8 +400,39 @@ const AddPackages = () => {
                   </div>
                 </div>
               ))}
-              <button type="button" onClick={() => handleAddField('packageItinerary')}>Add Itinerary</button>
+              <button type="button" onClick={() => handleAddField('packageItinerary')}>
+                Add Itinerary
+              </button>
             </div>
+ 
+            <div className="form-group">
+              <label>Hotel Activities</label>
+              {formData.hotel_activities.map((item, index) => (
+                <div key={index} className="activity-item">
+                  <input
+                    type="text"
+                    name="hotel_name"
+                    value={item.hotel_name}
+                    onChange={(e) => handleDynamicChange(e, index, 'hotel_activities')}
+                    placeholder="Hotel Name"
+                  />
+                  <textarea
+                    name="activity_description"
+                    value={item.activity_description}
+                    onChange={(e) => handleDynamicChange(e, index, 'hotel_activities')}
+                    placeholder="Activity Description"
+                  />
+                  <div className="remove_package" onClick={() => handleRemoveField(index, 'hotel_activities')}>
+                    <FaMinus />
+                  </div>
+                </div>
+              ))}
+              <button type="button" onClick={() => handleAddField('hotel_activities')}>
+                Add Activity
+              </button>
+            </div>
+ 
+ 
             <div className="form-group">
               <label>Packages Include</label>
               {formData.packagesInclude.map((item, index) => (
@@ -403,7 +448,9 @@ const AddPackages = () => {
                   </div>
                 </div>
               ))}
-              <button type="button" onClick={() => handleAddField('packagesInclude')}>Add Include</button>
+              <button type="button" onClick={() => handleAddField('packagesInclude')}>
+                Add Include
+              </button>
             </div>
             <div className="form-group">
               <label>Packages Exclude</label>
@@ -420,7 +467,9 @@ const AddPackages = () => {
                   </div>
                 </div>
               ))}
-              <button type="button" onClick={() => handleAddField('packagesExclude')}>Add Exclude</button>
+              <button type="button" onClick={() => handleAddField('packagesExclude')}>
+                Add Exclude
+              </button>
             </div>
             <div className="form-group">
               <label htmlFor="file">Image</label>
@@ -438,7 +487,9 @@ const AddPackages = () => {
                 id="packages_galleries"
                 name="packages_galleries"
                 multiple
-                onChange={(e) => setFormData((prevData) => ({ ...prevData, packages_galleries: [...e.target.files] }))}
+                onChange={(e) =>
+                  setFormData((prevData) => ({ ...prevData, packages_galleries: [...e.target.files] }))
+                }
               />
               {formData.packages_galleries.length > 0 && (
                 <div className="gallery-preview">
@@ -450,9 +501,7 @@ const AddPackages = () => {
             </div>
 
             <div className="form-group handelCheckbox">
-              <label>
-                Do you want to enable this to be shown on the home page?
-              </label>
+              <label>Do you want to enable this to be shown on the home page?</label>
               <input
                 type="checkbox"
                 name="isShow"

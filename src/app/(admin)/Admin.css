@@ -5,10 +5,6 @@ body{
   box-sizing: border-box;
   width: 100%;
 }
-
-
-/* Admin login style */
-
 .admin_login_page {
   position: fixed;
   top: 0;
@@ -21,20 +17,15 @@ body{
   justify-content: center;
   background: #fff;
 }
-
-
 .overview-d-card {
   background: white;
 }
-
 .icon_wrap {
   color: #12191d;
 }
-
 .data_wrap {
   color: #1802a0;
 }
-
 .admin_login_inner {
   position: relative;
   padding: 40px;
@@ -45,7 +36,6 @@ body{
   max-width: 400px;
   text-align: center;
 }
-
 .input-group{
   display: flex;
   flex-direction: column;
@@ -58,8 +48,6 @@ body{
   position: relative;
   width: 100%;
 }
-
-
 .password-toggle {
   position: absolute;
   top: 40%;
@@ -67,7 +55,6 @@ body{
   transform: translateY(-50%);
   cursor: pointer;
 }
-
 .remember-me {
   display: flex;
   align-items: baseline;
@@ -76,24 +63,19 @@ body{
   margin-right: 10px;
   width: auto !important;
 }
-
-
 .admin_login_logo img {
   max-width: 150px;
   margin-bottom: 20px;
 }
-
 .admin_login_inner h1 {
   margin-bottom: 10px;
   font-size: 24px;
   color: #333;
 }
-
 .admin_login_description {
   margin-bottom: 20px;
   color: #777;
 }
-
 .admin_login_inner input {
   display: block;
   width: -webkit-fill-available;
@@ -103,7 +85,6 @@ body{
   border-radius: 4px;
   font-size: 16px;
 }
-
 .admin_login_inner button {
   width: 100%;
   padding: 10px;
@@ -119,18 +100,12 @@ body{
 .admin_login_inner button:hover {
   background: #005bb5;
 }
-
 .admin_login_error {
   color: red;
   margin: 0px 0px 10px 0px;
   font-size: 14px;
- 
   display: flex;
 }
-
-/* admin style ends here */
-
-
 .admin_layout {
   max-width: 1600px;
   margin: 50px auto 50px auto;
@@ -139,32 +114,25 @@ body{
   height: 100%;
   overflow: hidden;
 }
-
 .sidebar-content ul li {
   margin-top: 20px;
 margin-bottom: 20px !important;
 }
-
 .settings-section label {
 display: grid;
 margin-bottom: 10px;
 grid-template-columns: 1fr 1fr 1fr;
 }
-
 .settings-section {
 background: white;
 padding: 20px;
 margin-bottom: 12px;
 border-radius: 10px;
 }
-
 .settings-section label input {
 margin-left: 10px;
 padding: 7px;
 }
-
-
-
 .admin_layout button {
 padding: 16px 20px;
 background: #cf0c2a;
@@ -173,17 +141,12 @@ border-radius: 10px;
 border: none;
 cursor: pointer;
 }
-
 .package-category-management {
   background: white;
   padding: 15px;
   border-radius: 10px;
   box-shadow: 0px 0px 6px #0000002b;
 }
-
-
-
-
 .admin_navbar {
   background-color: #fff;
   padding: 10px 0px;
@@ -195,17 +158,10 @@ cursor: pointer;
   margin-top: 20px;
   border-radius: 10px;
 }
-
-
-
 path.recharts-sector:focus,
 g.recharts-layer.recharts-pie:focus{
   outline: none;
 }
-
-/* Admin Dashboard Styles */
-
-/* Overview Component */
 .overview-d {
   background-color: #f9f9f9;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -213,24 +169,18 @@ g.recharts-layer.recharts-pie:focus{
   border-radius: 8px;
   cursor: pointer;
 }
-
 .overview-d h2 {
   color: #1802A0;
 }
-
 .admin_outer_layout {
   display: flex;
   column-gap: 20px;
   overflow: hidden;
   background: lavenderblush;
-
 }
-
 .admin_contexts {
   width: 84%;
 }
-
-
 .sidebar {
   position: relative !important; 
   top: 0;
@@ -246,13 +196,11 @@ g.recharts-layer.recharts-pie:focus{
   max-width: 280px;
   background: #000;
 }
-
 .overview-d-cards {
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
 }
-
 .overview-d-card {
   width: 90%;
   position: relative;

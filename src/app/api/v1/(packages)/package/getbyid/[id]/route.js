@@ -54,6 +54,7 @@ export async function GET(req, { params }) {
                 packageOverview: result.package_overview,
                 packageTopSummary: result.package_top_summary,
                 packageItinerary: result.package_itinerary,
+                hotel_activities: result.hotel_activities,
                 packages_galleries: result.packages_galleries,
                 packagesInclude: result.packages_include,
                 packagesExclude: result.packages_exclude,

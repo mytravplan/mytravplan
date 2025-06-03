@@ -21,6 +21,7 @@ export async function POST(req) {
     const packageOverview = payload.get('package_overview');
     const packageTopSummary = payload.get('package_top_summary');
     const packageItinerary = JSON.parse(payload.get('package_itinerary'));
+    const hotel_activities = JSON.parse(payload.get('hotel_activities'));
     const packagesInclude = JSON.parse(payload.get('packages_include'));
     const packagesExclude = JSON.parse(payload.get('packages_exclude'));
     const package_categories_id = JSON.parse(payload.get('package_categories_id'));
@@ -88,6 +89,7 @@ export async function POST(req) {
         package_overview: packageOverview,
         package_top_summary: packageTopSummary,
         package_itinerary: packageItinerary,
+        hotel_activities: hotel_activities,
         packages_galleries: galleryImages,
         packages_include: packagesInclude,
         packages_exclude: packagesExclude,

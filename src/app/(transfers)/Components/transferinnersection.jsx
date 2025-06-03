@@ -1,62 +1,59 @@
-// components/CarOptions.js
-import React from 'react';
-import Link from 'next/link';
 
+'use client'
+import React, { useState } from 'react';
+import Link from 'next/link';
+import useFetchAllSections from '@/hooks/useLoadApiHook';
+import { PER_PAGE_LIMIT } from '@/utils/apis/api';
+import emptyImage from '../../assets/home_images/empty.jpg';
 const CarOptions = () => {
-  const carData = [
-    {
-      title: "4 Seater Car",
-      imageUrl: '/images/car-1.png' ,
-      rating: 4.0,
-      reviews: "1.3K",
-      price: "39,550",
-      slug: "seater-car",
-    },
-    {
-      title: "7 Seater Van",
-      imageUrl: '/images/car-2.png' ,
-      rating: 4.0,
-      reviews: "1.3K",
-      price: "4,550",
-      slug: "seater-van",
-    },
-    {
-      title: "34 Seater Car",
-      imageUrl: '/images/car-3.png' ,
-      rating: 4.0,
-      reviews: "1.3K",
-      price: "5,000",
-      slug: "seater-car",
-    },
-    {
-      title: "5 Maruti Car",
-      imageUrl: '/images/car-4.png' ,
-      rating: 4.0,
-      reviews: "1.3K",
-      price: "4,550",
-      slug: "maruti-car",
-    },
-  ];
+
+
+  const [page, setPage] = useState(1);
+
+  const [] = useState()
+
+  const response = useFetchAllSections(page, PER_PAGE_LIMIT);
+  const { transferData = [], pagination = {} } = response.data;
+
+ 
+
+
 
   return (
-    <div className="transfer-vehicle-section">
-      {carData.map((car, index) => (
-        <div key={index} className="car-box">
-          <Link href={`/transfers/${car.slug}`}>
-          
-              <img src={car.imageUrl} alt={car.title} className="carimage" />
-           
-          </Link>
-          <div className='text-container'>
-            <h3 className="cartitle">{car.title}</h3>
-            <div className='rating-price'>
-              <span className="carstars">⭐</span> {car.rating} ({car.reviews} Reviews)
-              <div className="carprice">From ₹ {car.price}</div>
+   <div className="transfer-vehicle-section">
+  {Array.isArray(transferData) && transferData.length > 0 ? (
+    transferData.map((car, index) => (
+      <div key={index} className="car-box">
+        <Link href={`/transfers/${car.transfer_slug ?? ''}`}>
+          <img
+            src={
+              car.transfer_image
+                ? `/uploads/${car.transfer_image}`
+                : emptyImage.src
+            }
+            alt={car.transfer_title ?? 'Transfer'}
+            className="carimage"
+          />
+          <div className="inner-transfer-text">
+            <h3 className="cartitle">{car.transfer_title ?? 'Untitled'}</h3>
+            <div className="rating-price">
+              <div className="carprice">
+                From ₹ {car.transfer_price ?? 'N/A'}
+              </div>
             </div>
           </div>
-        </div>
-      ))}
-    </div>
+        </Link>
+      </div>
+    ))
+  ) : (
+    <>
+  
+    <p className='error_trans'>No transfers available</p>
+    
+    </>
+  )}
+</div>
+
   );
 };
 
