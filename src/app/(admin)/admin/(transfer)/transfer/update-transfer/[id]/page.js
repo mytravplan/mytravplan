@@ -68,7 +68,7 @@ function UpdateTransfer({ params }) {
             transfer_overview_description: data.result.transfer_overview_description || '',
             transfer_image: data.result.transfer_image,
             transfer_image_preview: data.result.transfer_image
-              ? `/uploads/${data.result.transfer_image}`
+              ? data.result.transfer_image
               : '',
             transfer_galleries: data.result.transfer_galleries || [],
 
@@ -270,7 +270,7 @@ function UpdateTransfer({ params }) {
             {formData.transfer_galleries.map((file, idx) => (
               <div key={`existing-${idx}`} className="gallery-image-wrapper">
                 <img
-                  src={`/uploads/${file}`}
+                  src={file}
                   alt={`Gallery ${idx + 1}`}
                   className="preview-image"
                 />

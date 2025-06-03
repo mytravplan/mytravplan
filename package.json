@@ -17,6 +17,7 @@
     "@vinejs/vine": "^2.1.0",
     "axios": "^1.7.4",
     "bcryptjs": "^2.4.3",
+    "cloudinary": "^2.6.1",
     "date-fns": "^3.6.0",
     "formidable": "^3.5.1",
     "memory-cache": "^0.2.0",

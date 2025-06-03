@@ -27,9 +27,7 @@ const CarOptions = () => {
         <Link href={`/transfers/${car.transfer_slug ?? ''}`}>
           <img
             src={
-              car.transfer_image
-                ? `/uploads/${car.transfer_image}`
-                : emptyImage.src
+              car.transfer_image?car.transfer_image: emptyImage.src
             }
             alt={car.transfer_title ?? 'Transfer'}
             className="carimage"

@@ -63,7 +63,7 @@ function PreviewTransfer({ params }) {
             <h3>Main Image:</h3>
             {transfer.transfer_image ? (
               <img
-                src={`/uploads/${transfer.transfer_image}`}
+                src={transfer.transfer_image}
                 alt={transfer.transfer_title}
                 className="preview-transfer-image"
               />
@@ -80,7 +80,7 @@ function PreviewTransfer({ params }) {
                 {transfer.transfer_galleries.map((fileName, index) => (
                   <img
                     key={index}
-                    src={`/uploads/${fileName}`}
+                    src={{fileName}}
                     alt={`Gallery ${index + 1}`}
                     className="preview-transfer-image"
                   />

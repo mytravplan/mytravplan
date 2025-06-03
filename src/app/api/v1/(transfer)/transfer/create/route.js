@@ -1,26 +1,24 @@
 import { NextResponse } from 'next/server';
 import { DbConnect } from '@/database/database';
-import { HandleFileUpload } from '@/helpers/uploadFiles';
 import Transfer from '@/model/TransferModel';
+import { uploadPhotoToCloudinary } from '@/utils/cloud';
+ 
 
 export async function POST(request) {
   try {
     await DbConnect();
     const formData = await request.formData();
 
-
     const transferImageFile = formData.get('transfer_image');
     const rawTitle = formData.get('transfer_title');
     const rawSlug = formData.get('transfer_slug');
     const transfer_price = formData.get('transfer_price');
-
-
     const rawOverviewDesc = formData.get('transfer_overview_description');
     const seo_title = formData.get('seo_title');
     const seo_description = formData.get('seo_description');
     const galleryFiles = formData.getAll('transfer_galleries');
 
-
+    // Validation
     if (!transferImageFile || !(transferImageFile instanceof File)) {
       return NextResponse.json(
         {
@@ -28,10 +26,9 @@ export async function POST(request) {
           success: false,
           message: 'Missing required field: transfer_image.',
         },
-
+        { status: 400 }
       );
     }
-
 
     if (!rawTitle || typeof rawTitle !== 'string' || rawTitle.trim() === '') {
       return NextResponse.json(
@@ -40,17 +37,15 @@ export async function POST(request) {
           success: false,
           message: 'Missing required field: transfer_title.',
         },
-
+        { status: 400 }
       );
     }
     const transferTitle = rawTitle.trim();
 
-
+    // Slug handling
     let finalSlug = '';
     if (rawSlug && typeof rawSlug === 'string' && rawSlug.trim() !== '') {
       finalSlug = rawSlug.trim();
-
-
       const existingTransfer = await Transfer.findOne({ transfer_slug: finalSlug });
       if (existingTransfer) {
         return NextResponse.json(
@@ -59,34 +54,33 @@ export async function POST(request) {
             success: false,
             message: `Slug "${finalSlug}" is already in use. Please choose a different slug.`,
           },
-
+          { status: 409 }
         );
       }
     }
 
+ 
+    const mainImageUrl = await uploadPhotoToCloudinary(transferImageFile);
 
-    const savedMain = await HandleFileUpload(transferImageFile);
-    const mainFileName = savedMain.name;
-
-
-    const galleryFileNames = [];
+ 
+    const galleryUrls = [];
     if (Array.isArray(galleryFiles) && galleryFiles.length > 0) {
       for (const fileEntry of galleryFiles) {
         if (fileEntry instanceof File) {
-          const saved = await HandleFileUpload(fileEntry);
-          galleryFileNames.push(saved.name);
+          const url = await uploadPhotoToCloudinary(fileEntry);
+          galleryUrls.push(url);
         }
       }
     }
 
-
+ 
     const newTransferData = {
       transfer_title: transferTitle,
-      transfer_image: mainFileName,
+      transfer_image: mainImageUrl,
     };
 
-    if (galleryFileNames.length > 0) {
-      newTransferData.transfer_galleries = galleryFileNames;
+    if (galleryUrls.length > 0) {
+      newTransferData.transfer_galleries = galleryUrls;
     }
 
     if (finalSlug) {
@@ -109,23 +103,23 @@ export async function POST(request) {
       newTransferData.transfer_overview_description = rawOverviewDesc.trim();
     }
 
-
+    // Create new transfer
     const transfer = await Transfer.create(newTransferData);
     return NextResponse.json(
       { message: 'Transfer created successfully', status: 201, transfer },
-
+      { status: 201 }
     );
   } catch (error) {
     console.error('POST /api/transfers error:', error);
     if (error.name === 'ValidationError') {
       return NextResponse.json(
         { status: 422, success: false, message: error.message },
-
+      
       );
     }
     return NextResponse.json(
       { status: 500, success: false, message: 'Internal server error.' },
-
+     
     );
   }
 }

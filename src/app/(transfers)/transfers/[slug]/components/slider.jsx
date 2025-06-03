@@ -27,7 +27,7 @@ const Transferslider = ({ slug }) => {
           {data?.transfer_galleries?.slice(0, 1)?.map((e, i) => {
             return <div className="transfer_imgs t_i_one" key={i}>
               <div className="transfer-image-container">
-                <img src={`/uploads/${e}` || null} alt="Image 3" />
+                <img src={e|| null} alt="Image 3" />
               </div>
             </div>
           })}
@@ -37,7 +37,7 @@ const Transferslider = ({ slug }) => {
           {data?.transfer_galleries?.slice(1, 3)?.map((e, i) => {
             return <div className="transfer_imgs t_i_two" key={i}>
               <div className="transfer-image-container">
-                <img src={`/uploads/${e}` || null} alt="Image 3" />
+                <img src={e|| null} alt="Image 3" />
               </div>
             </div>
           })}

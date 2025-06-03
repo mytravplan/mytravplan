@@ -1,10 +1,9 @@
 import { DbConnect } from "@/database/database";
 import Transfer from "@/model/TransferModel";
+import { uploadPhotoToCloudinary } from "@/utils/cloud";
 import mongoose from "mongoose";
 import { NextResponse } from "next/server";
-import { HandleFileUpload } from "@/helpers/uploadFiles";
-import fs from "fs";
-import path from "path";
+ 
 
 export async function PUT(request, { params }) {
   try {
@@ -14,7 +13,7 @@ export async function PUT(request, { params }) {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return NextResponse.json(
         { status: 400, success: false, message: "Invalid transfer ID." },
- 
+       
       );
     }
 
@@ -24,113 +23,51 @@ export async function PUT(request, { params }) {
     const deleteMainImage = formData.get("delete_main_image") === "true";
     const existingGalleries = formData.getAll("existing_galleries");
 
- 
+    // Find existing transfer
     const existingTransfer = await Transfer.findById(id);
     if (!existingTransfer) {
       return NextResponse.json(
         { status: 404, success: false, message: "Transfer not found." },
-        { status: 404 }
+    
       );
     }
 
  
     const updateData = {
-      transfer_title:
-        formData.get("transfer_title") || existingTransfer.transfer_title,
+      transfer_title: formData.get("transfer_title") || existingTransfer.transfer_title,
       transfer_slug: existingTransfer.transfer_slug,
-      transfer_price:
-        formData.get("transfer_price") || existingTransfer.transfer_price,
-      transfer_overview_description:
-        formData.get("transfer_overview_description") ||
-        existingTransfer.transfer_overview_description,
+      transfer_price: formData.get("transfer_price") || existingTransfer.transfer_price,
+      transfer_overview_description: formData.get("transfer_overview_description") || existingTransfer.transfer_overview_description,
       seo_title: formData.get("seo_title") || existingTransfer.seo_title,
-      seo_description:
-        formData.get("seo_description") || existingTransfer.seo_description,
+      seo_description: formData.get("seo_description") || existingTransfer.seo_description,
     };
+
  
     if (deleteMainImage) {
- 
-      if (existingTransfer.transfer_image) {
-        const oldMainPath = path.join(
-          process.cwd(),
-          "public",
-          "uploads",
-          existingTransfer.transfer_image
-        );
-        if (fs.existsSync(oldMainPath)) {
-          try {
-            fs.unlinkSync(oldMainPath);
-          } catch (err) {
-            console.error("Error deleting old main image:", err);
-          }
-        }
-      }
       updateData.transfer_image = null;
-    } else if (
-      transferImageFile &&
-      transferImageFile instanceof File
-    ) {
- 
-      if (existingTransfer.transfer_image) {
-        const oldMainPath = path.join(
-          process.cwd(),
-          "public",
-          "uploads",
-          existingTransfer.transfer_image
-        );
-        if (fs.existsSync(oldMainPath)) {
-          try {
-            fs.unlinkSync(oldMainPath);
-          } catch (err) {
-            console.error("Error deleting old main image:", err);
-          }
-        }
-      }
- 
-      const savedMain = await HandleFileUpload(transferImageFile);
-      updateData.transfer_image = savedMain.name;
+    } else if (transferImageFile && transferImageFile instanceof File) {
+      const mainImageUrl = await uploadPhotoToCloudinary(transferImageFile);
+      updateData.transfer_image = mainImageUrl;
     }
 
  
-    const newGalleryNames = [];
+    const newGalleryUrls = [];
     if (Array.isArray(galleryFiles) && galleryFiles.length > 0) {
       for (const fileEntry of galleryFiles) {
         if (fileEntry instanceof File) {
-          const saved = await HandleFileUpload(fileEntry);
-          newGalleryNames.push(saved.name);
+          const url = await uploadPhotoToCloudinary(fileEntry);
+          newGalleryUrls.push(url);
         }
       }
     }
-
- 
-    const galleriesToDelete = existingTransfer.transfer_galleries.filter(
-      (filename) => !existingGalleries.includes(filename)
-    );
-
- 
-    galleriesToDelete.forEach((filename) => {
-      const galleryPath = path.join(
-        process.cwd(),
-        "public",
-        "uploads",
-        filename
-      );
-      if (fs.existsSync(galleryPath)) {
-        try {
-          fs.unlinkSync(galleryPath);
-        } catch (err) {
-          console.error("Error deleting gallery image:", err);
-        }
-      }
-    });
 
  
     updateData.transfer_galleries = [
       ...existingGalleries,
-      ...newGalleryNames,
+      ...newGalleryUrls,
     ];
 
-  
+ 
     const updatedTransfer = await Transfer.findByIdAndUpdate(id, updateData, {
       new: true,
       runValidators: true,
@@ -143,19 +80,19 @@ export async function PUT(request, { params }) {
         message: "Transfer updated successfully",
         transfer: updatedTransfer,
       },
- 
+      { status: 200 }
     );
   } catch (error) {
     console.error(`PUT /api/transfers/${params.id} error:`, error);
     if (error.name === "ValidationError") {
       return NextResponse.json(
         { status: 422, success: false, message: error.message },
- 
+        { status: 422 }
       );
     }
     return NextResponse.json(
       { status: 500, success: false, message: "Internal server error." },
- 
+      { status: 500 }
     );
   }
 }

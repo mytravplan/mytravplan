@@ -84,6 +84,9 @@ function TransferPage() {
         router.push(`/admin/transfer/preview-transfer/${id}`);
     };
 
+    console.log(`transfer`)
+    console.log(transfer)
+
     return (
         <div className="admin-packages">
             <ModalWrapper
@@ -126,7 +129,7 @@ function TransferPage() {
                                 <tr key={ele._id}>
                                     <td data-label="Image">
                                         <img
-                                            src={`/uploads/${ele?.transfer_image}`}
+                                            src={ele?.transfer_image}
                                             alt={ele.title}
                                             className="package-image"
                                         />
