@@ -1,6 +1,7 @@
 
 import { v2 as cloudinary } from 'cloudinary';
 import { API_KEY, API_SECRET, CLOUD_APP_NAME, CLOUD_NAME } from './constants';
+ 
 cloudinary.config({
     cloud_name: CLOUD_NAME,
     api_key: API_KEY,
