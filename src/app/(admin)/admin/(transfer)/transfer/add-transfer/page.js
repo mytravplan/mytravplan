@@ -111,7 +111,7 @@ const CreateTransfer = () => {
       });
       const data = await res.json();
 
-      if (data.status===201) {
+      if (data) {
         toast.success(data.message || 'Transfer created successfully!');
         router.push('/admin/transfer');
       } else {
@@ -127,7 +127,7 @@ const CreateTransfer = () => {
       <div className="transfer_form_wrapper">
         <div className="add_transfer">
           <form onSubmit={handleSubmit}>
-            {/* Title */}
+          
             <div className="form-group">
               <label htmlFor="transfer_title">Title *</label>
               <input

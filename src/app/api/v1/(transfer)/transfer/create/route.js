@@ -5,10 +5,9 @@ import { uploadPhotoToCloudinary } from '@/utils/cloud';
  
 
 export async function POST(request) {
-  try {
+
     await DbConnect();
     const formData = await request.formData();
-
     const transferImageFile = formData.get('transfer_image');
     const rawTitle = formData.get('transfer_title');
     const rawSlug = formData.get('transfer_slug');
@@ -17,9 +16,6 @@ export async function POST(request) {
     const seo_title = formData.get('seo_title');
     const seo_description = formData.get('seo_description');
     const galleryFiles = formData.getAll('transfer_galleries');
-
-    
-
     if (!rawTitle || typeof rawTitle !== 'string' || rawTitle.trim() === '') {
       return NextResponse.json(
         {
@@ -27,12 +23,9 @@ export async function POST(request) {
           success: false,
           message: 'Missing required field: transfer_title.',
         },
-        { status: 400 }
       );
     }
     const transferTitle = rawTitle.trim();
-
-   
     let finalSlug = '';
     if (rawSlug && typeof rawSlug === 'string' && rawSlug.trim() !== '') {
       finalSlug = rawSlug.trim();
@@ -44,15 +37,12 @@ export async function POST(request) {
             success: false,
             message: `Slug "${finalSlug}" is already in use. Please choose a different slug.`,
           },
-          { status: 409 }
         );
       }
     }
 
- 
-    const mainImageUrl = await uploadPhotoToCloudinary(transferImageFile);
+    const mainImageUrl = await uploadPhotoToCloudinary(transferImageFile)
 
- 
     const galleryUrls = [];
     if (Array.isArray(galleryFiles) && galleryFiles.length > 0) {
       for (const fileEntry of galleryFiles) {
@@ -93,23 +83,10 @@ export async function POST(request) {
       newTransferData.transfer_overview_description = rawOverviewDesc.trim();
     }
 
-    // Create new transfer
+     
     const transfer = await Transfer.create(newTransferData);
     return NextResponse.json(
       { message: 'Transfer created successfully', status: 201, transfer },
-      { status: 201 }
     );
-  } catch (error) {
-    console.error('POST /api/transfers error:', error);
-    if (error.name === 'ValidationError') {
-      return NextResponse.json(
-        { status: 422, success: false, message: error.message },
-      
-      );
-    }
-    return NextResponse.json(
-      { status: 500, success: false, message: 'Internal server error.' },
-     
-    );
-  }
+   
 }

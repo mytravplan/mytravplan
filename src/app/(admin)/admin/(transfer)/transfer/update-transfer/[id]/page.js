@@ -165,7 +165,7 @@ function UpdateTransfer({ params }) {
       });
       const data = await response.json();
 
-      if (data.success === true) {
+      if (data) {
         toast.success(data.message || 'Updated successfully');
         setTimeout(() => router.push('/admin/transfer'), 2000);
       } else {
