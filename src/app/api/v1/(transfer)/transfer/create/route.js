@@ -18,17 +18,7 @@ export async function POST(request) {
     const seo_description = formData.get('seo_description');
     const galleryFiles = formData.getAll('transfer_galleries');
 
-    // Validation
-    if (!transferImageFile || !(transferImageFile instanceof File)) {
-      return NextResponse.json(
-        {
-          status: 400,
-          success: false,
-          message: 'Missing required field: transfer_image.',
-        },
-        { status: 400 }
-      );
-    }
+    
 
     if (!rawTitle || typeof rawTitle !== 'string' || rawTitle.trim() === '') {
       return NextResponse.json(
@@ -42,7 +32,7 @@ export async function POST(request) {
     }
     const transferTitle = rawTitle.trim();
 
-    // Slug handling
+   
     let finalSlug = '';
     if (rawSlug && typeof rawSlug === 'string' && rawSlug.trim() !== '') {
       finalSlug = rawSlug.trim();

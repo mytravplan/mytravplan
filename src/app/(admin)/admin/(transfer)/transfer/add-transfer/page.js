@@ -84,7 +84,7 @@ const CreateTransfer = () => {
       seo_description,
     } = formData;
 
-    if (!transfer_title || !transfer_slug || !transfer_price || !transfer_image) {
+    if (!transfer_title || !transfer_slug || !transfer_price) {
       toast.error('Please fill required fields: Title, Slug, Price, and Main Image');
       setIsLoading(false);
       return;
