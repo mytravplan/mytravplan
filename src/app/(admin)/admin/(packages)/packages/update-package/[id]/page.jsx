@@ -249,6 +249,7 @@ const UpdatePackage = ({ params }) => {
         packageOverview,
         packageTopSummary,
         packageItinerary,
+        hotel_activities,
         packagesInclude,
         packagesExclude,
         file,
@@ -277,6 +278,7 @@ const UpdatePackage = ({ params }) => {
       submissionData.append('package_overview', packageOverview);
       submissionData.append('package_top_summary', packageTopSummary);
       submissionData.append('package_itinerary', JSON.stringify(packageItinerary));
+      submissionData.append('hotel_activities', JSON.stringify(hotel_activities));
       submissionData.append('packages_include', JSON.stringify(packagesInclude));
       submissionData.append('packages_exclude', JSON.stringify(packagesExclude));
       submissionData.append('sco_title', sco_title);
